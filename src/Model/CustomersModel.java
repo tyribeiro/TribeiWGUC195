@@ -9,14 +9,18 @@ public class CustomersModel {
     private String customerCountry;
     private int customerDivisionID;
 
-    public CustomersModel(int customerID, String customerName, String customerAddress, String customerPhone, String customerDivision, String customerCountry, int customerDivisionID) {
+    private String postalCode;
+
+    public CustomersModel(int customerID, String customerName, String customerAddress, String customerPhone, String customerDivision, String customerCountry, int customerDivisionID, String postal) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
+
         this.customerPhone = customerPhone;
         this.customerDivision = customerDivision;
         this.customerCountry = customerCountry;
         this.customerDivisionID = customerDivisionID;
+        this.postalCode =postal;
     }
 
     //getters
@@ -48,6 +52,10 @@ public class CustomersModel {
         return customerDivisionID;
     }
 
+    public String getPostalCode() {
+        return postalCode;
+    }
+
     //setters
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
@@ -75,5 +83,13 @@ public class CustomersModel {
 
     public void setCustomerDivisionID(int customerDivisionID) {
         this.customerDivisionID = customerDivisionID;
+    }
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    @Override
+    public  String toString() {
+        return "CustomersDAO {" + "CustomerID: " + customerID + "     CustomerName: " + customerName + '\'';
     }
 }

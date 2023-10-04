@@ -37,4 +37,13 @@ public class DivisionsModel {
     public void setCountryID(int countryID) {
         this.countryID = countryID;
     }
+
+    @Override
+    public String toString() {
+        return "DivisionsModel{" +
+                "divisionID=" + divisionID +
+                ", divisionName='" + divisionName + '\'' +
+                ", countryID=" + countryID +
+                '}';
+    }
 }
