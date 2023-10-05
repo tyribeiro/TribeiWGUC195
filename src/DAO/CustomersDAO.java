@@ -66,9 +66,37 @@ public class CustomersDAO {
     }
 
     public static boolean updateCustomer(int customerID, String customerName, String customerPhone, String customerAddress, String postal, String divisionName) throws SQLException {
-        DivisionsModel divisionID = DivisionsDAO.readDivID(divisionName);
+        DivisionsModel division = DivisionsDAO.readDivID(divisionName);
 
+        try{
+            PreparedStatement ps = connection.prepareStatement("UPDATE customers SET Customer_Name=?,Phone=?,Address=?,Postal_Code=?,Division_ID=? WHERE Customer_ID=?");
 
+            ps.setString(1,customerName);
+            ps.setString(2,customerPhone);
+            ps.setString(3,customerAddress);
+            ps.setString(4,postal);
+            ps.setInt(6,division.getDivisionID());
+            ps.setInt(7,customerID);
+            return ps.executeUpdate() > 0;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean deleteCustomer(int customerID) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("DELETE from customers WHERE Customer_ID=?");
+
+        ps.setInt(1,customerID);
+
+        try{
+            ps.execute();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
