@@ -13,7 +13,7 @@ public class DivisionsDAO {
     static Connection connection = DBConnecter.getConnection();
 
     //CRUD FUNCTIONS
-    public static List<DivisionsModel> readDivisions(){
+    public static List<DivisionsModel> readAllDivisions(){
         List<DivisionsModel> divisions = new ArrayList<>();
 
         try {
