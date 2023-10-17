@@ -2,6 +2,8 @@ package DAO;
 
 import Helper.DBConnecter;
 import Model.ContactsModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +14,8 @@ import java.util.List;
 
 public class ContactsDAO {
     static Connection connection = DBConnecter.getConnection();
-    public static List<ContactsModel> readAllContacts() throws SQLException {
-        List allContacts = new ArrayList();
+    public static ObservableList<ContactsModel> readAllContacts() throws SQLException {
+        ObservableList allContacts = FXCollections.observableArrayList();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM contacts");
 
         try{

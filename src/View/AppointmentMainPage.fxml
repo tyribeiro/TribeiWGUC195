@@ -23,9 +23,9 @@
                 <TableColumn fx:id="userID_Column" prefWidth="75.333251953125" text="User ID" />
             </columns>
         </TableView>
-        <Button fx:id="CreateAppointmentButton" layoutX="1114.0" layoutY="341.0" mnemonicParsing="false" onAction="#createAppointment" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" text="CREATE APPOINTMENT" />
-        <Button fx:id="UpdateAppointmentButton" layoutX="1114.0" layoutY="386.0" mnemonicParsing="false" onAction="#updateAppointment" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" text="UPDATE APPOINTMENT" />
-        <Button fx:id="DeleteAppointmentButton" layoutX="1114.0" layoutY="431.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" text="DELETE APPOINTMENT" />
+        <Button fx:id="CreateAppointmentButton" layoutX="1114.0" layoutY="341.0" mnemonicParsing="false" onAction="#createAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" text="CREATE APPOINTMENT" />
+        <Button fx:id="UpdateAppointmentButton" layoutX="1114.0" layoutY="386.0" mnemonicParsing="false" onAction="#updateAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" text="UPDATE APPOINTMENT" />
+        <Button fx:id="DeleteAppointmentButton" layoutX="1114.0" layoutY="431.0" mnemonicParsing="false" onAction="#deleteAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" text="DELETE APPOINTMENT" />
         <Label fx:id="Header" layoutX="504.0" layoutY="13.0" prefHeight="74.0" prefWidth="332.0" style="-fx-font-weight: bold;" text="APPOINTMENTS" textAlignment="CENTER" textFill="#40e1f6">
             <font>
                 <Font name="Tw Cen MT Condensed" size="54.0" />
@@ -40,9 +40,9 @@
             <toggleGroup>
                 <ToggleGroup fx:id="ToggleView" />
             </toggleGroup></RadioButton>
-        <RadioButton fx:id="byMonthButton" layoutX="1111.0" layoutY="248.0" mnemonicParsing="false" onAction="#viewToggle" text="This Month" textFill="WHITE" />
+        <RadioButton fx:id="byMonthButton" layoutX="1111.0" layoutY="248.0" mnemonicParsing="false" onAction="#viewToggle" text="This Month" textFill="WHITE"  toggleGroup="$ToggleView" />
         <RadioButton fx:id="byWeekButton" layoutX="1111.0" layoutY="212.0" mnemonicParsing="false" onAction="#viewToggle" text="This Week" textFill="WHITE" toggleGroup="$ToggleView" />
-        <Button fx:id="SearchButton" layoutX="1202.0" layoutY="37.0" mnemonicParsing="false" onAction="#searchAppointments" prefHeight="25.0" prefWidth="51.0" text="Search" />
+        <Button fx:id="SearchButton" layoutX="1202.0" layoutY="37.0" mnemonicParsing="false" onAction="#searchAppt" prefHeight="25.0" prefWidth="51.0" text="Search" />
         <TextField fx:id="SearchTextField" layoutX="917.0" layoutY="33.0" prefHeight="33.0" prefWidth="273.0" promptText="Search by Appt. ID or Title">
             <font>
                 <Font name="System Italic" size="11.0" />

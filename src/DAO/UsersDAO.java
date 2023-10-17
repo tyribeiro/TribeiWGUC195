@@ -2,6 +2,8 @@ package DAO;
 
 import Helper.DBConnecter;
 import Model.UsersModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.xml.transform.Result;
 import java.sql.Connection;
@@ -15,10 +17,10 @@ import java.util.ResourceBundle;
 public class UsersDAO {
     static Connection connection = DBConnecter.getConnection();
 
-    public static List<UsersModel> readAllUsers() throws SQLException {
+    public static ObservableList<UsersModel> readAllUsers() throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM users");
 
-        List users = new ArrayList();
+        ObservableList users = FXCollections.observableArrayList();
         try {
             ps.execute();
             ResultSet result = ps.getResultSet();

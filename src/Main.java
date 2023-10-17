@@ -31,7 +31,16 @@ public class Main extends Application {
     }
 
     public void start(Stage primary) throws IOException, SQLException {
+        System.out.println("ALL APPTS: ");
         AppointmentsDAO.getAllAppointments();
+        System.out.println();
+        System.out.println();
+        System.out.println("APPTS BY MONTH");
+        AppointmentsDAO.getApptThisMonth();
+        System.out.println();
+        System.out.println();
+        System.out.println("APPTS BY WEEK");
+        AppointmentsDAO.getApptsThisWeek();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/View/LoginPage.fxml"));
             primary.setTitle("Appointment Scheduler");

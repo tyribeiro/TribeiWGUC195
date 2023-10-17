@@ -3,6 +3,8 @@ package DAO;
 import Helper.DBConnecter;
 import Model.CustomersModel;
 import Model.DivisionsModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,8 +38,8 @@ public class CustomersDAO {
             return false;
         }
     }
-    public static List<CustomersModel> readCustomers() throws Exception {
-        List customers = new ArrayList();
+    public static ObservableList<CustomersModel> readCustomers() throws Exception {
+        ObservableList customers = FXCollections.observableArrayList();
 
         try {
 

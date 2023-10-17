@@ -12,26 +12,22 @@ public class AppointmentsModel {
     private String apptLocation;
     private String apptType;
 
-    private LocalDate apptStartDate;
-    private LocalDate apptEndDate;
-    private LocalTime apptStartTime;
-    private LocalTime apptEndTime;
+    private LocalDateTime apptStart;
+    private LocalDateTime apptEnd;
 
     private int customerID;
     private int userID;
     private int contactID;
     private String contactName;
 
-    public AppointmentsModel(int apptID, String apptTitle, String apptDescription, String apptLocation, String apptType, LocalDate apptStartDate, LocalDate apptEndDate, LocalTime apptStartTime, LocalTime apptEndTime, int customerID, int userID, int contactID, String contactName) {
+    public AppointmentsModel(int apptID, String apptTitle, String apptDescription, String apptLocation, String apptType, LocalDateTime apptStart, LocalDateTime apptEnd, int customerID, int userID, int contactID, String contactName) {
         this.apptID = apptID;
         this.apptTitle = apptTitle;
         this.apptDescription = apptDescription;
         this.apptLocation = apptLocation;
         this.apptType = apptType;
-        this.apptStartDate = apptStartDate;
-        this.apptEndDate = apptEndDate;
-        this.apptStartTime = apptStartTime;
-        this.apptEndTime = apptEndTime;
+        this.apptStart = apptStart;
+        this.apptEnd = apptEnd;
         this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
@@ -59,21 +55,14 @@ public class AppointmentsModel {
         return apptType;
     }
 
-    public LocalDate getApptStartDate() {
-        return apptStartDate;
+    public LocalDateTime getApptStart() {
+        return apptStart;
     }
 
-    public LocalDate getApptEndDate() {
-        return apptEndDate;
+    public LocalDateTime getApptEnd() {
+        return apptEnd;
     }
 
-    public LocalTime getApptStartTime() {
-        return apptStartTime;
-    }
-
-    public LocalTime getApptEndTime() {
-        return apptEndTime;
-    }
 
     public int getCustomerID() {
         return customerID;
@@ -113,20 +102,12 @@ public class AppointmentsModel {
         this.apptType = apptType;
     }
 
-    public void setApptStartDate(LocalDate apptStartDate) {
-        this.apptStartDate = apptStartDate;
+    public void setApptStart(LocalDateTime apptStart) {
+        this.apptStart = apptStart;
     }
 
-    public void setApptEndDate(LocalDate apptEndDate) {
-        this.apptEndDate = apptEndDate;
-    }
-
-    public void setApptStartTime(LocalTime apptStartTime) {
-        this.apptStartTime = apptStartTime;
-    }
-
-    public void setApptEndTime(LocalTime apptEndTime) {
-        this.apptEndTime = apptEndTime;
+    public void setApptEnd(LocalDateTime apptEnd) {
+        this.apptEnd = apptEnd;
     }
 
     public void setCustomerID(int customerID) {
@@ -147,6 +128,6 @@ public class AppointmentsModel {
 
     @Override
     public String toString(){
-        return "Appointments: " + apptID + "   --- Appt Title: "  + apptType + "   ---Location: " + apptLocation + "---- Start Date" + getApptStartDate() + "----- Start Time: " + getApptStartTime();
+        return "Appointments: " + apptID + "   --- Appt Title: "  + apptType + "   ---Location: " + apptLocation + "---- Start Date and time" + getApptStart() + "----Appt end = " + getApptEnd();
     }
 }

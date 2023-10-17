@@ -34,9 +34,9 @@
         <TextField fx:id="titleTextField" layoutX="419.0" layoutY="116.0" prefHeight="25.0" prefWidth="170.0" />
         <TextField fx:id="descriptionTextField" layoutX="115.0" layoutY="169.0" prefHeight="54.0" prefWidth="129.0" />
         <TextField fx:id="locationTextField" layoutX="115.0" layoutY="244.0" prefHeight="25.0" prefWidth="129.0" />
-        <Button fx:id="saveButton" layoutX="688.0" layoutY="327.0" mnemonicParsing="false" text="SAVE" />
-        <Button fx:id="cancelButton" layoutX="773.0" layoutY="327.0" mnemonicParsing="false"  text="CANCEL" />
-        <Button fx:id="backToAppointments" layoutX="33.0" layoutY="20.0" mnemonicParsing="false" onAction="#goToAppointmentsPage" prefHeight="4.0" prefWidth="44.0" style="-fx-background-color: WHITE;" text="BACK">
+        <Button fx:id="saveButton" layoutX="688.0" layoutY="327.0"  onAction="#saveButtonAction" mnemonicParsing="false" text="SAVE" />
+        <Button fx:id="cancelButton" layoutX="773.0" layoutY="327.0"  onAction="#cancelButtonAction"  mnemonicParsing="false"  text="CANCEL" />
+        <Button fx:id="backToAppointments" layoutX="33.0" layoutY="20.0"  mnemonicParsing="false" onAction="#goToAppointmentsPage" prefHeight="4.0" prefWidth="44.0" style="-fx-background-color: WHITE;" text="BACK">
          <font>
             <Font size="10.0" />
          </font></Button>

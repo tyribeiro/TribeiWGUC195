@@ -147,8 +147,8 @@ public class LoginPageController implements Initializable {
 
 
     private void upcomingAlertAppointment() throws SQLException {
-        LocalTime currentDateTime = LocalTime.now();
-        LocalTime minutes15 = currentDateTime.plusMinutes(15);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime minutes15 = currentDateTime.plusMinutes(15);
 
         ObservableList<AppointmentsModel> upcomingAppointments = FXCollections.observableArrayList();
 
@@ -156,13 +156,13 @@ public class LoginPageController implements Initializable {
 
         if(appointments != null){
             for(AppointmentsModel appointment : appointments){
-                if(appointment.getApptStartTime().isAfter(currentDateTime) && appointment.getApptStartTime().isBefore(minutes15)){
+                if(appointment.getApptStart().isAfter(currentDateTime) && appointment.getApptStart().isBefore(minutes15)){
                     upcomingAppointments.add(appointment);
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle(resourceBundle.getString("appointmentAlert"));
                     alert.setContentText(
-                            resourceBundle.getString("lessThanFifteen") + "\n" + appointment.getApptTitle() + "\n" + resourceBundle.getString("appointmentID") + " " + appointment.getApptID() + "\n" + resourceBundle.getString("date") + " " + appointment.getApptStartDate() + " \n" + resourceBundle.getString("time") + " " + appointment.getApptStartTime());
+                            resourceBundle.getString("lessThanFifteen") + "\n" + appointment.getApptTitle() + "\n" + resourceBundle.getString("appointmentID") + " " + appointment.getApptID() + "\n" + resourceBundle.getString("date") + " " + appointment.getApptStart() + " \n" + resourceBundle.getString("time") + " " + appointment.getApptStart());
                             alert.showAndWait();
                 }
             }
