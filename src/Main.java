@@ -3,17 +3,47 @@ import DAO.CountriesDAO;
 import DAO.CustomersDAO;
 import DAO.DivisionsDAO;
 import Helper.DBConnecter;
+import DAO.AppointmentsDAO;
 import Model.AppointmentsModel;
 import Model.CustomersModel;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.ResourceBundle;
 
-public class Main {
+public class Main extends Application {
     public static void main(String[] args) throws Exception {
         DBConnecter.getConnection();
-        System.out.println(AppointmentsDAO.createNewAppt("Consultation","New client consult","Kirkalnd","Consult",LocalDateTime.of(2023,10,20,13,15,0),LocalDateTime.of(2023,1,2,13,45,0),130,1,5));
+        launch(args);
         DBConnecter.closeConnection();
+
+    }
+
+    public void start(Stage primary) throws IOException, SQLException {
+        AppointmentsDAO.getAllAppointments();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/View/LoginPage.fxml"));
+            primary.setTitle("Appointment Scheduler");
+            primary.setScene(new Scene(root,500,400));
+            primary.show();
+        }catch (Exception e){
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Error loading screen.");
+            alert.showAndWait();
+        }
 
     }
 }

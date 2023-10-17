@@ -2,6 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class AppointmentsModel {
     private int apptID;
@@ -13,15 +14,15 @@ public class AppointmentsModel {
 
     private LocalDate apptStartDate;
     private LocalDate apptEndDate;
-    private LocalDateTime apptStartTime;
-    private LocalDateTime apptEndTime;
+    private LocalTime apptStartTime;
+    private LocalTime apptEndTime;
 
     private int customerID;
     private int userID;
     private int contactID;
     private String contactName;
 
-    public AppointmentsModel(int apptID, String apptTitle, String apptDescription, String apptLocation, String apptType, LocalDate apptStartDate, LocalDate apptEndDate, LocalDateTime apptStartTime, LocalDateTime apptEndTime, int customerID, int userID, int contactID, String contactName) {
+    public AppointmentsModel(int apptID, String apptTitle, String apptDescription, String apptLocation, String apptType, LocalDate apptStartDate, LocalDate apptEndDate, LocalTime apptStartTime, LocalTime apptEndTime, int customerID, int userID, int contactID, String contactName) {
         this.apptID = apptID;
         this.apptTitle = apptTitle;
         this.apptDescription = apptDescription;
@@ -66,11 +67,11 @@ public class AppointmentsModel {
         return apptEndDate;
     }
 
-    public LocalDateTime getApptStartTime() {
+    public LocalTime getApptStartTime() {
         return apptStartTime;
     }
 
-    public LocalDateTime getApptEndTime() {
+    public LocalTime getApptEndTime() {
         return apptEndTime;
     }
 
@@ -120,11 +121,11 @@ public class AppointmentsModel {
         this.apptEndDate = apptEndDate;
     }
 
-    public void setApptStartTime(LocalDateTime apptStartTime) {
+    public void setApptStartTime(LocalTime apptStartTime) {
         this.apptStartTime = apptStartTime;
     }
 
-    public void setApptEndTime(LocalDateTime apptEndTime) {
+    public void setApptEndTime(LocalTime apptEndTime) {
         this.apptEndTime = apptEndTime;
     }
 
@@ -142,5 +143,10 @@ public class AppointmentsModel {
 
     public void setContactName(String contactName) {
         this.contactName = contactName;
+    }
+
+    @Override
+    public String toString(){
+        return "Appointments: " + apptID + "   --- Appt Title: "  + apptType + "   ---Location: " + apptLocation + "---- Start Date" + getApptStartDate() + "----- Start Time: " + getApptStartTime();
     }
 }

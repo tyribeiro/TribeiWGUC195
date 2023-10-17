@@ -4,39 +4,39 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="351.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginPageController">
+<AnchorPane prefHeight="400.0" prefWidth="508.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginPageController">
    <children>
-      <Label fx:id="Description" layoutX="107.0" layoutY="25.0" style="-fx-font-weight: BOLD;" text="WGU C195 Thais Ribeiro" textFill="WHITE" />
-      <Label fx:id="Title" layoutX="111.0" layoutY="53.0" prefHeight="68.0" prefWidth="129.0" style="-fx-alignment: CENTER;" text="LOGIN" textAlignment="CENTER" textFill="#00fff8">
+      <Label fx:id="Description" layoutX="185.0" layoutY="26.0" style="-fx-font-weight: BOLD;" text="WGU C195 Thais Ribeiro" textFill="WHITE" />
+      <Label fx:id="Title" layoutX="90.0" layoutY="54.0" prefHeight="68.0" prefWidth="327.0" style="-fx-alignment: CENTER;" text="LOGIN" textAlignment="CENTER" textFill="#00fff8">
          <font>
             <Font name="Tw Cen MT Condensed Bold" size="48.0" />
          </font>
       </Label>
-      <Label fx:id="UsernameLabel" layoutX="62.0" layoutY="153.0" text="USERNAME:" textFill="WHITE">
+      <Label fx:id="Username_Label" layoutX="40.0" layoutY="153.0" prefHeight="17.0" prefWidth="149.0" style="-fx-alignment: center;" text="USERNAME:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="PasswordLabel" layoutX="61.0" layoutY="200.0" text="PASSWORD:" textFill="WHITE">
+      <Label fx:id="Password_Label" layoutX="41.0" layoutY="200.0" prefHeight="17.0" prefWidth="149.0" style="-fx-alignment: center;" text="PASSWORD:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="UsernameTextField" layoutX="138.0" layoutY="149.0" />
-      <TextField fx:id="PasswordTextField" layoutX="138.0" layoutY="196.0" />
-      <Label fx:id="LocationLabel" layoutX="138.0" layoutY="247.0" text="Location:" textFill="WHITE">
+      <TextField fx:id="Username_TextField" layoutX="196.0" layoutY="149.0" />
+      <TextField fx:id="Password_TextField" layoutX="196.0" layoutY="196.0" />
+      <Label fx:id="Location_Label" layoutX="128.0" layoutY="247.0" text="Location:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="TimezoneLabel" layoutX="135.0" layoutY="276.0" text="Timezone:" textFill="WHITE">
+      <Label fx:id="Timezone_Label" layoutX="125.0" layoutY="276.0" text="Timezone:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="LocationText" layoutX="203.0" layoutY="247.0" prefHeight="17.0" prefWidth="138.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
-      <Label fx:id="TimezoneText" layoutX="203.0" layoutY="276.0" prefHeight="17.0" prefWidth="129.0" text="Label" textFill="WHITE" />
-      <Button fx:id="LoginButton" layoutX="104.0" layoutY="340.0" mnemonicParsing="false" onAction="#validateLogin" style="-fx-background-color: #80F03A; -fx-font-weight: BOLD;" text="LOGIN" />
-      <Button fx:id="CancelButton" layoutX="190.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: RED; -fx-font-weight: BOLD;" text="CANCEL" textFill="WHITE" />
+      <Label fx:id="Location_Text" layoutX="245.0" layoutY="247.0" prefHeight="17.0" prefWidth="138.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
+      <Label fx:id="Timezone_Text" layoutX="245.0" layoutY="276.0" prefHeight="17.0" prefWidth="129.0" text="Label" textFill="WHITE" />
+      <Button fx:id="Login_Button" layoutX="162.0" layoutY="340.0" mnemonicParsing="false" onAction="#validateLogin" style="-fx-background-color: #80F03A; -fx-font-weight: BOLD;" text="LOGIN" />
+      <Button fx:id="Cancel_Button" layoutX="248.0" layoutY="340.0" mnemonicParsing="false" onAction="#closeApp" style="-fx-background-color: RED; -fx-font-weight: BOLD;" text="CLOSE APP" textFill="WHITE" />
    </children>
 </AnchorPane>
