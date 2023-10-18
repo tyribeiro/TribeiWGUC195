@@ -14,14 +14,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import javax.security.auth.login.CredentialNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -43,9 +41,9 @@ public class AppointmentsPageController implements Initializable {
     @FXML
     public TableColumn<AppointmentsModel,String>  type_Column;
     @FXML
-    public TableColumn<AppointmentsModel, LocalDateTime> start_Column;
+    public TableColumn<AppointmentsModel, LocalDate> startDate_Column;
     @FXML
-    public TableColumn<AppointmentsModel, LocalDateTime> end_Column;
+    public TableColumn<AppointmentsModel, LocalDate> endDate_Column;
     @FXML
     public TableColumn<AppointmentsModel, LocalTime> startTime_Column;
     @FXML
@@ -84,13 +82,15 @@ public class AppointmentsPageController implements Initializable {
     @FXML
     private ToggleGroup ToggleView;
 
+    private ResourceBundle resourceBundle;
+
 
     public void goToCustomersPage(ActionEvent actionEvent){
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Parent scene = FXMLLoader.load(getClass().getResource("/View/CustomersMainPage.fxml"));
             stage.setScene(new Scene(scene));
-            stage.setTitle("Customers");
+            stage.setTitle(resourceBundle.getString("customers"));
             stage.show();
         } catch (IOException e){
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class AppointmentsPageController implements Initializable {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Parent scene = FXMLLoader.load(getClass().getResource("/View/ReportsPage.fxml"));
             stage.setScene(new Scene(scene));
-            stage.setTitle("Reports");
+            stage.setTitle(resourceBundle.getString("reports"));
             stage.show();
         }catch (IOException e){
             e.printStackTrace();
@@ -138,7 +138,7 @@ public class AppointmentsPageController implements Initializable {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Parent scene = FXMLLoader.load(getClass().getResource("/View/CreateAppointmentPage.fxml"));
             stage.setScene(new Scene(scene));
-            stage.setTitle("Create A New Appointment");
+            stage.setTitle(resourceBundle.getString("createAppt"));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,15 +175,15 @@ public class AppointmentsPageController implements Initializable {
 
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(scene));
-                stage.setTitle("Update Existing Appointment");
+                stage.setTitle(resourceBundle.getString("updateAppt"));
                 stage.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Updating appt error");
-            alert.setContentText("No appt selected");
+            alert.setTitle(resourceBundle.getString("errorUpdating"));
+            alert.setContentText(resourceBundle.getString("noApptSelected"));
             alert.showAndWait();
         }
     }
@@ -191,22 +191,24 @@ public class AppointmentsPageController implements Initializable {
     public void deleteAppt(ActionEvent actionEvent) throws SQLException {
         AppointmentsModel apptToDelete = (AppointmentsModel) appointments_Table.getSelectionModel().getSelectedItem();
         if(apptToDelete != null){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Confirm you want to delete this appointment?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,resourceBundle.getString("confirmDelete"));
             Optional<ButtonType> confirm = alert.showAndWait();
 
             if(confirm.isPresent() && confirm.get() == ButtonType.YES){
                 AppointmentsDAO.deleteExistingAppt(apptToDelete.getApptID());
+                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptDeleted"));
                 appointments_Table.refresh();
             }
         }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR,"Error deleting appt. ");
+            Alert alert = new Alert(Alert.AlertType.ERROR,resourceBundle.getString("errorDeleting"));
             alert.showAndWait();
         }
     }
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resources){
+        resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
 
         try {
             appts = AppointmentsDAO.getAllAppointments();
@@ -220,8 +222,14 @@ public class AppointmentsPageController implements Initializable {
             location_Column.setCellValueFactory(new PropertyValueFactory<>("apptLocation"));
             contact_Column.setCellValueFactory(new PropertyValueFactory<>("contactName"));
             type_Column.setCellValueFactory(new PropertyValueFactory<>("apptType"));
-            start_Column.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
-            end_Column.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+
+
+            startDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel,LocalDate>("apptStartDate"));
+            endDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalDate>("apptEndDate"));
+
+            startTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptStartTime"));
+            endTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptEndTime"));
+
             userID_Column.setCellValueFactory(new PropertyValueFactory<>("userID"));
         }catch (Exception e){
             e.printStackTrace();

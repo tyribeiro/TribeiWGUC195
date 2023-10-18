@@ -34,9 +34,9 @@
         <TextField fx:id="titleTextField" layoutX="419.0" layoutY="116.0" prefHeight="25.0" prefWidth="170.0" />
         <TextField fx:id="descriptionTextField" layoutX="115.0" layoutY="169.0" prefHeight="54.0" prefWidth="129.0" />
         <TextField fx:id="locationTextField" layoutX="115.0" layoutY="244.0" prefHeight="25.0" prefWidth="129.0" />
-        <Button fx:id="saveButton" layoutX="688.0" layoutY="327.0"  onAction="#saveButtonAction" mnemonicParsing="false" text="SAVE" />
-        <Button fx:id="cancelButton" layoutX="773.0" layoutY="327.0"  onAction="#cancelButtonAction"  mnemonicParsing="false"  text="CANCEL" />
-        <Button fx:id="backToAppointments" layoutX="33.0" layoutY="20.0"  mnemonicParsing="false" onAction="#goToAppointmentsPage" prefHeight="4.0" prefWidth="44.0" style="-fx-background-color: WHITE;" text="BACK">
+        <Button fx:id="saveButton" layoutX="688.0" layoutY="327.0" mnemonicParsing="false" onAction="#saveButtonAction" text="SAVE" />
+        <Button fx:id="cancelButton" layoutX="773.0" layoutY="327.0" mnemonicParsing="false" onAction="#cancelButtonAction" text="CANCEL" />
+        <Button fx:id="backToAppointments" layoutX="33.0" layoutY="20.0" mnemonicParsing="false" onAction="#goToAppointmentsPage" prefHeight="4.0" prefWidth="44.0" style="-fx-background-color: WHITE;" text="BACK">
          <font>
             <Font size="10.0" />
          </font></Button>
@@ -70,23 +70,23 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="apptIDTextfield" disable="true" layoutX="115.0" layoutY="114.0" prefHeight="29.0" prefWidth="77.0" style="-fx-font-style: italic;" text="auto">
+        <TextField fx:id="apptIDTextfield" disable="true" layoutX="115.0" layoutY="114.0" prefHeight="29.0" prefWidth="77.0" style="-fx-font-style: italic;">
             <font>
                 <Font size="14.0" />
             </font>
         </TextField>
-        <ComboBox fx:id="endTimeSelector" layoutX="422.0" layoutY="327.0"  prefHeight="25.0" prefWidth="170.0" />
-        <ComboBox fx:id="startTimeSelector" layoutX="422.0" layoutY="275.0"  prefHeight="20.0" prefWidth="170.0" />
+        <ComboBox fx:id="endTimeSelector" layoutX="422.0" layoutY="327.0" prefHeight="25.0" prefWidth="170.0" />
+        <ComboBox fx:id="startTimeSelector" layoutX="422.0" layoutY="275.0" prefHeight="20.0" prefWidth="170.0" />
         <ComboBox fx:id="contactSelector" layoutX="748.0" layoutY="111.0" prefHeight="20.0" prefWidth="170.0" />
-        <ComboBox fx:id="customerIDSelector" layoutX="748.0" layoutY="203.0" prefHeight="25.0" prefWidth="59.0" />
-        <DatePicker fx:id="pickStartDate" layoutX="419.0" layoutY="170.0"  prefHeight="25.0" prefWidth="170.0" />
-        <DatePicker fx:id="pickEndDate" layoutX="419.0" layoutY="222.0"  prefHeight="25.0" prefWidth="170.0" />
-        <ComboBox fx:id="userIDSelector" layoutX="748.0" layoutY="159.0" prefHeight="25.0" prefWidth="59.0" />
+        <ComboBox fx:id="customerIDSelector" layoutX="748.0" layoutY="203.0" prefHeight="25.0" prefWidth="85.0" />
+        <DatePicker fx:id="pickStartDate" layoutX="419.0" layoutY="170.0" prefHeight="25.0" prefWidth="170.0" />
+        <DatePicker fx:id="pickEndDate" layoutX="419.0" layoutY="222.0" prefHeight="25.0" prefWidth="170.0" />
+        <ComboBox fx:id="userIDSelector" layoutX="748.0" layoutY="159.0" prefHeight="25.0" prefWidth="85.0" />
         <Label fx:id="userIDLabel" layoutX="625.0" layoutY="162.0" prefHeight="20.0" prefWidth="107.0" style="-fx-alignment: center-right;" text="USER ID" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <ComboBox fx:id="typeCombo" layoutX="115.0" layoutY="287.0" onAction="#SelectType" prefHeight="25.0" prefWidth="129.0" />
+        <TextField fx:id="type" layoutX="115.0" layoutY="287.0" prefHeight="25.0" prefWidth="129.0" />
     </children>
 </AnchorPane>

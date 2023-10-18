@@ -5,16 +5,28 @@ import DAO.ContactsDAO;
 import DAO.CustomersDAO;
 import DAO.UsersDAO;
 import Model.AppointmentsModel;
+import Model.ContactsModel;
+import Model.CustomersModel;
+import Model.UsersModel;
+import Utils.Timezones;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
+import javax.swing.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CreateAppointmentPageController implements Initializable {
@@ -47,12 +59,21 @@ public class CreateAppointmentPageController implements Initializable {
     public DatePicker pickEndDate;
     public ComboBox userIDSelector;
     public Label userIDLabel;
-    public ComboBox typeCombo;
+    public TextField type;
 
-    public void SelectType(ActionEvent actionEvent) {
-    }
+    private  ResourceBundle resourceBundle;
 
     public void goToAppointmentsPage(ActionEvent actionEvent){
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle(resourceBundle.getString("appointments"));
+            stage.show();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -60,66 +81,179 @@ public class CreateAppointmentPageController implements Initializable {
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
         String location = locationTextField.getText();
-        String type = (String) typeCombo.getSelectionModel().getSelectedItem();
+        String type = typeLabel.getText();
         LocalDate startDate = pickStartDate.getValue();
         LocalDate endDate = pickEndDate.getValue();
-        LocalTime startTime = (LocalTime) startTimeSelector.getValue();
-        LocalTime endTime = (LocalTime) endTimeSelector.getValue();
-        LocalDateTime startDateTime = LocalDateTime.of((startDate),(startTime));
-        LocalDateTime endDateTime = LocalDateTime.of((endDate),(endTime));
-        String contact = (String) contactSelector.getSelectionModel().getSelectedItem();
-        int customerID = (int) customerIDSelector.getSelectionModel().getSelectedItem();
-        int userID = (int) userIDSelector.getSelectionModel().getSelectedItem();
-        int apptID = Integer.parseInt(apptIDTextfield.getText());
 
-        LocalDateTime startLocalDT = LocalDateTime.of(startDate,startTime);
-        LocalDateTime endLocalDT = LocalDateTime.of(endDate,endTime);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
 
-        //LDT --> ZonedDT conversion
-        ZonedDateTime startZoned = startLocalDT.atZone(ZoneId.systemDefault());
-        ZonedDateTime endZoned = endLocalDT.atZone(ZoneId.systemDefault());
+        LocalTime startTime = LocalTime.parse((String) startTimeSelector.getValue(),timeFormatter) ;
+        LocalTime endTime = LocalTime.parse((String) endTimeSelector.getValue(),timeFormatter);
 
-        AppointmentsModel newAppt = new AppointmentsModel(apptID,title,description,location,type,startZoned.toLocalDateTime(),endZoned.toLocalDateTime(),customerID,userID, ContactsDAO.readContactID(contact),contact);
+        ContactsModel selectedContact = (ContactsModel) contactSelector.getSelectionModel().getSelectedItem();
+        String contact =selectedContact.getContactName();
+
+        CustomersModel selectedCustomer = (CustomersModel) customerIDSelector.getSelectionModel().getSelectedItem();
+        int customerID = selectedCustomer.getCustomerID();
+
+
+        UsersModel selectedUser = (UsersModel) userIDSelector.getSelectionModel().getSelectedItem();
+        int userID = selectedUser.getUserID();
+
+
+        LocalDateTime startLocal = LocalDateTime.of(startDate,startTime);
+        LocalDateTime endLocal = LocalDateTime.of(endDate,endTime);
+
+        //converting to UTC
+        LocalDateTime utcStart = Timezones.utcConversion(startLocal);
+        LocalDateTime utcEnd = Timezones.utcConversion(endLocal);
+
+        AppointmentsModel newAppt = new AppointmentsModel(title,description,location,type,startDate,startTime, endDate,endTime,customerID,userID, ContactsDAO.readContactID(contact),contact);
         try {
             if(AppointmentsDAO.overlappingAppts(newAppt)){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Overlapping");
-                alert.setContentText("Appointment you are trying to create overlaps with another existing appointment");
+                alert.setTitle(resourceBundle.getString("overlapping"));
+                alert.setContentText(resourceBundle.getString("overlap"));
                 alert.showAndWait();
                 return;
             }
-            AppointmentsDAO.addANewAppt(newAppt);
 
-            Stage stage = (Stage) titleTextField.getScene().getWindow();
-            stage.close();
-        }
-        catch (Exception e)
+            int autoGeneratedID = AppointmentsDAO.addANewAppt(newAppt);
+
+            if(autoGeneratedID == -1){
+                throw new SQLException("Auto generated ID not retrieved from database");
+            }
+
+            try{
+                newAppt.setApptID(autoGeneratedID);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle(resourceBundle.getString("apptCreated"));
+                alert.setContentText(resourceBundle.getString("apptCreated"));
+                alert.showAndWait();
+
+                try {
+                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.setTitle(resourceBundle.getString("appointments"));
+                    stage.show();
+
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(resourceBundle.getString("error"));
+                alert.setContentText(resourceBundle.getString("errorSaving"));
+            }
+        } catch (Exception e)
            {
                Alert alert = new Alert(Alert.AlertType.ERROR);
-               alert.setTitle("Error");
-               alert.setContentText("Cannot save appointment");
+               alert.setTitle(resourceBundle.getString("error"));
+               alert.setContentText(resourceBundle.getString("errorSaving"));
                alert.showAndWait();
                e.printStackTrace();
 
            }
     }
     public void cancelButtonAction(ActionEvent actionEvent){
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle(resourceBundle.getString("appointments"));
+            stage.show();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resources) {
+        resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
+
+
         try {
-            contactSelector.setItems(ContactsDAO.readAllContacts());
-            customerIDSelector.setItems(CustomersDAO.readCustomers());
-            userIDSelector.setItems(UsersDAO.readAllUsers());
-        } catch (Exception e) {
-            e.printStackTrace();
+           ObservableList<ContactsModel> contacts = ContactsDAO.readAllContacts();
+           contactSelector.setItems(contacts);
+           contactSelector.setCellFactory(a -> new ListCell<ContactsModel>(){
+           @Override
+               protected void updateItem(ContactsModel contact, boolean empty){
+               super.updateItem(contact,empty);
+               setText(empty ? "" : contact.getContactName());
+           }
+           });
+
+           contactSelector.setConverter(new StringConverter<ContactsModel>() {
+               @Override
+               public String toString(ContactsModel contact) {
+                   return contact == null ? null : contact.getContactName();
+               }
+
+               @Override
+               public ContactsModel fromString(String s) {
+                   return null;
+               }
+           });
+
+
+           ObservableList<CustomersModel> customer = CustomersDAO.readCustomers();
+           customerIDSelector.setItems(customer);
+           customerIDSelector.setCellFactory(a -> new ListCell<CustomersModel>(){
+               @Override
+               protected void updateItem(CustomersModel customer, boolean empty){
+                   super.updateItem(customer,empty);
+                   setText(empty ? "" : String.valueOf(customer.getCustomerID()));
+               }
+           });
+
+           customerIDSelector.setConverter(new StringConverter<CustomersModel>() {
+               @Override
+               public String toString(CustomersModel customer){
+                   return customer == null ? null : String.valueOf(customer.getCustomerID());
+               }
+
+               @Override
+               public CustomersModel fromString(String s) {
+                   return null;
+               }
+           });
+
+           ObservableList<UsersModel> users = UsersDAO.readAllUsers();
+           userIDSelector.setItems(users);
+            userIDSelector.setCellFactory(a -> new ListCell<UsersModel>(){
+                @Override
+                protected void updateItem(UsersModel user, boolean empty){
+                    super.updateItem(user,empty);
+                    setText(empty ? "" : String.valueOf(user.getUserID()));
+                }
+            });
+
+            userIDSelector.setConverter(new StringConverter<UsersModel>() {
+                @Override
+                public String toString(UsersModel user){
+                    return user == null ? null : String.valueOf(user.getUserID());
+                }
+
+                @Override
+                public UsersModel fromString(String s) {
+                    return null;
+                }
+            });
+
+
+            ObservableList<String> businessHours = FXCollections.observableArrayList("08:00", "08:30","09:00", "09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00");
+
+            startTimeSelector.setItems(businessHours);
+            endTimeSelector.setItems(businessHours);
+        } catch (SQLException e) {
+               e.printStackTrace();
+            } catch (Exception e) {
+               e.printStackTrace();
         }
-
-        ObservableList<String> businessHours = FXCollections.observableArrayList("8:00","09:00", "10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00");
-
-        startTimeSelector.setItems(businessHours);
-        endTimeSelector.setItems(businessHours);
-    }
-}
+    }}

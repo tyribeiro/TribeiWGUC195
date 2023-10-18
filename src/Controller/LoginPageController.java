@@ -73,24 +73,26 @@ public class LoginPageController implements Initializable {
 
 
     public void validateLogin(javafx.event.ActionEvent actionEvent) {
+        boolean empty = false;
+
         if(Username_TextField.getText().isEmpty() && Password_TextField.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(resourceBundle.getString("errorDialog"));
+            alert.setTitle(resourceBundle.getString("error"));
             alert.setContentText(resourceBundle.getString("usernameAndPasswordRequired"));
             alert.showAndWait();
-        }else{
-            if(Username_TextField.getText().isEmpty()){
+            empty = true;
+        }else if (Username_TextField.getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(resourceBundle.getString("errorDialog"));
+                alert.setTitle(resourceBundle.getString("error"));
                 alert.setContentText(resourceBundle.getString("usernameRequired"));
                 alert.showAndWait();
-            }
-            if(Password_TextField.getText().isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(resourceBundle.getString("errorDialog"));
-                alert.setContentText(resourceBundle.getString("passwordRequired"));
-                alert.showAndWait();
-            }
+            empty = true;
+        } else if ( (Password_TextField.getText().isEmpty())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(resourceBundle.getString("error"));
+            alert.setContentText(resourceBundle.getString("passwordRequired"));
+            alert.showAndWait();
+            empty = true;
         }
 
         try {
@@ -103,79 +105,87 @@ public class LoginPageController implements Initializable {
         }
 
 
-        try{
-            boolean isValid = UsersDAO.validateUsernamePassword(Username_TextField.getText(),Password_TextField.getText());
-            if(isValid){
-                try {
-                    FileWriter write = new FileWriter(activitylog.getFileName(),true);
-                    SimpleDateFormat dateandtime = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
-                    Date currentDate = new Date(System.currentTimeMillis());
-                    write.write("Login Success. Username = " + Username_TextField.getText() + "Date and Time = " + dateandtime.format(currentDate) + " Timezone: " + Timezone_Text.getText() + "\n" );
-                    write.close();
-                }catch (Exception e ){
-                    e.printStackTrace();
-                }
-                upcomingAlertAppointment();
+        if(!empty){
+            try{
+                boolean isValid = UsersDAO.validateUsernamePassword(Username_TextField.getText(),Password_TextField.getText());
+                if(isValid){
+                    try {
+                        FileWriter write = new FileWriter(activitylog.getFileName(),true);
+                        SimpleDateFormat dateandtime = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
+                        Date currentDate = new Date(System.currentTimeMillis());
+                        write.write("Login Success. Username = " + Username_TextField.getText() + "Date and Time = " + dateandtime.format(currentDate) + " Timezone: " + Timezone_Text.getText() + "\n" );
+                        write.close();
+                    }catch (Exception e ){
+                        e.printStackTrace();
+                    }
+                    upcomingAlertAppointment();
 
-                try {
-                    System.out.println("inside try appt page login");
-                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                    Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
-                    stage.setScene(new Scene(scene));
-                    stage.setTitle("Appointments");
-                    stage.show();
+                    try {
+                        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                        Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
+                        stage.setScene(new Scene(scene));
+                        stage.setTitle(resourceBundle.getString("appointments"));
+                        stage.show();
 
-                 }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
-                try {
-                    FileWriter write = new FileWriter(activitylog.getFileName(),true);
-                    SimpleDateFormat dateandtime = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-                    Date currentDate = new Date(System.currentTimeMillis());
-                    write.write("Login Failure. Attempted Username = " + Username_TextField.getText() + "    -----  Attempted Password = " + Password_TextField.getText()  + "   ------ Date and Time = " + dateandtime.format(currentDate) + "   -----  Timezone: " + Timezone_Text.getText() + "\n" );
-                    write.close();
-                }catch (Exception e ){
-                    e.printStackTrace();
-                }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    try {
+                        FileWriter write = new FileWriter(activitylog.getFileName(),true);
+                        SimpleDateFormat dateandtime = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+                        Date currentDate = new Date(System.currentTimeMillis());
+                        write.write("Login Failure. Attempted Username = " + Username_TextField.getText() + "    -----  Attempted Password = " + Password_TextField.getText()  + "   ------ Date and Time = " + dateandtime.format(currentDate) + "   -----  Timezone: " + Timezone_Text.getText() + "\n" );
+                        write.close();
 
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle(resourceBundle.getString("error"));
+                        alert.setContentText(resourceBundle.getString("invalidUsernamePassword"));
+                        alert.showAndWait();
+                    }catch (Exception e ){
+                        e.printStackTrace();
+                    }
+
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
+
     }
 
 
     private void upcomingAlertAppointment() throws SQLException {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime minutes15 = currentDateTime.plusMinutes(15);
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+        LocalTime minutes15 = currentTime.plusMinutes(15);
 
         ObservableList<AppointmentsModel> upcomingAppointments = FXCollections.observableArrayList();
 
         List<AppointmentsModel> appointments = AppointmentsDAO.getAllAppointments();
 
-        if(appointments != null){
-            for(AppointmentsModel appointment : appointments){
-                if(appointment.getApptStart().isAfter(currentDateTime) && appointment.getApptStart().isBefore(minutes15)){
-                    upcomingAppointments.add(appointment);
-
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle(resourceBundle.getString("appointmentAlert"));
-                    alert.setContentText(
-                            resourceBundle.getString("lessThanFifteen") + "\n" + appointment.getApptTitle() + "\n" + resourceBundle.getString("appointmentID") + " " + appointment.getApptID() + "\n" + resourceBundle.getString("date") + " " + appointment.getApptStart() + " \n" + resourceBundle.getString("time") + " " + appointment.getApptStart());
-                            alert.showAndWait();
+        if (appointments!=null){
+            for(AppointmentsModel appt:appointments){
+                if(appt.getApptStartDate().equals(currentDate) && !appt.getApptStartTime()
+                        .isBefore(currentTime) && !appt.getApptStartTime().isAfter(minutes15)){
+                    upcomingAppointments.add(appt);
                 }
             }
         }
 
-        if(upcomingAppointments.size() < 1){
-            if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(resourceBundle.getString("appointmentAlert"));
-                alert.setContentText(resourceBundle.getString("noUpcomingAppointments"));
-                alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(resourceBundle.getString("appointmentAlert"));
+
+        if(upcomingAppointments.isEmpty()){
+            alert.setContentText(resourceBundle.getString("noUpcomingAppointments"));
+        }else {
+            StringBuilder message = new StringBuilder(resourceBundle.getString("lessThanFifteen") + "\n");
+            for (AppointmentsModel appt : upcomingAppointments){
+                message.append("\n"+resourceBundle.getString("appointmentID ")).append(appt.getApptID()).append("\n").append(resourceBundle.getString("title")).append(": ").append(appt.getApptTitle()).append("\n").append(resourceBundle.getString("time")).append(appt.getApptStartTime()).append("\n\n\n");
             }
+            alert.setContentText(message.toString());
         }
+        alert.showAndWait();
     }
 
     public void closeApp(javafx.event.ActionEvent actionEvent) {

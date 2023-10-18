@@ -15,9 +15,9 @@
                 <TableColumn fx:id="location_Column" minWidth="0.0" prefWidth="108.33334350585938" text="Location" />
                 <TableColumn fx:id="contact_Column" maxWidth="7000.0" prefWidth="89.66665649414062" text="Contact" />
                 <TableColumn fx:id="type_Column" prefWidth="105.33331298828125" text="Type" />
-                <TableColumn fx:id="start_Column" prefWidth="91.33331298828125" text="Start Date" />
+                <TableColumn fx:id="startDate_Column" prefWidth="91.33331298828125" text="Start Date" />
                 <TableColumn fx:id="startTime_Column" prefWidth="91.0" text="Start Time" />
-                <TableColumn fx:id="end_Column" prefWidth="102.33331298828125" text="End Date" />
+                <TableColumn fx:id="endDate_Column" prefWidth="102.33331298828125" text="End Date" />
                 <TableColumn fx:id="endTime_Column" prefWidth="90.6666259765625" text="End Time" />
                 <TableColumn fx:id="customerID_Column" prefWidth="75.3333740234375" text="Customer ID" />
                 <TableColumn fx:id="userID_Column" prefWidth="75.333251953125" text="User ID" />
