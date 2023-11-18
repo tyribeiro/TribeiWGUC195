@@ -57,12 +57,12 @@ public class LoginPageController implements Initializable {
 
 
         if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")){
-            Title.setText(resourceBundle.getString("title"));
-            Description.setText(resourceBundle.getString("description"));
+            Title.setText(resourceBundle.getString("login"));
+            Description.setText(resourceBundle.getString("subheader"));
             Username_Label.setText(resourceBundle.getString("userName"));
             Password_Label.setText(resourceBundle.getString("password"));
             Location_Label.setText(resourceBundle.getString("location"));
-            Location_Text.setText(resourceBundle.getString("country"));
+            Location_Text.setText(Locale.getDefault().getCountry());
             Timezone_Label.setText(resourceBundle.getString("timezone"));
             Timezone_Text.setText(String.valueOf(ZoneId.of(TimeZone.getDefault().getID())));
             Login_Button.setText(resourceBundle.getString("login"));
@@ -181,7 +181,7 @@ public class LoginPageController implements Initializable {
         }else {
             StringBuilder message = new StringBuilder(resourceBundle.getString("lessThanFifteen") + "\n");
             for (AppointmentsModel appt : upcomingAppointments){
-                message.append("\n"+resourceBundle.getString("appointmentID ")).append(appt.getApptID()).append("\n").append(resourceBundle.getString("title")).append(": ").append(appt.getApptTitle()).append("\n").append(resourceBundle.getString("time")).append(appt.getApptStartTime()).append("\n\n\n");
+                message.append("\n"+resourceBundle.getString("appointmentID")).append(appt.getApptID()).append("\n").append(resourceBundle.getString("title")).append(": ").append(appt.getApptTitle()).append("\n").append(resourceBundle.getString("time")).append(appt.getApptStartTime()).append("\n\n\n");
             }
             alert.setContentText(message.toString());
         }

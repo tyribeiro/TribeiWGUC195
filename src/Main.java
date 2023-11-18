@@ -43,7 +43,6 @@ public class Main extends Application {
             alert.setContentText("Error loading screen.");
             alert.showAndWait();
         }
-
     }
 }
 

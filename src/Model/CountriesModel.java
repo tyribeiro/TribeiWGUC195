@@ -35,4 +35,5 @@ public class CountriesModel {
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
+
 }

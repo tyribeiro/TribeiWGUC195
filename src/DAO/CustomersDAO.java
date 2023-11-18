@@ -77,8 +77,8 @@ public class CustomersDAO {
             ps.setString(2,customerPhone);
             ps.setString(3,customerAddress);
             ps.setString(4,postal);
-            ps.setInt(6,division.getDivisionID());
-            ps.setInt(7,customerID);
+            ps.setInt(5,division.getDivisionID());
+            ps.setInt(6,customerID);
             return ps.executeUpdate() > 0;
 
         }catch (Exception e){

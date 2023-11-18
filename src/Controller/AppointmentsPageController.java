@@ -70,14 +70,12 @@ public class AppointmentsPageController implements Initializable {
     @FXML
     public RadioButton byWeekButton;
     @FXML
-    public Button SearchButton;
-    @FXML
-    public TextField SearchTextField;
-    @FXML
     public Button ReportsButton;
     @FXML
 
     static ObservableList<AppointmentsModel> appts;
+    public Label filterLabel;
+    public Label actionsLabel;
 
     @FXML
     private ToggleGroup ToggleView;
@@ -146,32 +144,21 @@ public class AppointmentsPageController implements Initializable {
     }
 
 
-    public void searchAppt(ActionEvent actionEvent) {
-        String searchStatement = SearchTextField.getText().trim();
-
-        if(!searchStatement.isEmpty()){
-            ObservableList<AppointmentsModel> searchFilterText = FXCollections.observableArrayList();
-            for (AppointmentsModel appt : appts){
-                if(String.valueOf(appt.getApptID()).contains(searchStatement) || appt.getApptTitle().toLowerCase().contains(searchStatement.toLowerCase())){
-                    searchFilterText.add(appt);
-                }
-            }
-            appointments_Table.setItems(searchFilterText);
-        }else {
-            appointments_Table.setItems(appts);
-        }
-    }
-
-
     public void updateAppt(ActionEvent actionEvent){
-        AppointmentsModel apptToUpdate = (AppointmentsModel) appointments_Table.getSelectionModel().getSelectedItem();
-        if(apptToUpdate != null){
-            try {
+        try {
+            AppointmentsModel apptToUpdate = (AppointmentsModel) appointments_Table.getSelectionModel().getSelectedItem();
+            if(apptToUpdate == null){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle(resourceBundle.getString("errorUpdating"));
+                    alert.setContentText(resourceBundle.getString("noApptSelected"));
+                    alert.showAndWait();
+                return;
+            }
                 // go to update appt page
                 FXMLLoader load = new FXMLLoader(getClass().getResource("/View/UpdateAppointmentPage.fxml"));
                 Parent scene = load.load();
                 UpdateAppointmentPageController updateController = load.getController();
-                updateController.initalizeData(apptToUpdate);
+                updateController.autopopulate(apptToUpdate);
 
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(scene));
@@ -180,13 +167,8 @@ public class AppointmentsPageController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(resourceBundle.getString("errorUpdating"));
-            alert.setContentText(resourceBundle.getString("noApptSelected"));
-            alert.showAndWait();
         }
-    }
+
 
     public void deleteAppt(ActionEvent actionEvent) throws SQLException {
         AppointmentsModel apptToDelete = (AppointmentsModel) appointments_Table.getSelectionModel().getSelectedItem();
@@ -210,26 +192,52 @@ public class AppointmentsPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resources){
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
 
+        appointmentID_Column.setText(resourceBundle.getString("appointmentID"));
+        title_Column.setText(resourceBundle.getString("title"));
+        description_Column.setText(resourceBundle.getString("description"));
+        location_Column.setText(resourceBundle.getString("location"));
+        contact_Column.setText(resourceBundle.getString("contact"));
+        type_Column.setText(resourceBundle.getString("type"));
+        startDate_Column.setText(resourceBundle.getString("startDate"));
+        startTime_Column.setText(resourceBundle.getString("startTime"));
+        endDate_Column.setText(resourceBundle.getString("endDate"));
+        endTime_Column.setText(resourceBundle.getString("endTime"));
+        customerID_Column.setText(resourceBundle.getString("customerID"));
+        userID_Column.setText(resourceBundle.getString("userID"));
+
+
+        CustomersButton.setText(resourceBundle.getString("customers"));
+        ReportsButton.setText(resourceBundle.getString("reports"));
+
+        CreateAppointmentButton.setText(resourceBundle.getString("createAppt"));
+        UpdateAppointmentButton.setText(resourceBundle.getString("updateAppt"));
+        DeleteAppointmentButton.setText(resourceBundle.getString("deleteAppt"));
+
+        allAppointmentsButton.setText(resourceBundle.getString("allAppts"));
+        byMonthButton.setText(resourceBundle.getString("byMonth"));
+        byWeekButton.setText(resourceBundle.getString("byWeek"));
+        Header.setText(resourceBundle.getString("appointments"));
+        filterLabel.setText(resourceBundle.getString("filterLabel"));
+        actionsLabel.setText(resourceBundle.getString("actionsLabel"));
+        
+
         try {
             appts = AppointmentsDAO.getAllAppointments();
 
             appointments_Table.setItems(appts);
 
-            customerID_Column.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             appointmentID_Column.setCellValueFactory(new PropertyValueFactory<>("apptID"));
             title_Column.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
             description_Column.setCellValueFactory(new PropertyValueFactory<>("apptDescription"));
             location_Column.setCellValueFactory(new PropertyValueFactory<>("apptLocation"));
             contact_Column.setCellValueFactory(new PropertyValueFactory<>("contactName"));
             type_Column.setCellValueFactory(new PropertyValueFactory<>("apptType"));
-
-
             startDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel,LocalDate>("apptStartDate"));
             endDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalDate>("apptEndDate"));
 
             startTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptStartTime"));
             endTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptEndTime"));
-
+            customerID_Column.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             userID_Column.setCellValueFactory(new PropertyValueFactory<>("userID"));
         }catch (Exception e){
             e.printStackTrace();

@@ -2,9 +2,9 @@ package DAO;
 
 import Helper.DBConnecter;
 import Model.CountriesModel;
-import Model.DivisionsModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +15,8 @@ import java.util.List;
 public class CountriesDAO {
     static Connection connection = DBConnecter.getConnection();
 
-    public static List<CountriesModel> readAllCountries(){
-        List<CountriesModel> countries = new ArrayList<>();
+    public static ObservableList<CountriesModel> readAllCountries(){
+        ObservableList<CountriesModel> countries = FXCollections.observableArrayList();
 
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM countries");
@@ -28,7 +28,7 @@ public class CountriesDAO {
                         countriesResult.getInt("Country_ID"), countriesResult.getString("Country"));
                     countries.add(country);
             }
-            return  countries;
+            return (ObservableList<CountriesModel>) countries;
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -50,5 +50,23 @@ public class CountriesDAO {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public static ObservableList<String> readCountires(){
+        ObservableList<String> countryOptions = FXCollections.observableArrayList();
+
+        DBConnecter.getConnection();
+
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM countries");) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                String countryName = resultSet.getString("Country");
+                countryOptions.add(countryName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return countryOptions;
     }
 }

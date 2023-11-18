@@ -2,11 +2,37 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomersMainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="878.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomersMainPageController">
    <children>
-      <Label fx:id="customersPageHeader" layoutX="272.0" layoutY="43.0" text="customers" />
-      <Button fx:id="goToApptsButton" layoutX="22.0" layoutY="30.0" mnemonicParsing="false" onAction="#goToAppointmentsPage" text="Appointments" />
-      <Button fx:id="goToReportsButton" layoutX="42.0" layoutY="68.0" mnemonicParsing="false" onAction="#goToReportsPage" text="Reports" />
+      <Label fx:id="customersPageHeader" layoutX="385.0" layoutY="25.0" text="CUSTOMERS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <TableView fx:id="customersTable" layoutX="27.0" layoutY="93.0" prefHeight="237.0" prefWidth="820.0" style="-fx-background-color: WHITE;">
+         <columns>
+            <TableColumn fx:id="nameColumn" prefWidth="152.66665077209473" text="Name" />
+            <TableColumn fx:id="customerIDColumn" prefWidth="72.00003051757812" text="Cust ID" />
+            <TableColumn fx:id="addressColumn" prefWidth="163.3333282470703" text="Address" />
+            <TableColumn fx:id="postalColumn" prefWidth="114.66665649414062" text="Postal Code" />
+            <TableColumn fx:id="divisionColumn" prefWidth="101.0" text="Division" />
+            <TableColumn fx:id="countryColumn" prefWidth="82.0" text="Country" />
+            <TableColumn fx:id="phoneColumn" prefWidth="133.66668701171875" text="Phone Number" />
+         </columns>
+      </TableView>
+
+
+      <Button fx:id="goToApptsButton" layoutX="27.0" layoutY="21.0" mnemonicParsing="false" onAction="#goToAppointmentsPage" prefHeight="1.0" prefWidth="99.0" text="Appointments">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button fx:id="goToReportsButton" layoutX="142.0" layoutY="21.0" mnemonicParsing="false" onAction="#goToReportsPage" prefHeight="22.0" prefWidth="99.0" text="Reports">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button fx:id="goToCreateCustomerButton" layoutX="134.0" layoutY="350.0" mnemonicParsing="false" onAction="#goToCreateCustomerPage" />
+      <Button fx:id="goToUpdateCustomerButton" layoutX="287.0" layoutY="350.0" mnemonicParsing="false" onAction="#goToUpdateCustomerPage" />
+      <Button fx:id="goToDeleteCustomerButton" layoutX="441.0" layoutY="350.0" mnemonicParsing="false" onAction="#goToDeleteCustomerPage" />
    </children>
 </AnchorPane>

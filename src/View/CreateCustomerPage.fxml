@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="447.0" prefWidth="393.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateCustomerPageController">
+   <children>
+      <Label fx:id="header" layoutX="88.0" layoutY="28.0" text="Create A New Customer" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="backToCustomersMainPage" layoutX="23.0" layoutY="33.0" mnemonicParsing="false" onAction="#goToCustomersMainPage"  />
+      <Label fx:id="nameLabel" layoutX="58.0" layoutY="109.0" text="Name: " textFill="WHITE" />
+      <Label fx:id="phoneLabel" layoutX="57.0" layoutY="157.0" text="Phone: " textFill="WHITE" />
+      <Label fx:id="addressLabel" layoutX="53.0" layoutY="206.0" text="Address: " textFill="WHITE" />
+      <Label fx:id="postalLabel" layoutX="47.0" layoutY="253.0" text="Postal Code: " textFill="WHITE" />
+      <Label fx:id="countryLabel" layoutX="53.0" layoutY="303.0" text="Country: " textFill="WHITE" />
+      <Label fx:id="divisionLabel" layoutX="53.0" layoutY="351.0" text="Division: " textFill="WHITE" />
+      <TextField fx:id="nameTextfield" layoutX="142.0" layoutY="105.0" />
+      <TextField fx:id="addressTextfield" layoutX="142.0" layoutY="202.0" />
+      <TextField fx:id="phoneTextfield" layoutX="142.0" layoutY="153.0" />
+      <TextField fx:id="postalTextfield" layoutX="142.0" layoutY="249.0" />
+      <ComboBox fx:id="countryComboBox" onAction="#countrySelection" layoutX="142.0" layoutY="299.0" prefWidth="150.0" />
+      <ComboBox fx:id="divisionComboBox" layoutX="142.0" layoutY="347.0" prefWidth="150.0" />
+      <Button fx:id="addCustomerButton" layoutX="176.0" layoutY="396.0" mnemonicParsing="false" onAction="#addCustomer"  />
+
+   </children>
+</AnchorPane>

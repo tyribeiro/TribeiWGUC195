@@ -78,6 +78,16 @@ public class CreateAppointmentPageController implements Initializable {
     }
 
     public void saveButtonAction(ActionEvent actionEvent) throws SQLException {
+        if(!checkFieldsAreFilled()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(resourceBundle.getString("fillInAllFieldsErrorTitle"));
+            alert.setContentText(resourceBundle.getString("fillInAllFieldsError"));
+            alert.showAndWait();
+            return;
+        }
+
+
+
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
         String location = locationTextField.getText();
@@ -178,6 +188,23 @@ public class CreateAppointmentPageController implements Initializable {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
 
 
+        Header.setText(resourceBundle.getString("createAppt"));
+        apptIDLabel.setText(resourceBundle.getString("apptID"));
+        descriptionLabel.setText(resourceBundle.getString("description"));
+        locationLabel.setText(resourceBundle.getString("location"));
+        typeLabel.setText(resourceBundle.getString("type"));
+        titleLabel.setText(resourceBundle.getString("title"));
+        startDateLabel.setText(resourceBundle.getString("startDate"));
+        endDateLabel.setText(resourceBundle.getString("endDate"));
+        startTimeLabel.setText(resourceBundle.getString("startTime"));
+        endTimeLabel.setText(resourceBundle.getString("endTime"));
+        contactLabel.setText(resourceBundle.getString("contact"));
+        userIDLabel.setText(resourceBundle.getString("userID"));
+        customerIDLabel.setText(resourceBundle.getString("customerID"));
+        saveButton.setText(resourceBundle.getString("save"));
+        cancelButton.setText(resourceBundle.getString("cancel"));
+        backToAppointments.setText(resourceBundle.getString("back"));
+
         try {
            ObservableList<ContactsModel> contacts = ContactsDAO.readAllContacts();
            contactSelector.setItems(contacts);
@@ -256,4 +283,22 @@ public class CreateAppointmentPageController implements Initializable {
             } catch (Exception e) {
                e.printStackTrace();
         }
-    }}
+    }
+
+
+    private boolean checkFieldsAreFilled(){
+        if(
+                titleTextField.getText().isEmpty() ||
+                descriptionTextField.getText().isEmpty() ||
+                locationTextField.getText().isEmpty() ||
+                type.getText().isEmpty() ||
+                pickStartDate.getValue() ==null ||
+                pickEndDate.getValue() == null ||
+                startTimeSelector.getSelectionModel().isEmpty() ||
+                        endTimeSelector.getSelectionModel().isEmpty() ||
+                        contactSelector.getSelectionModel().isEmpty() ||
+                        customerIDSelector.getSelectionModel().isEmpty() ||
+                        userIDSelector.getSelectionModel().isEmpty()
+        ) {return false; } else {return true;}
+    }
+}

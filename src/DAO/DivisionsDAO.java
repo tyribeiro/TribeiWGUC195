@@ -2,8 +2,9 @@ package DAO;
 
 import Helper.DBConnecter;
 import Model.CountriesModel;
-import Model.CustomersModel;
 import Model.DivisionsModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class DivisionsDAO {
     static Connection connection = DBConnecter.getConnection();
 
     //CRUD FUNCTIONS
-    public static List<DivisionsModel> readAllDivisions(){
-        List<DivisionsModel> divisions = new ArrayList<>();
+    public static ObservableList<DivisionsModel> readAllDivisions(){
+        ObservableList<DivisionsModel> divisions = FXCollections.observableArrayList();
 
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM first_level_divisions");
@@ -28,10 +29,9 @@ public class DivisionsDAO {
                         divs.getInt("Country_ID"));
                 divisions.add(division);
             }
-            return  divisions;
+            return (ObservableList<DivisionsModel>) divisions;
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Cnat add division");
             e.getMessage();
             return null;
         }
@@ -97,5 +97,25 @@ public class DivisionsDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static ObservableList<String> readDivisionsByCountry(String country){
+        ObservableList<String> divisionsOptions = FXCollections.observableArrayList();
+
+        DBConnecter.getConnection();
+
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM first_level_divisions WHERE Country_ID = ?");) {
+            statement.setInt(1,CountriesDAO.readCountryID(country));
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                int divID = resultSet.getInt("Division_ID");
+                String divisionName = DivisionsDAO.readDivByDivID(divID).getDivisionName();
+                divisionsOptions.add(divisionName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return divisionsOptions;
     }
 }

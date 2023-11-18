@@ -148,6 +148,6 @@ public class AppointmentsModel {
 
     @Override
     public String toString(){
-        return "Appointments: " + apptID + "   --- Appt Title: "  + apptTitle + "   ---Location: " + apptLocation + "---- Start Date " + getApptStartDate() + "---Start Time  " + getApptStartTime() + "----  Appt End date = " + getApptEndDate() + "---Appt End Time  " + getApptEndTime();
+        return "Appointments: " + apptID + "--- APPT TYPE: " + apptType + "   --- Appt Title: "  + apptTitle + "   ---Location: " + apptLocation + "---- Start Date " + getApptStartDate() + "---Start Time  " + getApptStartTime() + "----  Appt End date = " + getApptEndDate() + "---Appt End Time  " + getApptEndTime();
     }
 }
