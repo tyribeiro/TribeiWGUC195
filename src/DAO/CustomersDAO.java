@@ -53,7 +53,6 @@ public class CustomersDAO {
                         rs.getString("Address"),
                         rs.getString("Phone"),
                         DivisionsDAO.readDivByDivID(rs.getInt("Division_ID")).getDivisionName(),
-                        rs.getString("Country"),
                         rs.getInt("Division_ID"),
                         rs.getString("Postal_Code")
                 );
@@ -65,6 +64,33 @@ public class CustomersDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static CustomersModel readCustomerByID(int id) {
+        CustomersModel customer = null;
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM customers WHERE Customer_ID=?");
+            ps.setInt(1, id);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            if (rs.next()) {
+                customer = new CustomersModel(
+                        rs.getInt("Customer_ID"),
+                        rs.getString("Customer_Name"),
+                        rs.getString("Address"),
+                        rs.getString("Phone"),
+                        DivisionsDAO.readDivByDivID(rs.getInt("Division_ID")).getDivisionName(),
+                        rs.getInt("Division_ID"),
+                        rs.getString("Postal_Code")
+                );
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return customer;
     }
 
     public static boolean updateCustomer(int customerID, String customerName, String customerPhone, String customerAddress, String postal, String divisionName) throws SQLException {

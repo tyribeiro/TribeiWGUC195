@@ -38,6 +38,22 @@ public class AppointmentsModel {
         this.contactName = contactName;
     }
 
+    public AppointmentsModel(int aptID, String apptTitle, String apptDescription, String apptLocation, String apptType, LocalDate apptStartDate, LocalTime apptStartTime, LocalDate apptEndDate, LocalTime apptEndTime, int customerID, int userID, int contactID, String contactName) {
+        this.apptID = aptID;
+        this.apptTitle = apptTitle;
+        this.apptDescription = apptDescription;
+        this.apptLocation = apptLocation;
+        this.apptType = apptType;
+        this.apptStartDate = apptStartDate;
+        this.apptStartTime = apptStartTime;
+        this.apptEndDate = apptEndDate;
+        this.apptEndTime = apptEndTime;
+        this.customerID = customerID;
+        this.userID = userID;
+        this.contactID = contactID;
+        this.contactName = contactName;
+    }
+
     //getters
     public int getApptID() {
         return apptID;

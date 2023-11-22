@@ -1,6 +1,7 @@
 package DAO;
 
 import Helper.DBConnecter;
+import Model.CustomersModel;
 import Model.UsersModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,6 +39,31 @@ public class UsersDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static UsersModel getUserByID(int id) {
+        UsersModel user = null;
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE User_ID=?");
+            ps.setInt(1, id);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            if (rs.next()) {
+                user = new UsersModel(
+                        rs.getInt("User_ID"),
+                        rs.getString("User_Name"),
+                        rs.getString("Password")
+                );
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return user;
     }
 
     public static boolean validateUsernamePassword(String username, String password) throws SQLException {

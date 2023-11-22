@@ -1,7 +1,8 @@
 package Controller;
 
-import DAO.CountriesDAO;
+import DAO.*;
 import Model.*;
+import Utils.Timezones;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,17 +14,20 @@ import javafx.scene.control.*;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import Model.AppointmentsModel;
-import  DAO.ContactsDAO;
-import DAO.CustomersDAO;
-import DAO.UsersDAO;
 import javafx.stage.Stage;
 
 
 public class UpdateAppointmentPageController implements Initializable {
  public Label header;
+    public TableView appointments_Table;
   public Label apptTitleLabel;
   public Label apptStartDateLabel;
   public Label apptDescriptionLabel;
@@ -123,10 +127,22 @@ public class UpdateAppointmentPageController implements Initializable {
 
         userIDComboBox.setItems(userIDOption);
 
+        //add times to dropdown
+        ObservableList<String> businessHours = FXCollections.observableArrayList("08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00");
+
+        startTimeComboBox.setItems(businessHours);
+        endTimeComboBox.setItems(businessHours);
+
 
     }
 
-    public void autopopulate(AppointmentsModel appointment ){
+    public void autopopulate(AppointmentsModel appointment) throws SQLException {
+
+        AppointmentsModel appt = AppointmentsDAO.getApptsByID(appointment.getApptID());
+        customerIDComboBox.getSelectionModel().select(Integer.valueOf(appointment.getCustomerID()));
+        contactComboBox.getSelectionModel().select(appointment.getContactName());
+        userIDComboBox.getSelectionModel().select(Integer.valueOf(appointment.getUserID()));
+
         titleTextfield.setText(appointment.getApptTitle());
         apptIDTextfield.setText(String.valueOf(appointment.getApptID()));
         descriptionTextfield.setText(appointment.getApptDescription());
@@ -137,13 +153,106 @@ public class UpdateAppointmentPageController implements Initializable {
         endDatePicker.setValue(appointment.getApptEndDate());
         endTimeComboBox.getSelectionModel().select(appointment.getApptEndTime());
 
-        customerIDComboBox.getSelectionModel().select(appointment.getCustomerID());
-        contactComboBox.getSelectionModel().select(appointment.getContactName());
-        userIDComboBox.getSelectionModel().select(appointment.getUserID());
     }
 
 
-  public void saveUpdateAppointment(ActionEvent actionEvent) {
+    public void saveUpdateAppointment(ActionEvent actionEvent) throws SQLException {
+
+        DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
+        try {
+            int ID = Integer.parseInt(apptIDTextfield.getText());
+            String title = titleTextfield.getText();
+            String description = descriptionTextfield.getText();
+            String location = locationTextfield.getText();
+            String type = typeTextfield.getText();
+            LocalDate startDate = startDatePicker.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+            LocalTime startTime = LocalTime.parse(startTimeComboBox.getValue().toString(), stringToLocalTime);
+            LocalTime endTime = LocalTime.parse(endTimeComboBox.getValue().toString());
+
+            ContactsModel selectedContact = ContactsDAO.getContactByName(contactComboBox.getSelectionModel().getSelectedItem());
+            String contact = selectedContact.getContactName();
+            int contactID = ContactsDAO.getContactByName(contact).getContactID();
+
+            CustomersModel selectedCustomer = CustomersDAO.readCustomerByID(customerIDComboBox.getSelectionModel().getSelectedItem());
+            int customerID = selectedCustomer.getCustomerID();
+
+
+            UsersModel selectedUser = UsersDAO.getUserByID(userIDComboBox.getSelectionModel().getSelectedItem());
+            int userID = selectedUser.getUserID();
+
+            AppointmentsModel updatedAppt = new AppointmentsModel(ID, title, description, location, type, startDate, startTime, endDate, endTime, customerID, userID, contactID, contact);
+
+            if (checkFields(updatedAppt)) {
+                AppointmentsDAO.updateExistingAppt(ID, title, description, location, contactID, type, startDate, endDate, startTime, endTime, customerID, userID);
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptUpdate"));
+                alert.setTitle(resourceBundle.getString("apptUpdate"));
+                alert.showAndWait();
+
+                try {
+                    Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.setTitle(resourceBundle.getString("appts"));
+                    stage.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            //update database
+            boolean updated = AppointmentsDAO.updateExistingAppt(ID, title, description, location, ContactsDAO.getContactByName(contact).getContactID(), type, startDate, endDate, startTime, endTime, customerID, userID);
+
+            if (updated) {
+                //update tableview
+                AppointmentsPageController.updateTableView(appointments_Table);
+
+                goToAppointmentsMainPage(actionEvent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private boolean checkFields(AppointmentsModel newAppt) {
+        if (!checkFieldsAreFilled()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(resourceBundle.getString("fillInAllFieldsErrorTitle"));
+            alert.setContentText(resourceBundle.getString("fillInAllFieldsError"));
+            alert.showAndWait();
+            return false;
+        }
+
+        try {
+            if (AppointmentsDAO.overlappingAppts(newAppt)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(resourceBundle.getString("overlapping"));
+                alert.setContentText(resourceBundle.getString("overlap"));
+                alert.showAndWait();
+                return false;
+            }
+
+            DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
+            if (endDatePicker.getValue().isBefore(startDatePicker.getValue()) || LocalTime.parse(endTimeComboBox.getValue().toString(), stringToLocalTime).isBefore(LocalTime.parse(startTimeComboBox.getValue().toString(), stringToLocalTime))) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(resourceBundle.getString("dateTimeError"));
+                alert.setContentText(resourceBundle.getString("dateTimeError"));
+                alert.showAndWait();
+                return false;
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(resourceBundle.getString("error"));
+            alert.setContentText(resourceBundle.getString("errorSaving"));
+            alert.showAndWait();
+            e.printStackTrace();
+            return false;
+
+        }
+        return true;
   }
 
   public void goToAppointmentsMainPage(ActionEvent actionEvent) {
@@ -158,4 +267,24 @@ public class UpdateAppointmentPageController implements Initializable {
       e.printStackTrace();
     }
   }
+
+    private boolean checkFieldsAreFilled() {
+        if (
+                titleTextfield.getText().isEmpty() ||
+                        descriptionTextfield.getText().isEmpty() ||
+                        locationTextfield.getText().isEmpty() ||
+                        typeTextfield.getText().isEmpty() ||
+                        startDatePicker.getValue() == null ||
+                        endDatePicker.getValue() == null ||
+                        startTimeComboBox.getValue() == null ||
+                        endTimeComboBox.getValue() == null ||
+                        contactComboBox.getValue() == null ||
+                        customerIDComboBox.getValue() == null ||
+                        userIDComboBox.getValue() == null
+        ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

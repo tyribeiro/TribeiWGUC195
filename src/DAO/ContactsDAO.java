@@ -2,6 +2,7 @@ package DAO;
 
 import Helper.DBConnecter;
 import Model.ContactsModel;
+import Model.CustomersModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -56,5 +57,30 @@ public class ContactsDAO {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public static ContactsModel getContactByName(String name) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM contacts WHERE Contact_Name = ?");
+        ps.setString(1, name);
+        ContactsModel contact = null;
+        try {
+            ps.execute();
+            ResultSet results = ps.getResultSet();
+
+            if (results.next()) {
+                contact = new ContactsModel(
+                        results.getString("Contact_Name"),
+                        results.getInt("Contact_ID"),
+                        results.getString("Email")
+                );
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return contact;
     }
 }

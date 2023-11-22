@@ -11,14 +11,13 @@ public class CustomersModel {
 
     private String postalCode;
 
-    public CustomersModel(int customerID, String customerName, String customerAddress, String customerPhone, String customerDivision, String customerCountry, int customerDivisionID, String postal) {
+    public CustomersModel(int customerID, String customerName, String customerAddress, String customerPhone, String customerDivision, int customerDivisionID, String postal) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
 
         this.customerPhone = customerPhone;
         this.customerDivision = customerDivision;
-        this.customerCountry = customerCountry;
         this.customerDivisionID = customerDivisionID;
         this.postalCode =postal;
     }

@@ -65,8 +65,6 @@ public class UpdateCustomerPageController implements Initializable {
                 CustomersMainPageController.updateTableView(customerTable);
 
                 goBackToCustomerMainPage(actionEvent);
-            }else {
-                System.out.println(resourceBundle.getString("errorUpdating"));
             }
         } catch (Exception e) {
             e.printStackTrace();

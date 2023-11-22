@@ -1,7 +1,9 @@
 package Controller;
 
 import DAO.AppointmentsDAO;
+import DAO.CustomersDAO;
 import Model.AppointmentsModel;
+import Model.CustomersModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,10 +21,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AppointmentsPageController implements Initializable {
 
@@ -82,6 +81,16 @@ public class AppointmentsPageController implements Initializable {
 
     private ResourceBundle resourceBundle;
 
+    public static void updateTableView(TableView<AppointmentsModel> table) {
+        //refresh table
+        try {
+            List<AppointmentsModel> appts = AppointmentsDAO.getAllAppointments();
+            table.setItems(FXCollections.observableArrayList(appts));
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getMessage();
+        }
+    }
 
     public void goToCustomersPage(ActionEvent actionEvent){
         try {
@@ -146,12 +155,20 @@ public class AppointmentsPageController implements Initializable {
 
     public void updateAppt(ActionEvent actionEvent){
         try {
-            AppointmentsModel apptToUpdate = (AppointmentsModel) appointments_Table.getSelectionModel().getSelectedItem();
-            if(apptToUpdate == null){
+            AppointmentsModel apptSelected = appointments_Table.getSelectionModel().getSelectedItem();
+
+            if (apptSelected == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle(resourceBundle.getString("errorUpdating"));
                     alert.setContentText(resourceBundle.getString("noApptSelected"));
                     alert.showAndWait();
+                return;
+            }
+
+            int apptID = apptSelected.getApptID();
+            AppointmentsModel apptToUpdate = AppointmentsDAO.getApptsByID(apptID);
+            if (apptToUpdate == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "NULL APPT");
                 return;
             }
                 // go to update appt page
