@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="Controller.TotalApptReport">
+    <children>
+        <Label fx:id="totalApptHeader" layoutX="50" layoutY="20" text="total appts"/>
+        <TableView fx:id="totalApptsTable" prefHeight="400.0" prefWidth="573.0">
+            <TableColumn fx:id="monthCol" text="month"/>
+            <TableColumn fx:id="typeCol" text="type"/>
+            <TableColumn fx:id="totalApptsCol" text="appts"/>
+        </TableView>
+    </children>
+</AnchorPane>

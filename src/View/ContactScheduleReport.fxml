@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="Controller.ContactScheduleReport"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label text="contact schedule"/>
+    <children>
+        <TableView fx:id="contactScheduleTable">
+            <TableColumn fx:id="apptID" text="appt id"/>
+            <TableColumn fx:id="apptTitle" text="title"/>
+            <TableColumn fx:id="apptType" text="type"/>
+            <TableColumn fx:id="apptDescription" text="description"/>
+            <TableColumn fx:id="startDateTime" text="start date and time"/>
+            <TableColumn fx:id="endDateTime" text="end date and time"/>
+            <TableColumn fx:id="customerID" text="customer id"/>
+        </TableView>
+    </children>
+
+</AnchorPane>

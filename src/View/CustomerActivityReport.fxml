@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="Controller.CustomerActivityReport"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <Label fx:id="customerActivityHeader"/>
+        <TableView fx:id="cusomterActivityTable">
+            <TableColumn text="customer id"/>
+            <TableColumn text="custome name"/>
+            <TableColumn text="total appts"/>
+            <TableColumn text="last appt"/>
+            <TableColumn text="next appt"/>
+        </TableView>
+    </children>
+
+</AnchorPane>
