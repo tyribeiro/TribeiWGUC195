@@ -83,4 +83,29 @@ public class ContactsDAO {
 
         return contact;
     }
+
+    public static ContactsModel getContactById(int id) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM contacts WHERE Contact_ID = ?");
+        ps.setInt(1, id);
+        ContactsModel contact = null;
+        try {
+            ps.execute();
+            ResultSet results = ps.getResultSet();
+
+            if (results.next()) {
+                contact = new ContactsModel(
+                        results.getString("Contact_Name"),
+                        results.getInt("Contact_ID"),
+                        results.getString("Email")
+                );
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return contact;
+    }
 }

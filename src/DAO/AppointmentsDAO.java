@@ -1,5 +1,6 @@
 package DAO;
 
+import Controller.appointmentSum;
 import Helper.DBConnecter;
 import Utils.Timezones;
 import javafx.collections.FXCollections;
@@ -14,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Model.AppointmentsModel;
+import javafx.stage.Stage;
+
+import javax.swing.plaf.nimbus.State;
 
 public class AppointmentsDAO {
 
@@ -399,4 +403,89 @@ public class AppointmentsDAO {
         }
         return false;
     }
+
+    public static ObservableList<AppointmentsModel> getApptsByTypeMonth(String type, String month) throws SQLException {
+        ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments WHERE Type = ? AND MONTHNAME(Start) = ?");
+            ps.setString(1, type);
+            ps.setString(2, month);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                AppointmentsModel appt = new AppointmentsModel(
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getString("Location"),
+                        rs.getString("Type"),
+                        rs.getTimestamp("Start").toLocalDateTime().toLocalDate(),
+                        rs.getTimestamp("Start").toLocalDateTime().toLocalTime(),
+                        rs.getTimestamp("End").toLocalDateTime().toLocalDate(),
+                        rs.getTimestamp("End").toLocalDateTime().toLocalTime(),
+                        rs.getInt("Customer_ID"),
+                        rs.getInt("User_ID"),
+                        rs.getInt("Contact_ID"),
+                        ContactsDAO.getContactById(rs.getInt("Contact_ID")).getContactName()
+                );
+                appts.add(appt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return appts;
+
+    }
+
+    public static ObservableList<AppointmentsModel> apptsType() throws SQLException {
+        ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
+
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments AS appointments INNER JOIN contacts ON appointments.Contact_ID=contacts.Contact_ID GROUP BY Type");
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            AppointmentsModel appt = new AppointmentsModel(
+                    rs.getString("Title"),
+                    rs.getString("Description"),
+                    rs.getString("Location"),
+                    rs.getString("Type"),
+                    rs.getTimestamp("Start").toLocalDateTime().toLocalDate(),
+                    rs.getTimestamp("Start").toLocalDateTime().toLocalTime(),
+                    rs.getTimestamp("End").toLocalDateTime().toLocalDate(),
+                    rs.getTimestamp("End").toLocalDateTime().toLocalTime(),
+                    rs.getInt("Customer_ID"),
+                    rs.getInt("User_ID"),
+                    rs.getInt("Contact_ID"),
+                    rs.getString("Contact_Name"));
+            appts.add(appt);
+        }
+        return appts;
+    }
+
+    public static ObservableList<AppointmentsModel> apptsMonth() throws SQLException {
+        ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
+
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments AS appointments INNER JOIN contacts ON appointments.Contact_ID=contacts.Contact_ID GROUP BY MONTH(Start)");
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            AppointmentsModel appt = new AppointmentsModel(
+                    rs.getString("Title"),
+                    rs.getString("Description"),
+                    rs.getString("Location"),
+                    rs.getString("Type"),
+                    rs.getTimestamp("Start").toLocalDateTime().toLocalDate(),
+                    rs.getTimestamp("Start").toLocalDateTime().toLocalTime(),
+                    rs.getTimestamp("End").toLocalDateTime().toLocalDate(),
+                    rs.getTimestamp("End").toLocalDateTime().toLocalTime(),
+                    rs.getInt("Customer_ID"),
+                    rs.getInt("User_ID"),
+                    rs.getInt("Contact_ID"),
+                    rs.getString("Contact_Name"));
+            appts.add(appt);
+        }
+        return appts;
+    }
+
 }

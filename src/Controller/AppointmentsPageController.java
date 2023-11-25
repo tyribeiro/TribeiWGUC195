@@ -193,13 +193,16 @@ public class AppointmentsPageController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,resourceBundle.getString("confirmDelete"));
             Optional<ButtonType> confirm = alert.showAndWait();
 
-            if(confirm.isPresent() && confirm.get() == ButtonType.YES){
+            if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 AppointmentsDAO.deleteExistingAppt(apptToDelete.getApptID());
-                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptDeleted"));
+                appointments_Table.getItems().remove(apptToDelete);
                 appointments_Table.refresh();
+                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptDeleted"));
+                alert1.setTitle(resourceBundle.getString("apptDeleted"));
+                alert1.showAndWait();
             }
         }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR,resourceBundle.getString("errorDeleting"));
+            Alert alert = new Alert(Alert.AlertType.ERROR, resourceBundle.getString("errorDeletingAppt"));
             alert.showAndWait();
         }
     }

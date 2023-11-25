@@ -4,10 +4,10 @@ import com.mysql.cj.conf.StringProperty;
 
 public class appointmentSum {
     private String type;
-    private String month;
+    private int month;
     private int total;
 
-    public appointmentSum(String type, String month, int total) {
+    public appointmentSum(String type, int month, int total) {
         this.type = type;
         this.month = month;
         this.total = total;
@@ -21,7 +21,7 @@ public class appointmentSum {
         this.type = type;
     }
 
-    public String getMonth() {
+    public int getMonth() {
         return month;
     }
 
