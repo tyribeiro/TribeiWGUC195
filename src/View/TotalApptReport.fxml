@@ -3,20 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="567.0" prefWidth="512.0"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="Controller.TotalApptReport">
-    <Label fx:id="totalApptHeader" layoutX="218.0" layoutY="27.0" text="total appts"/>
-
-
-    <RadioButton fx:id="typeRadioButton" text="Type" layoutX="50" layoutY="50"/>
-    <RadioButton fx:id="monthRadioButton" text="month" layoutX="50" layoutY="80"/>
-
-    <TableView fx:id="totalApptsTable" layoutX="52.0" layoutY="102.0" prefHeight="400.0" prefWidth="382.0">
-        <columns>
-            <TableColumn fx:id="apptID" prefWidth="106.00003433227539" text="Appt ID"/>
-            <TableColumn fx:id="apptTitle" prefWidth="130.99998474121094" text="Appt Title"/>
-        </columns>
-        </TableView>
-    <Label fx:id="totalApptsLabel" text="Total Appointments"/>
+            style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="Controller.TotalApptReport">
+    <children>
+        <Label fx:id="reportTypeMonth" layoutX="172.0" layoutY="5.0" textFill="WHITE"/>
+        <Button fx:id="backButton" layoutX="29.0" layoutY="26.0" mnemonicParsing="false"
+                onAction="#goToAppointmentsPage" text="BACK"/>
+        <RadioButton fx:id="typeRadio" layoutX="200" layoutY="70" textFill="WHITE" toggleGroup="$reportToggleGroup">
+            <toggleGroup>
+                <ToggleGroup fx:id="reportToggleGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="monthRadio" layoutX="300" layoutY="70" textFill="WHITE" toggleGroup="$reportToggleGroup"/>
+        <Button fx:id="generateButton" onAction="#generateReport" layoutX="220" layoutY="120"/>
+    </children>
 </AnchorPane>

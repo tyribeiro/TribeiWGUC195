@@ -59,7 +59,7 @@ public class CreateAppointmentPageController implements Initializable {
     public DatePicker pickEndDate;
     public ComboBox userIDSelector;
     public Label userIDLabel;
-    public TextField type;
+    public TextField typeTextfield;
 
     private  ResourceBundle resourceBundle;
 
@@ -85,20 +85,18 @@ public class CreateAppointmentPageController implements Initializable {
             alert.showAndWait();
             return;
         }
-
-
-
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
         String location = locationTextField.getText();
-        String type = typeLabel.getText();
+        String type = typeTextfield.getText();
+
         LocalDate startDate = pickStartDate.getValue();
         LocalDate endDate = pickEndDate.getValue();
 
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime startTime = LocalTime.parse((String) startTimeSelector.getValue(), timeFormatter);
+        LocalTime endTime = LocalTime.parse((String) endTimeSelector.getValue(), timeFormatter);
 
-        LocalTime startTime = LocalTime.parse((String) startTimeSelector.getValue(),timeFormatter) ;
-        LocalTime endTime = LocalTime.parse((String) endTimeSelector.getValue(),timeFormatter);
 
         ContactsModel selectedContact = (ContactsModel) contactSelector.getSelectionModel().getSelectedItem();
         String contact =selectedContact.getContactName();
@@ -111,14 +109,23 @@ public class CreateAppointmentPageController implements Initializable {
         int userID = selectedUser.getUserID();
 
 
-        LocalDateTime startLocal = LocalDateTime.of(startDate,startTime);
+        LocalDateTime startLocal = LocalDateTime.of(startDate, startTime);
         LocalDateTime endLocal = LocalDateTime.of(endDate,endTime);
 
-        //converting to UTC
-        LocalDateTime utcStart = Timezones.utcConversion(startLocal);
-        LocalDateTime utcEnd = Timezones.utcConversion(endLocal);
+        //converting to eastern time
+        LocalDateTime startEastern = Timezones.ETConversion(startLocal);
+        LocalDateTime endEastern = Timezones.ETConversion(endLocal);
 
-        AppointmentsModel newAppt = new AppointmentsModel(title,description,location,type,startDate,startTime, endDate,endTime,customerID,userID, ContactsDAO.readContactID(contact),contact);
+        if (!Timezones.businessHours(startEastern) || !Timezones.businessHours(endEastern)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error with Time");
+            alert.setContentText(resourceBundle.getString("businessHourError"));
+            alert.showAndWait();
+            return;
+        }
+
+
+        AppointmentsModel newAppt = new AppointmentsModel(title, description, location, type, startDate, startLocal.toLocalTime(), endDate, endLocal.toLocalTime(), customerID, userID, ContactsDAO.readContactID(contact), contact);
         try {
             if(AppointmentsDAO.overlappingAppts(newAppt)){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -177,6 +184,8 @@ public class CreateAppointmentPageController implements Initializable {
 
            }
     }
+
+
     public void cancelButtonAction(ActionEvent actionEvent){
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -299,7 +308,7 @@ public class CreateAppointmentPageController implements Initializable {
                 titleTextField.getText().isEmpty() ||
                 descriptionTextField.getText().isEmpty() ||
                 locationTextField.getText().isEmpty() ||
-                type.getText().isEmpty() ||
+                        typeTextfield.getText().isEmpty() ||
                 pickStartDate.getValue() ==null ||
                 pickEndDate.getValue() == null ||
                 startTimeSelector.getSelectionModel().isEmpty() ||

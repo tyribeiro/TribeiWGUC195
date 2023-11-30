@@ -90,7 +90,7 @@ public class UpdateCustomerPageController implements Initializable {
         customerAddressTextfield.setText(customer.getCustomerAddress());
         customerPostalTextfield.setText(customer.getPostalCode());
 
-        populateCountryComboBox();
+        populateCountryComboBox(customer);
         customerCountryComboBox.getSelectionModel().select(String.valueOf(customer.getCustomerCountry()));
 
         populateDivisionComboBox(customer.getCustomerCountry());
@@ -98,9 +98,10 @@ public class UpdateCustomerPageController implements Initializable {
 
     }
 
-    public void populateCountryComboBox()
+    public void populateCountryComboBox(CustomersModel customer)
     {
         ObservableList<String> countries = CountriesDAO.readCountires();
+        customerCountryComboBox.setValue(customer.getCustomerCountry());
         customerCountryComboBox.setItems(FXCollections.observableArrayList(countries));
 
     }

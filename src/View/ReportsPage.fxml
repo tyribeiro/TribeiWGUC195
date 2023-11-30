@@ -3,18 +3,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="Controller.ReportsPageController">
+            style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="Controller.ReportsPageController">
    <children>
-      <Label fx:id="reportsTitle" layoutX="286.0" layoutY="38.0" text="CHOOSE A REPORT"/>
-      <Button fx:id="totalApptReport" layoutX="209.0" layoutY="114.0" mnemonicParsing="false"
-              onAction="#goToTotalApptReport" text="TOTAL APPOINTMENTS BY TYPE AND MONTH"/>
-      <Button fx:id="contactScheduleReport" layoutX="275.0" layoutY="187.0" mnemonicParsing="false"
-              onAction="#goToContactScheduleReport" text="CONTACT SCHEDULE"/>
-      <Button fx:id="customerActivityReport" layoutX="274.0" layoutY="267.0" mnemonicParsing="false"
-              onAction="#goToCustomerActivityReport" text="CUSTOMER ACTIVITY "/>
-      <Button fx:id="backButton" layoutX="29.0" layoutY="26.0" mnemonicParsing="false" onAction="#goToAppointmentsPage"
-              text="BACK"/>
+       <Label fx:id="reportsTitle" layoutX="286.0" layoutY="38.0" text="CHOOSE A REPORT" textFill="WHITE"/>
+       <Button fx:id="totalApptReport" layoutX="209.0" layoutY="114.0" mnemonicParsing="false"
+               onAction="#goToTotalApptReport" text="TOTAL APPOINTMENTS BY TYPE AND MONTH"/>
+       <Button fx:id="contactScheduleReport" layoutX="275.0" layoutY="187.0" mnemonicParsing="false"
+               onAction="#goToContactScheduleReport" text="CONTACT SCHEDULE"/>
+       <Button fx:id="customerActivityReport" layoutX="274.0" layoutY="267.0" mnemonicParsing="false"
+               onAction="#goToCustomerActivityReport" text="CUSTOMER ACTIVITY "/>
+       <Button fx:id="backButton" layoutX="29.0" layoutY="26.0" mnemonicParsing="false" onAction="#goToAppointmentsPage"
+               text="BACK"/>
    </children>
 </AnchorPane>

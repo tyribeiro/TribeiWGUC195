@@ -11,7 +11,7 @@ public class CustomersModel {
 
     private String postalCode;
 
-    public CustomersModel(int customerID, String customerName, String customerAddress, String customerPhone, String customerDivision, int customerDivisionID, String postal) {
+    public CustomersModel(int customerID, String customerName, String customerAddress, String customerPhone, String customerDivision, int customerDivisionID, String postal, String customerCountry) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
@@ -19,7 +19,8 @@ public class CustomersModel {
         this.customerPhone = customerPhone;
         this.customerDivision = customerDivision;
         this.customerDivisionID = customerDivisionID;
-        this.postalCode =postal;
+        this.postalCode = postal;
+        this.customerCountry = customerCountry;
     }
 
     //getters

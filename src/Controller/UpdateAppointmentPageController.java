@@ -158,7 +158,7 @@ public class UpdateAppointmentPageController implements Initializable {
 
     public void saveUpdateAppointment(ActionEvent actionEvent) throws SQLException {
 
-        DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
+        System.out.println("save clicked");
         try {
             int ID = Integer.parseInt(apptIDTextfield.getText());
             String title = titleTextfield.getText();
@@ -167,8 +167,16 @@ public class UpdateAppointmentPageController implements Initializable {
             String type = typeTextfield.getText();
             LocalDate startDate = startDatePicker.getValue();
             LocalDate endDate = endDatePicker.getValue();
-            LocalTime startTime = LocalTime.parse(startTimeComboBox.getValue().toString(), stringToLocalTime);
-            LocalTime endTime = LocalTime.parse(endTimeComboBox.getValue().toString());
+
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            System.out.println("Selected Start Time" + startTimeComboBox.getValue().toString());
+            LocalTime startTime = LocalTime.parse(startTimeComboBox.getValue().toString(), timeFormatter);
+            System.out.println("Selected start time After parse " + startTime);
+            System.out.println("-----------------------------------");
+            System.out.println("Selected End Time" + endTimeComboBox.getValue().toString());
+            LocalTime endTime = LocalTime.parse(endTimeComboBox.getValue().toString(), timeFormatter);
+            System.out.println("Selected end time After parse " + endTime);
+
 
             ContactsModel selectedContact = ContactsDAO.getContactByName(contactComboBox.getSelectionModel().getSelectedItem());
             String contact = selectedContact.getContactName();
@@ -186,8 +194,8 @@ public class UpdateAppointmentPageController implements Initializable {
             if (checkFields(updatedAppt)) {
                 AppointmentsDAO.updateExistingAppt(ID, title, description, location, contactID, type, startDate, endDate, startTime, endTime, customerID, userID);
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptUpdate"));
-                alert.setTitle(resourceBundle.getString("apptUpdate"));
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptUpdated"));
+                alert.setTitle(resourceBundle.getString("apptUpdated"));
                 alert.showAndWait();
 
                 try {

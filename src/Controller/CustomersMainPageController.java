@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomersMainPageController implements Initializable {
@@ -120,17 +121,27 @@ public class CustomersMainPageController implements Initializable {
         }
     }
 
-    public void goToDeleteCustomerPage(ActionEvent actionEvent) {
-        try {
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("/View/DeleteCustomersPage.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.setTitle(resourceBundle.getString("deleteCustomer"));
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
+    public void deleteCustomer(ActionEvent actionEvent) throws SQLException {
+        CustomersModel customer = (CustomersModel) customersTable.getSelectionModel().getSelectedItem();
+        if (customer != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("confirmDelete"));
+            Optional<ButtonType> confirm = alert.showAndWait();
+
+            if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+                CustomersDAO.deleteCustomer(customer.getCustomerID());
+                customersTable.getItems().remove(customer);
+                customersTable.refresh();
+                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("customerDeleted"));
+                alert1.setTitle(resourceBundle.getString("customerDeleted"));
+                alert1.setContentText(resourceBundle.getString("customerDeleted"));
+                alert1.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, resourceBundle.getString("selectCustomer"));
+            alert.showAndWait();
         }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {

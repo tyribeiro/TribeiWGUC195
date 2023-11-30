@@ -71,7 +71,7 @@ public class CreateCustomerPageController implements Initializable {
 
        if(allFieldsFilled){
            try {
-               CustomersDAO.createCustomer(nameTextfield.getText(),addressTextfield.getText(),phoneTextfield.getText(), DivisionsDAO.readDivID(divisionComboBox.getValue()).getDivisionID(),postalTextfield.getText());
+               CustomersDAO.createCustomer(nameTextfield.getText(), addressTextfield.getText(), phoneTextfield.getText(), DivisionsDAO.readDivID(divisionComboBox.getValue()).getDivisionID(), postalTextfield.getText(), countryComboBox.getValue());
                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("customerCreated"));
                alert.showAndWait();
                goToCustomersMainPage(actionEvent);

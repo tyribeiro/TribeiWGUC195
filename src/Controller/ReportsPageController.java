@@ -61,7 +61,7 @@ public class ReportsPageController implements Initializable {
     public void goToAppointmentsPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentsMainPage.fxml"));
+            Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
             stage.setTitle(resourceBundle.getString("appointments"));
             stage.setScene(new Scene(scene));
             stage.show();

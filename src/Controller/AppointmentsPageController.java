@@ -119,9 +119,6 @@ public class AppointmentsPageController implements Initializable {
 
     public void viewToggle(ActionEvent actionEvent){
         try {
-            LocalDate today = LocalDate.now();
-            LocalDate start;
-            LocalDate end;
 
             if(allAppointmentsButton.isSelected()){
                appts = AppointmentsDAO.getAllAppointments();
@@ -184,6 +181,11 @@ public class AppointmentsPageController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//            alert.setTitle(resourceBundle.getString("updateAppt"));
+//            alert.setContentText(resourceBundle.getString("apptUpdated"));
+//            alert.showAndWait();
         }
 
 
@@ -199,6 +201,7 @@ public class AppointmentsPageController implements Initializable {
                 appointments_Table.refresh();
                 Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptDeleted"));
                 alert1.setTitle(resourceBundle.getString("apptDeleted"));
+                alert1.setContentText("Appointment Canceled/deleted: \nAppointment ID: " + apptToDelete.getApptID() + "\nAppointment Type: " + apptToDelete.getApptType());
                 alert1.showAndWait();
             }
         }else {
@@ -254,7 +257,6 @@ public class AppointmentsPageController implements Initializable {
             type_Column.setCellValueFactory(new PropertyValueFactory<>("apptType"));
             startDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel,LocalDate>("apptStartDate"));
             endDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalDate>("apptEndDate"));
-
             startTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptStartTime"));
             endTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptEndTime"));
             customerID_Column.setCellValueFactory(new PropertyValueFactory<>("customerID"));

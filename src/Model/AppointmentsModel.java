@@ -18,10 +18,12 @@ public class AppointmentsModel {
     private LocalTime apptStartTime;
     private LocalTime apptEndTime;
 
+
     private int customerID;
     private int userID;
     private int contactID;
     private String contactName;
+
 
     public AppointmentsModel(String apptTitle, String apptDescription, String apptLocation, String apptType, LocalDate apptStartDate,LocalTime apptStartTime, LocalDate apptEndDate,LocalTime apptEndTime, int customerID, int userID, int contactID, String contactName) {
         this.apptTitle = apptTitle;

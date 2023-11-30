@@ -38,11 +38,12 @@ public class AppointmentsDAO {
             ps.setInt(4,appt.getContactID());
             ps.setString(5,appt.getApptType());
 
-            LocalDateTime startDateAndTime = LocalDateTime.of(appt.getApptStartDate(),appt.getApptStartTime());
-            LocalDateTime endDateAndTime = LocalDateTime.of(appt.getApptEndDate(),appt.getApptEndTime());
-
-            LocalDateTime utcStart = Timezones.utcConversion(startDateAndTime);
-            LocalDateTime utcEnd = Timezones.utcConversion(endDateAndTime);
+            System.out.println("--------APPT START: " + appt.getApptStartTime());
+            System.out.println("--------APPT END: " + appt.getApptEndTime());
+            LocalDateTime utcStart = Timezones.localToUTC(appt.getApptStartTime().atDate(appt.getApptStartDate()));
+            LocalDateTime utcEnd = Timezones.localToUTC(appt.getApptEndTime().atDate(appt.getApptEndDate()));
+            System.out.println("--------APPT UTC START: " + utcStart);
+            System.out.println("--------APPT UTC END: " + utcEnd);
 
             ps.setTimestamp(6, Timestamp.valueOf(utcStart));
             ps.setTimestamp(7,Timestamp.valueOf(utcEnd));
@@ -69,11 +70,9 @@ public class AppointmentsDAO {
         ps.setInt(4, contactID);
         ps.setString(5, type);
 
-        LocalDateTime startDateAndTime = LocalDateTime.of(startDate, startTime);
-        LocalDateTime endDateAndTime = LocalDateTime.of(endDate, endTime);
 
-        LocalDateTime utcStart = Timezones.utcConversion(startDateAndTime);
-        LocalDateTime utcEnd = Timezones.utcConversion(endDateAndTime);
+        LocalDateTime utcStart = Timezones.localToUTC(startDate.atTime(startTime));
+        LocalDateTime utcEnd = Timezones.localToUTC(endDate.atTime(endTime));
 
         ps.setTimestamp(6,Timestamp.valueOf(utcStart));
         ps.setTimestamp(7,Timestamp.valueOf(utcEnd));
@@ -96,6 +95,12 @@ public class AppointmentsDAO {
         ps.execute();
     }
 
+    public static void deleteApptByCustomerId(int customerID) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM appointments WHERE Customer_ID=?");
+        ps.setInt(1, customerID);
+        ps.executeUpdate();
+    }
+
     //get ALL appts
     public static ObservableList<AppointmentsModel> getAllAppointments() throws SQLException {
         ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
@@ -107,11 +112,11 @@ public class AppointmentsDAO {
             ResultSet rs = ps.getResultSet();
 
             while (rs.next()){
-                LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.localTimeConversion(utcStart);
+                Timestamp utcStart = rs.getTimestamp("Start");
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart.toLocalDateTime());
 
-                LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd= Timezones.localTimeConversion(utcEnd);
+                Timestamp utcEnd = rs.getTimestamp("End");
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd.toLocalDateTime());
 
                 AppointmentsModel appt = new AppointmentsModel(
                         rs.getString("Title"),
@@ -119,17 +124,24 @@ public class AppointmentsDAO {
                         rs.getString("Location"),
                         rs.getString("Type"),
                         localStart.toLocalDate(),
-                        localStart.toLocalTime(),
+                        Timezones.utcToLocal(localStart).toLocalTime(),
                         localEnd.toLocalDate(),
-                        localEnd.toLocalTime(),
+                        Timezones.utcToLocal(localEnd).toLocalTime(),
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
                         rs.getString("Contact_Name")
                 );
+                System.out.print("Appt ID: " + appt.getApptID());
+                System.out.println("Start Time Input into DAO: " + Timezones.localToUTC(localStart).toLocalTime()
+                );
+                System.out.println("End Time input into DAO: " + Timezones.localToUTC(localEnd).toLocalTime()
+                );
+                System.out.println("------------------------------------------------------");
                 appt.setApptID(rs.getInt("Appointment_ID"));
                 appts.add(appt);
             }
+
 
 
 
@@ -160,10 +172,10 @@ public class AppointmentsDAO {
             while (rs.next()) {
 
                 LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.localTimeConversion(utcStart);
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
 
                 LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd= Timezones.localTimeConversion(utcEnd);
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -206,10 +218,10 @@ public class AppointmentsDAO {
 
             while (rs.next()) {
                 LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.localTimeConversion(utcStart);
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
 
                 LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd= Timezones.localTimeConversion(utcEnd);
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -250,10 +262,10 @@ public class AppointmentsDAO {
             while (rs.next()) {
 
                 LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.localTimeConversion(utcStart);
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
 
                 LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd = Timezones.localTimeConversion(utcEnd);
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -293,10 +305,10 @@ public class AppointmentsDAO {
             while (rs.next()) {
 
                 LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.localTimeConversion(utcStart);
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
 
                 LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd= Timezones.localTimeConversion(utcEnd);
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -323,19 +335,7 @@ public class AppointmentsDAO {
         return appts;
     }
 
-    //get number of appts filtered by type and month
-    public static Map<String,Integer> getAllApptsByTypeAndMonth() throws SQLException{
-        Map<String,Integer> total = new HashMap<>();
 
-        PreparedStatement ps = connection.prepareStatement("SELECT Type, COUNT(*) as total FROM appointments WHERE MONTH(Start) = MONTH(CURRENT_DATE)  GROUP BY Type" );
-
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()){
-            total.put(rs.getString("Type"),rs.getInt("total"));
-        }
-
-        return total;
-    }
 
     // get appts in the next 15 min
     public static ObservableList<AppointmentsModel> apptsIn15() throws SQLException{
@@ -354,10 +354,10 @@ public class AppointmentsDAO {
 
             while (rs.next()) {
                 LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.localTimeConversion(utcStart);
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
 
                 LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd= Timezones.localTimeConversion(utcEnd);
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
 
                 AppointmentsModel appt = new AppointmentsModel(
                         rs.getString("Title"),
@@ -388,8 +388,8 @@ public class AppointmentsDAO {
         LocalDateTime endDateAndTime = LocalDateTime.of(appt.getApptEndDate(),appt.getApptEndTime());
 
 
-        LocalDateTime utcStart = Timezones.utcConversion(startDateAndTime);
-        LocalDateTime utcEnd = Timezones.utcConversion(endDateAndTime);
+        LocalDateTime utcStart = Timezones.localToUTC(startDateAndTime);
+        LocalDateTime utcEnd = Timezones.localToUTC(endDateAndTime);
 
         ps.setTimestamp(1,Timestamp.valueOf(utcStart));
         ps.setTimestamp(2,Timestamp.valueOf(utcEnd));
@@ -438,10 +438,11 @@ public class AppointmentsDAO {
 
     }
 
-    public static ObservableList<AppointmentsModel> apptsType() throws SQLException {
+    public static ObservableList<AppointmentsModel> apptsType(String type) throws SQLException {
         ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
 
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments AS appointments INNER JOIN contacts ON appointments.Contact_ID=contacts.Contact_ID GROUP BY Type");
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments AS appointments INNER JOIN contacts ON appointments.Contact_ID=contacts.Contact_ID WHERE Type=?");
+        ps.setString(1, type);
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
@@ -462,6 +463,7 @@ public class AppointmentsDAO {
         }
         return appts;
     }
+
 
     public static ObservableList<AppointmentsModel> apptsMonth() throws SQLException {
         ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
