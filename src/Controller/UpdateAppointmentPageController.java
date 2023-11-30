@@ -148,17 +148,16 @@ public class UpdateAppointmentPageController implements Initializable {
         descriptionTextfield.setText(appointment.getApptDescription());
         typeTextfield.setText(appointment.getApptType());
         locationTextfield.setText(appointment.getApptLocation());
-        startDatePicker.setValue(appointment.getApptStartDate());
-        startTimeComboBox.getSelectionModel().select(appointment.getApptStartTime());
-        endDatePicker.setValue(appointment.getApptEndDate());
-        endTimeComboBox.getSelectionModel().select(appointment.getApptEndTime());
+        startDatePicker.setValue(appointment.getStart().toLocalDate());
+        startTimeComboBox.getSelectionModel().select(appointment.getStart().toLocalTime());
+        endDatePicker.setValue(appointment.getEnd().toLocalDate());
+        endTimeComboBox.getSelectionModel().select(appointment.getEnd().toLocalTime());
 
     }
 
 
     public void saveUpdateAppointment(ActionEvent actionEvent) throws SQLException {
 
-        System.out.println("save clicked");
         try {
             int ID = Integer.parseInt(apptIDTextfield.getText());
             String title = titleTextfield.getText();
@@ -169,14 +168,11 @@ public class UpdateAppointmentPageController implements Initializable {
             LocalDate endDate = endDatePicker.getValue();
 
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            System.out.println("Selected Start Time" + startTimeComboBox.getValue().toString());
             LocalTime startTime = LocalTime.parse(startTimeComboBox.getValue().toString(), timeFormatter);
-            System.out.println("Selected start time After parse " + startTime);
-            System.out.println("-----------------------------------");
-            System.out.println("Selected End Time" + endTimeComboBox.getValue().toString());
             LocalTime endTime = LocalTime.parse(endTimeComboBox.getValue().toString(), timeFormatter);
-            System.out.println("Selected end time After parse " + endTime);
 
+            LocalDateTime start = LocalDateTime.of(startDate, startTime);
+            LocalDateTime end = LocalDateTime.of(endDate, endTime);
 
             ContactsModel selectedContact = ContactsDAO.getContactByName(contactComboBox.getSelectionModel().getSelectedItem());
             String contact = selectedContact.getContactName();
@@ -189,7 +185,7 @@ public class UpdateAppointmentPageController implements Initializable {
             UsersModel selectedUser = UsersDAO.getUserByID(userIDComboBox.getSelectionModel().getSelectedItem());
             int userID = selectedUser.getUserID();
 
-            AppointmentsModel updatedAppt = new AppointmentsModel(ID, title, description, location, type, startDate, startTime, endDate, endTime, customerID, userID, contactID, contact);
+            AppointmentsModel updatedAppt = new AppointmentsModel(ID, title, description, location, type, start, end, customerID, userID, contactID, contact);
 
             if (checkFields(updatedAppt)) {
                 AppointmentsDAO.updateExistingAppt(ID, title, description, location, contactID, type, startDate, endDate, startTime, endTime, customerID, userID);

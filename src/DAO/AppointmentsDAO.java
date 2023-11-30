@@ -31,19 +31,14 @@ public class AppointmentsDAO {
         try {
             PreparedStatement ps = connection.prepareStatement(
                     ("INSERT INTO appointments (Title,Description,Location,Contact_ID,Type,Start,End,Customer_ID,User_ID) VALUES (?,?,?,?,?,?,?,?,?)"), PreparedStatement.RETURN_GENERATED_KEYS);
+            LocalDateTime utcStart = Timezones.localToUTC(appt.getStart());
+            LocalDateTime utcEnd = Timezones.localToUTC(appt.getEnd());
 
             ps.setString(1,appt.getApptTitle());
             ps.setString(2,appt.getApptDescription());
             ps.setString(3,appt.getApptLocation());
             ps.setInt(4,appt.getContactID());
             ps.setString(5,appt.getApptType());
-
-            System.out.println("--------APPT START: " + appt.getApptStartTime());
-            System.out.println("--------APPT END: " + appt.getApptEndTime());
-            LocalDateTime utcStart = Timezones.localToUTC(appt.getApptStartTime().atDate(appt.getApptStartDate()));
-            LocalDateTime utcEnd = Timezones.localToUTC(appt.getApptEndTime().atDate(appt.getApptEndDate()));
-            System.out.println("--------APPT UTC START: " + utcStart);
-            System.out.println("--------APPT UTC END: " + utcEnd);
 
             ps.setTimestamp(6, Timestamp.valueOf(utcStart));
             ps.setTimestamp(7,Timestamp.valueOf(utcEnd));
@@ -123,21 +118,13 @@ public class AppointmentsDAO {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        localStart.toLocalDate(),
-                        Timezones.utcToLocal(localStart).toLocalTime(),
-                        localEnd.toLocalDate(),
-                        Timezones.utcToLocal(localEnd).toLocalTime(),
+                        localStart,
+                        localEnd,
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
                         rs.getString("Contact_Name")
                 );
-                System.out.print("Appt ID: " + appt.getApptID());
-                System.out.println("Start Time Input into DAO: " + Timezones.localToUTC(localStart).toLocalTime()
-                );
-                System.out.println("End Time input into DAO: " + Timezones.localToUTC(localEnd).toLocalTime()
-                );
-                System.out.println("------------------------------------------------------");
                 appt.setApptID(rs.getInt("Appointment_ID"));
                 appts.add(appt);
             }
@@ -171,11 +158,11 @@ public class AppointmentsDAO {
 
             while (rs.next()) {
 
-                LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
+                Timestamp utcStart = rs.getTimestamp("Start");
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart.toLocalDateTime());
 
-                LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
+                Timestamp utcEnd = rs.getTimestamp("End");
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd.toLocalDateTime());
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -183,10 +170,8 @@ public class AppointmentsDAO {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        localStart.toLocalDate(),
-                        localStart.toLocalTime(),
-                        localEnd.toLocalDate(),
-                        localEnd.toLocalTime(),
+                        localStart,
+                        localEnd,
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
@@ -217,11 +202,11 @@ public class AppointmentsDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
+                Timestamp utcStart = rs.getTimestamp("Start");
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart.toLocalDateTime());
 
-                LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
+                Timestamp utcEnd = rs.getTimestamp("End");
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd.toLocalDateTime());
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -229,10 +214,8 @@ public class AppointmentsDAO {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        localStart.toLocalDate(),
-                        localStart.toLocalTime(),
-                        localEnd.toLocalDate(),
-                        localEnd.toLocalTime(),
+                        localStart,
+                        localEnd,
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
@@ -261,11 +244,11 @@ public class AppointmentsDAO {
 
             while (rs.next()) {
 
-                LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
+                Timestamp utcStart = rs.getTimestamp("Start");
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart.toLocalDateTime());
 
-                LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
+                Timestamp utcEnd = rs.getTimestamp("End");
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd.toLocalDateTime());
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -273,10 +256,8 @@ public class AppointmentsDAO {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        localStart.toLocalDate(),
-                        localStart.toLocalTime(),
-                        localEnd.toLocalDate(),
-                        localEnd.toLocalTime(),
+                        localStart,
+                        localEnd,
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
@@ -304,11 +285,11 @@ public class AppointmentsDAO {
 
             while (rs.next()) {
 
-                LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
+                Timestamp utcStart = rs.getTimestamp("Start");
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart.toLocalDateTime());
 
-                LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
+                Timestamp utcEnd = rs.getTimestamp("End");
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd.toLocalDateTime());
 
 
                 AppointmentsModel appt = new AppointmentsModel(
@@ -316,10 +297,8 @@ public class AppointmentsDAO {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        localStart.toLocalDate(),
-                        localStart.toLocalTime(),
-                        localEnd.toLocalDate(),
-                        localEnd.toLocalTime(),
+                        localStart,
+                        localEnd,
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
@@ -353,21 +332,19 @@ public class AppointmentsDAO {
             ResultSet rs = ps.getResultSet();
 
             while (rs.next()) {
-                LocalDateTime utcStart = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime localStart = Timezones.utcToLocal(utcStart);
+                Timestamp utcStart = rs.getTimestamp("Start");
+                LocalDateTime localStart = Timezones.utcToLocal(utcStart.toLocalDateTime());
 
-                LocalDateTime utcEnd = rs.getTimestamp("End").toLocalDateTime();
-                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd);
+                Timestamp utcEnd = rs.getTimestamp("End");
+                LocalDateTime localEnd = Timezones.utcToLocal(utcEnd.toLocalDateTime());
 
                 AppointmentsModel appt = new AppointmentsModel(
                         rs.getString("Title"),
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        localStart.toLocalDate(),
-                        localStart.toLocalTime(),
-                        localEnd.toLocalDate(),
-                        localEnd.toLocalTime(),
+                        localStart,
+                        localEnd,
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
@@ -384,12 +361,9 @@ public class AppointmentsDAO {
 
     public static boolean overlappingAppts(AppointmentsModel appt) throws  SQLException{
         PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) as overlapping FROM appointments WHERE (Start BETWEEN ? AND ? OR End BETWEEN ? AND ?) AND Customer_ID=?");
-        LocalDateTime startDateAndTime = LocalDateTime.of(appt.getApptStartDate(),appt.getApptStartTime());
-        LocalDateTime endDateAndTime = LocalDateTime.of(appt.getApptEndDate(),appt.getApptEndTime());
 
-
-        LocalDateTime utcStart = Timezones.localToUTC(startDateAndTime);
-        LocalDateTime utcEnd = Timezones.localToUTC(endDateAndTime);
+        LocalDateTime utcStart = Timezones.localToUTC(appt.getStart());
+        LocalDateTime utcEnd = Timezones.localToUTC(appt.getEnd());
 
         ps.setTimestamp(1,Timestamp.valueOf(utcStart));
         ps.setTimestamp(2,Timestamp.valueOf(utcEnd));
@@ -419,10 +393,8 @@ public class AppointmentsDAO {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        rs.getTimestamp("Start").toLocalDateTime().toLocalDate(),
-                        rs.getTimestamp("Start").toLocalDateTime().toLocalTime(),
-                        rs.getTimestamp("End").toLocalDateTime().toLocalDate(),
-                        rs.getTimestamp("End").toLocalDateTime().toLocalTime(),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID"),
@@ -451,10 +423,8 @@ public class AppointmentsDAO {
                     rs.getString("Description"),
                     rs.getString("Location"),
                     rs.getString("Type"),
-                    rs.getTimestamp("Start").toLocalDateTime().toLocalDate(),
-                    rs.getTimestamp("Start").toLocalDateTime().toLocalTime(),
-                    rs.getTimestamp("End").toLocalDateTime().toLocalDate(),
-                    rs.getTimestamp("End").toLocalDateTime().toLocalTime(),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
                     rs.getInt("Customer_ID"),
                     rs.getInt("User_ID"),
                     rs.getInt("Contact_ID"),
@@ -477,10 +447,8 @@ public class AppointmentsDAO {
                     rs.getString("Description"),
                     rs.getString("Location"),
                     rs.getString("Type"),
-                    rs.getTimestamp("Start").toLocalDateTime().toLocalDate(),
-                    rs.getTimestamp("Start").toLocalDateTime().toLocalTime(),
-                    rs.getTimestamp("End").toLocalDateTime().toLocalDate(),
-                    rs.getTimestamp("End").toLocalDateTime().toLocalTime(),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
                     rs.getInt("Customer_ID"),
                     rs.getInt("User_ID"),
                     rs.getInt("Contact_ID"),

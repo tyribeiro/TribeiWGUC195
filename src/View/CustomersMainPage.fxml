@@ -33,7 +33,7 @@
          </font></Button>
       <Button fx:id="goToCreateCustomerButton" layoutX="134.0" layoutY="350.0" mnemonicParsing="false" onAction="#goToCreateCustomerPage" />
       <Button fx:id="goToUpdateCustomerButton" layoutX="287.0" layoutY="350.0" mnemonicParsing="false" onAction="#goToUpdateCustomerPage" />
-       <Button fx:id="goToDeleteCustomerButton" layoutX="441.0" layoutY="350.0" mnemonicParsing="false"
-               onAction="#deleteCustomer"/>
+      <Button fx:id="goToDeleteCustomerButton" layoutX="441.0" layoutY="350.0" mnemonicParsing="false"
+              onAction="#deleteCustomer"/>
    </children>
 </AnchorPane>

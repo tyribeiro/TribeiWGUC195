@@ -255,10 +255,10 @@ public class AppointmentsPageController implements Initializable {
             location_Column.setCellValueFactory(new PropertyValueFactory<>("apptLocation"));
             contact_Column.setCellValueFactory(new PropertyValueFactory<>("contactName"));
             type_Column.setCellValueFactory(new PropertyValueFactory<>("apptType"));
-            startDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel,LocalDate>("apptStartDate"));
-            endDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalDate>("apptEndDate"));
-            startTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptStartTime"));
-            endTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("apptEndTime"));
+            startDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalDate>("startDate"));
+            endDate_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalDate>("endDate"));
+            startTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("startTime"));
+            endTime_Column.setCellValueFactory(new PropertyValueFactory<AppointmentsModel, LocalTime>("endTime"));
             customerID_Column.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             userID_Column.setCellValueFactory(new PropertyValueFactory<>("userID"));
         }catch (Exception e){

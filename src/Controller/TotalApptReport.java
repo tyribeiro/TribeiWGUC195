@@ -65,7 +65,7 @@ public class TotalApptReport implements Initializable {
             alert.showAndWait();
         } else if (monthRadio.isSelected()) {
             List<AppointmentsModel> appts = AppointmentsDAO.getAllAppointments();
-            Map<Integer, Long> numberOfMonth = appts.stream().collect(Collectors.groupingBy(appt -> appt.getApptStartDate().getMonthValue(), Collectors.counting()));
+            Map<Integer, Long> numberOfMonth = appts.stream().collect(Collectors.groupingBy(appt -> appt.getStart().getMonthValue(), Collectors.counting()));
             StringBuilder report = new StringBuilder();
             numberOfMonth.forEach((month, count) -> {
                 String currentMonth = Month.of(month).getDisplayName(TextStyle.FULL, Locale.getDefault());

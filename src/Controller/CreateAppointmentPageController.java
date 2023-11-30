@@ -98,6 +98,9 @@ public class CreateAppointmentPageController implements Initializable {
         LocalTime endTime = LocalTime.parse((String) endTimeSelector.getValue(), timeFormatter);
 
 
+        LocalDateTime start = LocalDateTime.of(startDate, startTime);
+        LocalDateTime end = LocalDateTime.of(endDate, endTime);
+
         ContactsModel selectedContact = (ContactsModel) contactSelector.getSelectionModel().getSelectedItem();
         String contact =selectedContact.getContactName();
 
@@ -125,7 +128,7 @@ public class CreateAppointmentPageController implements Initializable {
         }
 
 
-        AppointmentsModel newAppt = new AppointmentsModel(title, description, location, type, startDate, startLocal.toLocalTime(), endDate, endLocal.toLocalTime(), customerID, userID, ContactsDAO.readContactID(contact), contact);
+        AppointmentsModel newAppt = new AppointmentsModel(title, description, location, type, start, end, customerID, userID, ContactsDAO.readContactID(contact), contact);
         try {
             if(AppointmentsDAO.overlappingAppts(newAppt)){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
