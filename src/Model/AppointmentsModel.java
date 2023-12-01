@@ -91,14 +91,6 @@ public class AppointmentsModel {
         this.end = end;
     }
 
-    public LocalDate getStartDate() {
-        return start.toLocalDate();
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
 
 
 
@@ -140,13 +132,6 @@ public class AppointmentsModel {
         this.apptType = apptType;
     }
 
-    public LocalDate getEndDate() {
-        return end.toLocalDate();
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
 
 
 
@@ -166,21 +151,44 @@ public class AppointmentsModel {
         this.contactName = contactName;
     }
 
+
+    public LocalDate getStartDate() {
+        LocalDate startD = start.toLocalDate();
+        return startD;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     public LocalTime getStartTime() {
-        return start.toLocalTime();
+        LocalTime startT = start.toLocalTime();
+        return startT;
     }
 
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
+    public LocalDate getEndDate() {
+        LocalDate endD = end.toLocalDate();
+        return endD;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
     public LocalTime getEndTime() {
-        return end.toLocalTime();
+        LocalTime endT = end.toLocalTime();
+        return endT;
     }
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
+
     @Override
     public String toString(){
         return "Appointments: " + apptID + "--- APPT TYPE: " + apptType + "   --- Appt Title: " + apptTitle + "   ---Location: " + apptLocation + "---- Start Date " + start.toLocalDate() + "---Start Time  " + start.toLocalTime() + "----  Appt End date = " + end.toLocalDate() + "---Appt End Time  " + end.toLocalTime();

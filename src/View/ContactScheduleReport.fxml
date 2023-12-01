@@ -3,20 +3,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="550.0" prefWidth="833.0"
             style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea"
             fx:controller="Controller.ContactScheduleReport">
-    <Label text="contact schedule"/>
-    <children>
-        <TableView fx:id="contactScheduleTable">
-            <TableColumn fx:id="apptID" text="appt id"/>
-            <TableColumn fx:id="apptTitle" text="title"/>
-            <TableColumn fx:id="apptType" text="type"/>
-            <TableColumn fx:id="apptDescription" text="description"/>
-            <TableColumn fx:id="startDateTime" text="start date and time"/>
-            <TableColumn fx:id="endDateTime" text="end date and time"/>
-            <TableColumn fx:id="customerID" text="customer id"/>
-        </TableView>
-    </children>
+    <Label layoutX="360.0" layoutY="16.0" text="Contact Schedule" textFill="WHITE"/>
+    <ComboBox fx:id="contacts" layoutX="343.0" layoutY="50.0" promptText="Select a Contact"/>
+    <TableView fx:id="appts" layoutX="16.0" layoutY="102.0" prefHeight="370.0" prefWidth="802.0">
+        <columns>
+            <TableColumn fx:id="apptIDCol" prefWidth="65.0"/>
+            <TableColumn fx:id="titleCol" prefWidth="102.66668701171875"/>
+            <TableColumn fx:id="typeCol" prefWidth="119.0"/>
+            <TableColumn fx:id="descriptionCol" prefWidth="115.3333740234375"/>
+            <TableColumn fx:id="startDateCol" minWidth="0.0" prefWidth="101.66668701171875"/>
+            <TableColumn fx:id="startTimeCol" minWidth="0.0" prefWidth="91.33331298828125"/>
+            <TableColumn fx:id="endTimeCol" prefWidth="102.99993896484375"/>
+            <TableColumn fx:id="customerIDCol" prefWidth="100.3333740234375"/>
+        </columns>
+    </TableView>
+
+    <Button fx:id="back" layoutX="27.0" layoutY="25.0" mnemonicParsing="false" onAction="#goToReportsPage" text="Back"/>
 
 </AnchorPane>

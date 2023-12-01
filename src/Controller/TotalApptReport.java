@@ -78,11 +78,11 @@ public class TotalApptReport implements Initializable {
         }
     }
 
-    public void goToAppointmentsPage(ActionEvent actionEvent) {
+    public void goToReportsPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
-            stage.setTitle(resourceBundle.getString("appts"));
+            Parent scene = FXMLLoader.load(getClass().getResource("/View/ReportsPage.fxml"));
+            stage.setTitle(resourceBundle.getString("reports"));
             stage.setScene(new Scene(scene));
             stage.show();
         } catch (IOException e) {

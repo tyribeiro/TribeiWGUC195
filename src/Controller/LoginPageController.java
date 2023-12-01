@@ -166,8 +166,8 @@ public class LoginPageController implements Initializable {
 
         if (appointments!=null){
             for(AppointmentsModel appt:appointments){
-                if(appt.getApptStartDate().equals(currentDate) && !appt.getApptStartTime()
-                        .isBefore(currentTime) && !appt.getApptStartTime().isAfter(minutes15)){
+                if (appt.getStart().toLocalDate().equals(currentDate) && !appt.getStart().toLocalTime()
+                        .isBefore(currentTime) && !appt.getStart().toLocalTime().isAfter(minutes15)) {
                     upcomingAppointments.add(appt);
                 }
             }
@@ -181,7 +181,7 @@ public class LoginPageController implements Initializable {
         }else {
             StringBuilder message = new StringBuilder(resourceBundle.getString("lessThanFifteen") + "\n");
             for (AppointmentsModel appt : upcomingAppointments){
-                message.append("\n"+resourceBundle.getString("appointmentID")).append(appt.getApptID()).append("\n").append(resourceBundle.getString("title")).append(": ").append(appt.getApptTitle()).append("\n").append(resourceBundle.getString("time")).append(appt.getApptStartTime()).append("\n\n\n");
+                message.append("\n" + resourceBundle.getString("appointmentID")).append(appt.getApptID()).append("\n").append(resourceBundle.getString("title")).append(": ").append(appt.getApptTitle()).append("\n").append(resourceBundle.getString("time")).append(appt.getStart().toLocalTime()).append("\n\n\n");
             }
             alert.setContentText(message.toString());
         }

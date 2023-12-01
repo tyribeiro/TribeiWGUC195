@@ -108,4 +108,20 @@ public class ContactsDAO {
 
         return contact;
     }
+
+    public static ObservableList<String> getAllContactNames() {
+        ObservableList<String> names = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT Contact_Name FROM contacts");
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            while (rs.next()) {
+                names.add(rs.getString("Contact_Name"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return names;
+    }
 }

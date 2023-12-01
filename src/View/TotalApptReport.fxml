@@ -9,7 +9,7 @@
     <children>
         <Label fx:id="reportTypeMonth" layoutX="172.0" layoutY="5.0" textFill="WHITE"/>
         <Button fx:id="backButton" layoutX="29.0" layoutY="26.0" mnemonicParsing="false"
-                onAction="#goToAppointmentsPage" text="BACK"/>
+                onAction="#goToReportsPage" text="BACK"/>
         <RadioButton fx:id="typeRadio" layoutX="200" layoutY="70" textFill="WHITE" toggleGroup="$reportToggleGroup">
             <toggleGroup>
                 <ToggleGroup fx:id="reportToggleGroup"/>

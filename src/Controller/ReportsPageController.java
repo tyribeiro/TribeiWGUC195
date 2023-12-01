@@ -1,10 +1,12 @@
 package Controller;
 
+import DAO.AppointmentsDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -12,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ReportsPageController implements Initializable {
@@ -49,7 +52,7 @@ public class ReportsPageController implements Initializable {
     public void goToCustomerActivityReport(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("/View/CustomerActivityReport.fxml"));
+            Parent scene = FXMLLoader.load(getClass().getResource("/View/CustomerScheduleReport.fxml"));
             stage.setTitle(resourceBundle.getString("customerActivity"));
             stage.setScene(new Scene(scene));
             stage.show();
@@ -74,5 +77,14 @@ public class ReportsPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resource) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
 
+    }
+
+
+    public void customerAppointmentReport() {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(resourceBundle.getString("appointmentsByCustomerID"));
+        alert.setContentText("Total number of appointments for each customer ID\n Format = customerID : # of appts\n" + AppointmentsDAO.getTotalApptsByCustomer());
+        alert.showAndWait();
     }
 }

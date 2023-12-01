@@ -97,6 +97,20 @@ public class CustomersDAO {
         return customer;
     }
 
+    public static ObservableList<Integer> getAllCustomerIDs() {
+        ObservableList<Integer> IDs = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM customers");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                IDs.add(rs.getInt("Customer_ID"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return IDs;
+    }
     public static boolean updateCustomer(int customerID, String customerName, String customerPhone, String customerAddress, String postal, String divisionName) throws SQLException {
         DivisionsModel division = DivisionsDAO.readDivID(divisionName);
 

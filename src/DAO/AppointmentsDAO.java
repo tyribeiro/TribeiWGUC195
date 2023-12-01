@@ -2,6 +2,7 @@ package DAO;
 
 import Controller.appointmentSum;
 import Helper.DBConnecter;
+import Model.CustomersModel;
 import Utils.Timezones;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,12 +13,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.spi.LocaleServiceProvider;
 
 import Model.AppointmentsModel;
 import javafx.stage.Stage;
 
 import javax.swing.plaf.nimbus.State;
+import javax.xml.transform.Result;
 
 public class AppointmentsDAO {
 
@@ -274,11 +279,9 @@ public class AppointmentsDAO {
     }
 
     //get all appts for a contact
-    public static ObservableList<AppointmentsModel> getApptsByContact(int contactID) throws SQLException{
-        ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
-
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments AS appointments INNER JOIN contacts AS contacts ON appointments.Contact_ID=contacts.Contact_ID WHERE appointments.Contact_ID = ?");
-        ps.setInt(1,contactID);
+    public static Map<String, String> getApptsByContact() throws SQLException {
+        Map<String, String> schedules = new HashMap<>();
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments AS appointments INNER JOIN contacts AS contacts ON appointments.Contact_ID=contacts.Contact_ID ORDER BY contacts.Contact_Name, appointments.Start");
 
         try {
             ResultSet rs = ps.executeQuery();
@@ -292,28 +295,92 @@ public class AppointmentsDAO {
                 LocalDateTime localEnd = Timezones.utcToLocal(utcEnd.toLocalDateTime());
 
 
-                AppointmentsModel appt = new AppointmentsModel(
-                        rs.getString("Title"),
-                        rs.getString("Description"),
-                        rs.getString("Location"),
-                        rs.getString("Type"),
-                        localStart,
-                        localEnd,
-                        rs.getInt("Customer_ID"),
-                        rs.getInt("User_ID"),
-                        rs.getInt("Contact_ID"),
-                        rs.getString("Contact_Name")
-                );
+                String contact = rs.getString("Contact_Name");
+                int contactID = rs.getInt("Contact_ID");
+                int apptID = rs.getInt("Appointment_ID");
+                String apptTitle = rs.getString("Title");
+                String apptType = rs.getString("Type");
+                String description = rs.getString("Description");
+                LocalDate startDate = rs.getTimestamp("Start").toLocalDateTime().toLocalDate();
+                LocalDate endDate = rs.getTimestamp("End").toLocalDateTime().toLocalDate();
+                LocalTime startTime = rs.getTimestamp("Start").toLocalDateTime().toLocalTime();
+                LocalTime endTime = rs.getTimestamp("End").toLocalDateTime().toLocalTime();
+                int customerID = rs.getInt("Customer_ID");
 
-                appt.setApptID(rs.getInt("Appointment_ID"));
-                appts.add(appt);
+                String report = ("\n" + "Contact ID: " + contactID + "/nAppt ID: " + apptID + "/nAppointment Title: " + apptTitle
+                        + "/nAppointment Type: " + apptType + "/nDescription: " + description
+                        + "/nStart Date and Time: " + startDate + " " + startTime
+                        + "/nEnd Date and Time: " + endDate + " " + endTime
+                        + "/nCustomer ID: " + customerID);
+
+                if (schedules.containsKey(contact)) {
+                    schedules.put(contact, schedules.get(contact) + report);
+                } else {
+                    schedules.put(contact, report);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
+        return schedules;
+    }
+
+    //get appts by contact name
+    public static ObservableList<AppointmentsModel> getApptsByContactName(String contactName) throws SQLException {
+        ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments as appointments JOIN contacts as contacts ON appointments.Contact_ID = contacts.Contact_ID WHERE contacts.Contact_Name =?");
+            ps.setString(1, contactName);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                appts.add(new AppointmentsModel(
+                        rs.getInt("Appointment_ID"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getString("Location"),
+                        rs.getString("Type"),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
+                        rs.getInt("Customer_ID"),
+                        rs.getInt("User_ID"),
+                        rs.getInt("Contact_ID"),
+                        rs.getString("Contact_Name")
+                ));
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
         return appts;
     }
 
+    public static ObservableList<AppointmentsModel> getApptsByCustomerID(int customerID) throws SQLException {
+        ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM appointments JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID WHERE appointments.Customer_ID = ?");
+            ps.setInt(1, customerID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                appts.add(new AppointmentsModel(
+                        rs.getInt("Appointment_ID"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getString("Location"),
+                        rs.getString("Type"),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
+                        rs.getInt("Customer_ID"),
+                        rs.getInt("User_ID"),
+                        rs.getInt("Contact_ID"),
+                        rs.getString("Contact_Name")
+                ));
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return appts;
+    }
 
 
     // get appts in the next 15 min
@@ -458,4 +525,17 @@ public class AppointmentsDAO {
         return appts;
     }
 
+    public static String getTotalApptsByCustomer() {
+        String report = "";
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT Customer_ID, COUNT(*) as count FROM appointments GROUP BY Customer_ID");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                report = report + rs.getInt("Customer_ID") + ": " + rs.getInt("count") + "\n";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return report;
+    }
 }
