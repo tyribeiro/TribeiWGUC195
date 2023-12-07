@@ -12,8 +12,6 @@
                onAction="#goToTotalApptReport" text="TOTAL APPOINTMENTS BY TYPE AND MONTH"/>
        <Button fx:id="contactScheduleReport" layoutX="233.0" layoutY="174.0" mnemonicParsing="false"
                onAction="#goToContactScheduleReport" text="CONTACT SCHEDULE"/>
-       <Button fx:id="customerActivityReport" layoutX="229.0" layoutY="225.0" mnemonicParsing="false"
-               onAction="#goToCustomerActivityReport" text="CUSTOMER SCHEDULE"/>
        <Button fx:id="backButton" layoutX="29.0" layoutY="26.0" mnemonicParsing="false" onAction="#goToAppointmentsPage"
                text="BACK"/>
        <Button fx:id="customerAppointmentsButton" layoutX="158.0" layoutY="282.0" mnemonicParsing="false"

@@ -427,7 +427,7 @@ public class AppointmentsDAO {
     }
 
     public static boolean overlappingAppts(AppointmentsModel appt) throws  SQLException{
-        PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) as overlapping FROM appointments WHERE (Start BETWEEN ? AND ? OR End BETWEEN ? AND ?) AND Customer_ID=?");
+        PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) as overlapping FROM appointments WHERE ((Start <= ? AND End >= ?) OR (Start <= ? AND End >= ?) OR (Start >= ? AND End <= ?)) AND (Appointment_ID <> ? OR ? = null)");
 
         LocalDateTime utcStart = Timezones.localToUTC(appt.getStart());
         LocalDateTime utcEnd = Timezones.localToUTC(appt.getEnd());
@@ -436,14 +436,19 @@ public class AppointmentsDAO {
         ps.setTimestamp(2,Timestamp.valueOf(utcEnd));
         ps.setTimestamp(3,Timestamp.valueOf(utcStart));
         ps.setTimestamp(4,Timestamp.valueOf(utcEnd));
-        ps.setInt(5,appt.getCustomerID());
+        ps.setTimestamp(5, Timestamp.valueOf(utcStart));
+        ps.setTimestamp(6, Timestamp.valueOf(utcEnd));
+        ps.setInt(7, appt.getApptID());
+        ps.setInt(8, appt.getApptID());
 
         ResultSet rs = ps.executeQuery();
-        if(rs.next() && rs.getInt("overlapping") > 0){
-            return true;
+        if (rs.next()) {
+            System.out.println("overlapping: " + rs.getInt("overlapping"));
+            return rs.getInt("overlapping") > 0;
         }
         return false;
     }
+
 
     public static ObservableList<AppointmentsModel> getApptsByTypeMonth(String type, String month) throws SQLException {
         ObservableList<AppointmentsModel> appts = FXCollections.observableArrayList();

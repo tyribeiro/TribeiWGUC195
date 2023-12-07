@@ -201,7 +201,7 @@ public class AppointmentsPageController implements Initializable {
                 appointments_Table.refresh();
                 Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptDeleted"));
                 alert1.setTitle(resourceBundle.getString("apptDeleted"));
-                alert1.setContentText("Appointment Canceled/deleted: \nAppointment ID: " + apptToDelete.getApptID() + "\nAppointment Type: " + apptToDelete.getApptType());
+                alert1.setContentText(resourceBundle.getString("apptDeleted") + "\n" + resourceBundle.getString("appointmentID") + ": " + apptToDelete.getApptID() + "\n" + resourceBundle.getString("type") + ": " + apptToDelete.getApptType());
                 alert1.showAndWait();
             }
         }else {

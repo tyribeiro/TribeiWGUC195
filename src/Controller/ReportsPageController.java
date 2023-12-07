@@ -23,6 +23,7 @@ public class ReportsPageController implements Initializable {
     public Button contactScheduleReport;
     public Button customerActivityReport;
     public Button backButton;
+    public Button customerAppointmentsButton;
     private ResourceBundle resourceBundle;
 
     public void goToTotalApptReport(ActionEvent actionEvent) throws IOException {

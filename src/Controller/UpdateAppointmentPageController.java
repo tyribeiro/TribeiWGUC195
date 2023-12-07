@@ -128,12 +128,8 @@ public class UpdateAppointmentPageController implements Initializable {
         userIDComboBox.setItems(userIDOption);
 
         //add times to dropdown
-        ObservableList<String> businessHours = FXCollections.observableArrayList("08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00");
-
-        startTimeComboBox.setItems(businessHours);
-        endTimeComboBox.setItems(businessHours);
-
-
+        startTimeComboBox.setItems(Timezones.getBusinessHours());
+        endTimeComboBox.setItems(Timezones.getBusinessHours());
     }
 
     public void autopopulate(AppointmentsModel appointment) throws SQLException {
@@ -187,8 +183,7 @@ public class UpdateAppointmentPageController implements Initializable {
 
             AppointmentsModel updatedAppt = new AppointmentsModel(ID, title, description, location, type, start, end, customerID, userID, contactID, contact);
 
-            if (checkFields(updatedAppt)) {
-                AppointmentsDAO.updateExistingAppt(ID, title, description, location, contactID, type, startDate, endDate, startTime, endTime, customerID, userID);
+            if ((checkFields(updatedAppt))) {
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptUpdated"));
                 alert.setTitle(resourceBundle.getString("apptUpdated"));
@@ -220,43 +215,38 @@ public class UpdateAppointmentPageController implements Initializable {
 
     }
 
-    private boolean checkFields(AppointmentsModel newAppt) {
+    private boolean checkFields(AppointmentsModel newAppt) throws SQLException {
+        DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
+        System.out.println("!!!!!!!" + "newAppt ID: " + newAppt.getApptID());
+        boolean valid = true;
         if (!checkFieldsAreFilled()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle(resourceBundle.getString("fillInAllFieldsErrorTitle"));
             alert.setContentText(resourceBundle.getString("fillInAllFieldsError"));
             alert.showAndWait();
-            return false;
+            valid = false;
         }
 
-        try {
-            if (AppointmentsDAO.overlappingAppts(newAppt)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(resourceBundle.getString("overlapping"));
-                alert.setContentText(resourceBundle.getString("overlap"));
-                alert.showAndWait();
-                return false;
-            }
+        if (endDatePicker.getValue().isBefore(startDatePicker.getValue()) || LocalTime.parse(endTimeComboBox.getValue().toString(), stringToLocalTime).isBefore(LocalTime.parse(startTimeComboBox.getValue().toString(), stringToLocalTime))) {
 
-            DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
-            if (endDatePicker.getValue().isBefore(startDatePicker.getValue()) || LocalTime.parse(endTimeComboBox.getValue().toString(), stringToLocalTime).isBefore(LocalTime.parse(startTimeComboBox.getValue().toString(), stringToLocalTime))) {
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(resourceBundle.getString("dateTimeError"));
-                alert.setContentText(resourceBundle.getString("dateTimeError"));
-                alert.showAndWait();
-                return false;
-            }
-        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(resourceBundle.getString("error"));
-            alert.setContentText(resourceBundle.getString("errorSaving"));
+            alert.setTitle(resourceBundle.getString("dateTimeError"));
+            alert.setContentText(resourceBundle.getString("dateTimeError"));
             alert.showAndWait();
-            e.printStackTrace();
-            return false;
-
+            valid = false;
         }
-        return true;
+
+        if (!AppointmentsDAO.overlappingAppts(newAppt)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(resourceBundle.getString("overlapping"));
+            alert.setContentText(resourceBundle.getString("overlap"));
+            alert.showAndWait();
+            valid = false;
+        }
+
+
+        System.out.println("VALID = " + valid);
+        return valid;
   }
 
   public void goToAppointmentsMainPage(ActionEvent actionEvent) {
