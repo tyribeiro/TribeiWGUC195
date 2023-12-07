@@ -443,7 +443,6 @@ public class AppointmentsDAO {
 
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            System.out.println("overlapping: " + rs.getInt("overlapping"));
             return rs.getInt("overlapping") > 0;
         }
         return false;

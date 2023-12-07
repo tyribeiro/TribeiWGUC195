@@ -26,58 +26,58 @@ import javafx.stage.Stage;
 
 
 public class UpdateAppointmentPageController implements Initializable {
- public Label header;
+    public Label header;
     public TableView appointments_Table;
-  public Label apptTitleLabel;
-  public Label apptStartDateLabel;
-  public Label apptDescriptionLabel;
-  public Label apptLocationLabel;
-  public Label apptendDateLabel;
-  public Label apptIDLabel;
-  public Label apptStartTimeLabel;
-  public Label apptCustomerIDLabel;
-  public Label apptEndTimeLabel;
-  public Label apptUserIdLabel;
-  public Label apptContactLabel;
-  public Label apptTypeLabel;
-  public TextField titleTextfield;
-  public TextField descriptionTextfield;
-  public TextField locationTextfield;
-  public TextField apptIDTextfield;
-  public DatePicker startDatePicker;
-  public DatePicker endDatePicker;
-  public ComboBox startTimeComboBox;
-  public ComboBox endTimeComboBox;
-  public ComboBox<String> contactComboBox;
-  public ComboBox<Integer> customerIDComboBox;
-  public ComboBox<Integer> userIDComboBox;
-  public TextField typeTextfield;
-  public Button saveButton;
-  public Button backButton;
-  public Button cancelButton;
-  private ResourceBundle resourceBundle;
+    public Label apptTitleLabel;
+    public Label apptStartDateLabel;
+    public Label apptDescriptionLabel;
+    public Label apptLocationLabel;
+    public Label apptendDateLabel;
+    public Label apptIDLabel;
+    public Label apptStartTimeLabel;
+    public Label apptCustomerIDLabel;
+    public Label apptEndTimeLabel;
+    public Label apptUserIdLabel;
+    public Label apptContactLabel;
+    public Label apptTypeLabel;
+    public TextField titleTextfield;
+    public TextField descriptionTextfield;
+    public TextField locationTextfield;
+    public TextField apptIDTextfield;
+    public DatePicker startDatePicker;
+    public DatePicker endDatePicker;
+    public ComboBox startTimeComboBox;
+    public ComboBox endTimeComboBox;
+    public ComboBox<String> contactComboBox;
+    public ComboBox<Integer> customerIDComboBox;
+    public ComboBox<Integer> userIDComboBox;
+    public TextField typeTextfield;
+    public Button saveButton;
+    public Button backButton;
+    public Button cancelButton;
+    private ResourceBundle resourceBundle;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-      resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
+        resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
 
-      backButton.setText(resourceBundle.getString("back"));
-      header.setText(resourceBundle.getString("updateAppt"));
-      apptTitleLabel.setText(resourceBundle.getString("title"));
-      apptIDLabel.setText(resourceBundle.getString("apptID"));
-      apptStartDateLabel.setText(resourceBundle.getString("startDate"));
-      apptendDateLabel.setText(resourceBundle.getString("endDate"));
-      apptDescriptionLabel.setText(resourceBundle.getString("description"));
-      apptTypeLabel.setText(resourceBundle.getString("type"));
-      apptLocationLabel.setText(resourceBundle.getString("location"));
-      apptStartTimeLabel.setText(resourceBundle.getString("startTime"));
-      apptEndTimeLabel.setText(resourceBundle.getString("endTime"));
-      apptContactLabel.setText(resourceBundle.getString("contact"));
-      apptCustomerIDLabel.setText(resourceBundle.getString("customerID"));
-      apptUserIdLabel.setText(resourceBundle.getString("userID"));
-      saveButton.setText(resourceBundle.getString("save"));
-      cancelButton.setText(resourceBundle.getString("cancel"));
+        backButton.setText(resourceBundle.getString("back"));
+        header.setText(resourceBundle.getString("updateAppt"));
+        apptTitleLabel.setText(resourceBundle.getString("title"));
+        apptIDLabel.setText(resourceBundle.getString("apptID"));
+        apptStartDateLabel.setText(resourceBundle.getString("startDate"));
+        apptendDateLabel.setText(resourceBundle.getString("endDate"));
+        apptDescriptionLabel.setText(resourceBundle.getString("description"));
+        apptTypeLabel.setText(resourceBundle.getString("type"));
+        apptLocationLabel.setText(resourceBundle.getString("location"));
+        apptStartTimeLabel.setText(resourceBundle.getString("startTime"));
+        apptEndTimeLabel.setText(resourceBundle.getString("endTime"));
+        apptContactLabel.setText(resourceBundle.getString("contact"));
+        apptCustomerIDLabel.setText(resourceBundle.getString("customerID"));
+        apptUserIdLabel.setText(resourceBundle.getString("userID"));
+        saveButton.setText(resourceBundle.getString("save"));
+        cancelButton.setText(resourceBundle.getString("cancel"));
 
         //add contacts to the dropdown
         ObservableList<String> contactsOption = FXCollections.observableArrayList();
@@ -184,6 +184,13 @@ public class UpdateAppointmentPageController implements Initializable {
             AppointmentsModel updatedAppt = new AppointmentsModel(ID, title, description, location, type, start, end, customerID, userID, contactID, contact);
 
             if ((checkFields(updatedAppt))) {
+                boolean updated = AppointmentsDAO.updateExistingAppt(ID, title, description, location, ContactsDAO.getContactByName(contact).getContactID(), type, startDate, endDate, startTime, endTime, customerID, userID);
+                if (updated) {
+                    //update tableview
+                    AppointmentsPageController.updateTableView(appointments_Table);
+
+                    goToAppointmentsMainPage(actionEvent);
+                }
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("apptUpdated"));
                 alert.setTitle(resourceBundle.getString("apptUpdated"));
@@ -200,15 +207,6 @@ public class UpdateAppointmentPageController implements Initializable {
                     e.printStackTrace();
                 }
             }
-            //update database
-            boolean updated = AppointmentsDAO.updateExistingAppt(ID, title, description, location, ContactsDAO.getContactByName(contact).getContactID(), type, startDate, endDate, startTime, endTime, customerID, userID);
-
-            if (updated) {
-                //update tableview
-                AppointmentsPageController.updateTableView(appointments_Table);
-
-                goToAppointmentsMainPage(actionEvent);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -217,7 +215,6 @@ public class UpdateAppointmentPageController implements Initializable {
 
     private boolean checkFields(AppointmentsModel newAppt) throws SQLException {
         DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
-        System.out.println("!!!!!!!" + "newAppt ID: " + newAppt.getApptID());
         boolean valid = true;
         if (!checkFieldsAreFilled()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -236,7 +233,7 @@ public class UpdateAppointmentPageController implements Initializable {
             valid = false;
         }
 
-        if (!AppointmentsDAO.overlappingAppts(newAppt)) {
+        if (AppointmentsDAO.overlappingAppts(newAppt)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(resourceBundle.getString("overlapping"));
             alert.setContentText(resourceBundle.getString("overlap"));
@@ -244,23 +241,21 @@ public class UpdateAppointmentPageController implements Initializable {
             valid = false;
         }
 
-
-        System.out.println("VALID = " + valid);
         return valid;
-  }
-
-  public void goToAppointmentsMainPage(ActionEvent actionEvent) {
-    try {
-      Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-      Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
-      stage.setScene(new Scene(scene));
-      stage.setTitle(resourceBundle.getString("appts"));
-      stage.show();
-
-    }catch (Exception e){
-      e.printStackTrace();
     }
-  }
+
+    public void goToAppointmentsMainPage(ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = FXMLLoader.load(getClass().getResource("/View/AppointmentMainPage.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle(resourceBundle.getString("appts"));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private boolean checkFieldsAreFilled() {
         if (

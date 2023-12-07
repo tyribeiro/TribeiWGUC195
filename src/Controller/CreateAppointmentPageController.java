@@ -126,7 +126,6 @@ public class CreateAppointmentPageController implements Initializable {
 
 
         DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
-        System.out.println("!!!!!!!" + "newAppt ID: " + newAppt.getApptID());
         boolean valid = true;
         if (!checkFieldsAreFilled()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -221,53 +220,53 @@ public class CreateAppointmentPageController implements Initializable {
         backToAppointments.setText(resourceBundle.getString("back"));
 
         try {
-           ObservableList<ContactsModel> contacts = ContactsDAO.readAllContacts();
-           contactSelector.setItems(contacts);
-           contactSelector.setCellFactory(a -> new ListCell<ContactsModel>(){
-           @Override
-               protected void updateItem(ContactsModel contact, boolean empty){
-               super.updateItem(contact,empty);
-               setText(empty ? "" : contact.getContactName());
-           }
-           });
+            ObservableList<ContactsModel> contacts = ContactsDAO.readAllContacts();
+            contactSelector.setItems(contacts);
+            contactSelector.setCellFactory(a -> new ListCell<ContactsModel>() {
+                @Override
+                protected void updateItem(ContactsModel contact, boolean empty) {
+                    super.updateItem(contact, empty);
+                    setText(empty ? "" : contact.getContactName());
+                }
+            });
 
-           contactSelector.setConverter(new StringConverter<ContactsModel>() {
-               @Override
-               public String toString(ContactsModel contact) {
-                   return contact == null ? null : contact.getContactName();
-               }
+            contactSelector.setConverter(new StringConverter<ContactsModel>() {
+                @Override
+                public String toString(ContactsModel contact) {
+                    return contact == null ? null : contact.getContactName();
+                }
 
-               @Override
-               public ContactsModel fromString(String s) {
-                   return null;
-               }
-           });
+                @Override
+                public ContactsModel fromString(String s) {
+                    return null;
+                }
+            });
 
 
-           ObservableList<CustomersModel> customer = CustomersDAO.readCustomers();
-           customerIDSelector.setItems(customer);
-           customerIDSelector.setCellFactory(a -> new ListCell<CustomersModel>(){
-               @Override
-               protected void updateItem(CustomersModel customer, boolean empty){
-                   super.updateItem(customer,empty);
-                   setText(empty ? "" : String.valueOf(customer.getCustomerID()));
-               }
-           });
+            ObservableList<CustomersModel> customer = CustomersDAO.readCustomers();
+            customerIDSelector.setItems(customer);
+            customerIDSelector.setCellFactory(a -> new ListCell<CustomersModel>() {
+                @Override
+                protected void updateItem(CustomersModel customer, boolean empty) {
+                    super.updateItem(customer, empty);
+                    setText(empty ? "" : String.valueOf(customer.getCustomerID()));
+                }
+            });
 
-           customerIDSelector.setConverter(new StringConverter<CustomersModel>() {
-               @Override
-               public String toString(CustomersModel customer){
-                   return customer == null ? null : String.valueOf(customer.getCustomerID());
-               }
+            customerIDSelector.setConverter(new StringConverter<CustomersModel>() {
+                @Override
+                public String toString(CustomersModel customer) {
+                    return customer == null ? null : String.valueOf(customer.getCustomerID());
+                }
 
-               @Override
-               public CustomersModel fromString(String s) {
-                   return null;
-               }
-           });
+                @Override
+                public CustomersModel fromString(String s) {
+                    return null;
+                }
+            });
 
-           ObservableList<UsersModel> users = UsersDAO.readAllUsers();
-           userIDSelector.setItems(users);
+            ObservableList<UsersModel> users = UsersDAO.readAllUsers();
+            userIDSelector.setItems(users);
             userIDSelector.setCellFactory(a -> new ListCell<UsersModel>(){
                 @Override
                 protected void updateItem(UsersModel user, boolean empty){
@@ -293,9 +292,9 @@ public class CreateAppointmentPageController implements Initializable {
             startTimeSelector.setItems(Timezones.getBusinessHours());
             endTimeSelector.setItems(Timezones.getBusinessHours());
         } catch (SQLException e) {
-               e.printStackTrace();
-            } catch (Exception e) {
-               e.printStackTrace();
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -303,12 +302,12 @@ public class CreateAppointmentPageController implements Initializable {
     private boolean checkFieldsAreFilled(){
         if(
                 titleTextField.getText().isEmpty() ||
-                descriptionTextField.getText().isEmpty() ||
-                locationTextField.getText().isEmpty() ||
+                        descriptionTextField.getText().isEmpty() ||
+                        locationTextField.getText().isEmpty() ||
                         typeTextfield.getText().isEmpty() ||
-                pickStartDate.getValue() ==null ||
-                pickEndDate.getValue() == null ||
-                startTimeSelector.getSelectionModel().isEmpty() ||
+                        pickStartDate.getValue() == null ||
+                        pickEndDate.getValue() == null ||
+                        startTimeSelector.getSelectionModel().isEmpty() ||
                         endTimeSelector.getSelectionModel().isEmpty() ||
                         contactSelector.getSelectionModel().isEmpty() ||
                         customerIDSelector.getSelectionModel().isEmpty() ||
