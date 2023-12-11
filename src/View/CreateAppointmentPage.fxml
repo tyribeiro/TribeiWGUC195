@@ -6,28 +6,33 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="955.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateAppointmentPageController">
     <children>
-        <Label fx:id="Header" alignment="CENTER" layoutX="331.0" layoutY="15.0" prefHeight="32.0" prefWidth="294.0" text="Create A New Appointment" textAlignment="CENTER" textFill="#40e1f6">
+        <Label fx:id="Header" alignment="CENTER" layoutX="331.0" layoutY="15.0" prefHeight="32.0" prefWidth="294.0"
+               textAlignment="CENTER" textFill="#40e1f6">
             <font>
                 <Font name="System Bold" size="22.0" />
             </font>
         </Label>
-        <Label fx:id="contactLabel" layoutX="625.0" layoutY="115.0" prefHeight="20.0" prefWidth="107.0" style="-fx-alignment: center-right;" text="CONTACT" textFill="WHITE">
+        <Label fx:id="contactLabel" layoutX="625.0" layoutY="115.0" prefHeight="20.0" prefWidth="107.0"
+               style="-fx-alignment: center-right;" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font></Label>
-        <Label fx:id="titleLabel" layoutX="324.0" layoutY="119.0" style="-fx-alignment: center-right;" text="APPT TITLE" textFill="WHITE">
+        <Label fx:id="titleLabel" layoutX="324.0" layoutY="119.0" style="-fx-alignment: center-right;" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font></Label>
-        <Label fx:id="descriptionLabel" layoutX="12.0" layoutY="185.0" style="-fx-alignment: center-right;" text="DESCRIPTION" textFill="WHITE">
+        <Label fx:id="descriptionLabel" layoutX="12.0" layoutY="185.0" style="-fx-alignment: center-right;"
+               textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font></Label>
-        <Label fx:id="locationLabel" layoutX="10.0" layoutY="247.0" prefHeight="20.0" prefWidth="85.0" style="-fx-alignment: center-right;" text="LOCATION" textFill="WHITE">
+        <Label fx:id="locationLabel" layoutX="10.0" layoutY="247.0" prefHeight="20.0" prefWidth="85.0"
+               style="-fx-alignment: center-right;" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font></Label>
-        <Label fx:id="typeLabel" layoutX="10.0" layoutY="290.0" prefHeight="20.0" prefWidth="85.0" style="-fx-alignment: center-right;" text="TYPE" textFill="WHITE">
+        <Label fx:id="typeLabel" layoutX="10.0" layoutY="290.0" prefHeight="20.0" prefWidth="85.0"
+               style="-fx-alignment: center-right;" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
@@ -35,38 +40,44 @@
         <TextField fx:id="titleTextField" layoutX="419.0" layoutY="116.0" prefHeight="25.0" prefWidth="170.0" />
         <TextField fx:id="descriptionTextField" layoutX="115.0" layoutY="169.0" prefHeight="54.0" prefWidth="129.0" />
         <TextField fx:id="locationTextField" layoutX="115.0" layoutY="244.0" prefHeight="25.0" prefWidth="129.0" />
-        <Button fx:id="saveButton" layoutX="688.0" layoutY="327.0" mnemonicParsing="false" onAction="#saveButtonAction" text="SAVE" />
-        <Button fx:id="cancelButton" layoutX="773.0" layoutY="327.0" mnemonicParsing="false" onAction="#cancelButtonAction" text="CANCEL" />
-        <Button fx:id="backToAppointments" layoutX="33.0" layoutY="20.0" mnemonicParsing="false" onAction="#goToAppointmentsPage" prefHeight="4.0" prefWidth="44.0" style="-fx-background-color: WHITE;" text="BACK">
+        <Button fx:id="saveButton" layoutX="688.0" layoutY="327.0" mnemonicParsing="false" onAction="#saveButtonAction"
+                style="-fx-background-color: #40E1F6;"/>
+        <Button fx:id="cancelButton" layoutX="773.0" layoutY="327.0" mnemonicParsing="false"
+                onAction="#cancelButtonAction" style="-fx-background-color: #40E1F6;"/>
+        <Button fx:id="backToAppointments" layoutX="33.0" layoutY="20.0" mnemonicParsing="false"
+                onAction="#goToAppointmentsPage" prefHeight="4.0" prefWidth="44.0"
+                style="-fx-background-color: #40E1F6;">
          <font>
             <Font size="10.0" />
          </font></Button>
-        <Label fx:id="apptIDLabel" layoutX="10.0" layoutY="119.0" prefHeight="20.0" prefWidth="85.0" style="-fx-alignment: center-right;" text="APPT ID" textFill="WHITE">
+        <Label fx:id="apptIDLabel" layoutX="10.0" layoutY="119.0" prefHeight="20.0" prefWidth="85.0"
+               style="-fx-alignment: center-right;" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label fx:id="startDateLabel" layoutX="322.0" layoutY="176.0" text="START DATE" textFill="WHITE">
+        <Label fx:id="startDateLabel" layoutX="322.0" layoutY="176.0" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label fx:id="startTimeLabel" layoutX="328.0" layoutY="278.0" text="START TIME" textFill="WHITE">
+        <Label fx:id="startTimeLabel" layoutX="328.0" layoutY="278.0" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label fx:id="endDateLabel" layoutX="328.0" layoutY="225.0" text="END DATE" textFill="WHITE">
+        <Label fx:id="endDateLabel" layoutX="328.0" layoutY="225.0" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label fx:id="endTimeLabel" layoutX="334.0" layoutY="330.0" text="END TIME" textFill="WHITE">
+        <Label fx:id="endTimeLabel" layoutX="334.0" layoutY="330.0" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label fx:id="customerIDLabel" layoutX="625.0" layoutY="206.0" prefHeight="20.0" prefWidth="107.0" style="-fx-alignment: center-right;" text="CUSTOMER ID" textFill="WHITE">
+        <Label fx:id="customerIDLabel" layoutX="625.0" layoutY="206.0" prefHeight="20.0" prefWidth="107.0"
+               style="-fx-alignment: center-right;" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>

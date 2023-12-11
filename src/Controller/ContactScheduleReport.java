@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -36,13 +37,18 @@ public class ContactScheduleReport implements Initializable {
     public TableColumn customerIDCol;
     public ComboBox contacts;
     public TableView appts;
+    public Label contactScheduleTitle;
     @FXML
     private TableColumn startTimeCol;
     private ResourceBundle resourceBundle;
 
     @Override
-    public void initialize(URL url, ResourceBundle resource) {
+    public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
+        contactScheduleTitle.setText(resourceBundle.getString("contactsSchedule"));
+        back.setText(resourceBundle.getString("back"));
+
+        contacts.setPromptText(resourceBundle.getString("contacts"));
         contacts.setItems(ContactsDAO.getAllContactNames());
         contacts.setOnAction(actionEvent -> showAppts());
 

@@ -115,7 +115,7 @@ public class UpdateCustomerPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
-
+        updateCustomerTitle.setText(resourceBundle.getString("updateCustomer"));
         customerIDLabel.setText(resourceBundle.getString("customerID"));
         customerNameLabel.setText(resourceBundle.getString("name"));
         customerPhoneLabel.setText(resourceBundle.getString("phone"));

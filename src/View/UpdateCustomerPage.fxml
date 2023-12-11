@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="552.0" prefWidth="447.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UpdateCustomerPageController">
    <children>
-      <Label fx:id="updateCustomerTitle" layoutX="109.0" layoutY="32.0" text="UPDATE CUSTOMER" textFill="WHITE">
+      <Label fx:id="updateCustomerTitle" layoutX="109.0" layoutY="32.0" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -25,7 +25,9 @@
       <TextField fx:id="customerPostalTextfield" layoutX="201.0" layoutY="311.0" />
       <ComboBox fx:id="customerCountryComboBox" onAction="#countrySelection" layoutX="201.0" layoutY="363.0" prefWidth="150.0" />
       <ComboBox fx:id="customerDivisionComboBox" layoutX="201.0" layoutY="417.0" prefWidth="150.0" />
-      <Button fx:id="saveButton" layoutX="149.0" layoutY="489.0" mnemonicParsing="false" onAction="#saveUpdateCustomer" text="Button" />
-      <Button fx:id="cancelButton" layoutX="235.0" layoutY="489.0" mnemonicParsing="false" onAction="#goBackToCustomerMainPage" text="Button" />
+      <Button fx:id="saveButton" layoutX="149.0" layoutY="489.0" mnemonicParsing="false" onAction="#saveUpdateCustomer"
+              style="-fx-background-color: #40E1F6;"/>
+      <Button fx:id="cancelButton" layoutX="235.0" layoutY="489.0" mnemonicParsing="false"
+              onAction="#goBackToCustomerMainPage" style="-fx-background-color: #40E1F6;"/>
    </children>
 </AnchorPane>

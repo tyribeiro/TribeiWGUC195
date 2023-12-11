@@ -166,6 +166,9 @@ public class CustomersMainPageController implements Initializable {
         goToCreateCustomerButton.setText(resourceBundle.getString("createCustomer"));
         goToUpdateCustomerButton.setText(resourceBundle.getString("updateCustomer"));
         goToDeleteCustomerButton.setText(resourceBundle.getString("deleteCustomer"));
+        customersPageHeader.setText(resourceBundle.getString("appointments"));
+        goToApptsButton.setText(resourceBundle.getString("back"));
+        goToReportsButton.setText(resourceBundle.getString("reports"));
 
         updateTableView(customersTable);
 

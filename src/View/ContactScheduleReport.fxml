@@ -6,7 +6,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="550.0" prefWidth="833.0"
             style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea"
             fx:controller="Controller.ContactScheduleReport">
-    <Label layoutX="360.0" layoutY="16.0" text="Contact Schedule" textFill="WHITE"/>
+    <Label fx:id="contactScheduleTitle" layoutX="360.0" layoutY="16.0" textFill="WHITE"/>
     <ComboBox fx:id="contacts" layoutX="343.0" layoutY="50.0" promptText="Select a Contact"/>
     <TableView fx:id="appts" layoutX="16.0" layoutY="102.0" prefHeight="370.0" prefWidth="802.0">
         <columns>
@@ -21,6 +21,7 @@
         </columns>
     </TableView>
 
-    <Button fx:id="back" layoutX="27.0" layoutY="25.0" mnemonicParsing="false" onAction="#goToReportsPage" text="Back"/>
+    <Button fx:id="back" layoutX="27.0" layoutY="25.0" mnemonicParsing="false" onAction="#goToReportsPage"
+            style="-fx-background-color: #40E1F6;"/>
 
 </AnchorPane>

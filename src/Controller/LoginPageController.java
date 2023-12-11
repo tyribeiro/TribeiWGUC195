@@ -118,7 +118,7 @@ public class LoginPageController implements Initializable {
                     }catch (Exception e ){
                         e.printStackTrace();
                     }
-                    upcomingAlertAppointment();
+                    upcomingAppointments();
 
                     try {
                         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -155,7 +155,7 @@ public class LoginPageController implements Initializable {
     }
 
 
-    private void upcomingAlertAppointment() throws SQLException {
+    private void upcomingAppointments() throws SQLException {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
         LocalTime minutes15 = currentTime.plusMinutes(15);

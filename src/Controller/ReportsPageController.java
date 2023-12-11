@@ -50,17 +50,6 @@ public class ReportsPageController implements Initializable {
         }
     }
 
-    public void goToCustomerActivityReport(ActionEvent actionEvent) {
-        try {
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Parent scene = FXMLLoader.load(getClass().getResource("/View/CustomerScheduleReport.fxml"));
-            stage.setTitle(resourceBundle.getString("customerActivity"));
-            stage.setScene(new Scene(scene));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void goToAppointmentsPage(ActionEvent actionEvent) {
         try {
@@ -75,17 +64,22 @@ public class ReportsPageController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resource) {
+    public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
-
+        reportsTitle.setText(resourceBundle.getString("chooseReport"));
+        totalApptReport.setText(resourceBundle.getString("totalAppts"));
+        customerAppointmentsButton.setText(resourceBundle.getString("customerSchedule"));
+        contactScheduleReport.setText(resourceBundle.getString("contactsSchedule"));
+        backButton.setText(resourceBundle.getString("back"));
     }
 
 
     public void customerAppointmentReport() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.getDialogPane().setMinSize(400, 400);
         alert.setTitle(resourceBundle.getString("appointmentsByCustomerID"));
-        alert.setContentText("Total number of appointments for each customer ID\n Format = customerID : # of appts\n" + AppointmentsDAO.getTotalApptsByCustomer());
+        alert.setContentText(resourceBundle.getString("customerScheduleContext") + "\n" + resourceBundle.getString("customerScheduleContext2") + "\n" + AppointmentsDAO.getTotalApptsByCustomer());
         alert.showAndWait();
     }
 }

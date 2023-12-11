@@ -193,6 +193,7 @@ public class AppointmentsPageController implements Initializable {
         AppointmentsModel apptToDelete = (AppointmentsModel) appointments_Table.getSelectionModel().getSelectedItem();
         if(apptToDelete != null){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,resourceBundle.getString("confirmDelete"));
+            alert.setTitle(resourceBundle.getString("confirmDelete"));
             Optional<ButtonType> confirm = alert.showAndWait();
 
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
@@ -242,7 +243,7 @@ public class AppointmentsPageController implements Initializable {
         Header.setText(resourceBundle.getString("appointments"));
         filterLabel.setText(resourceBundle.getString("filterLabel"));
         actionsLabel.setText(resourceBundle.getString("actionsLabel"));
-        
+
 
         try {
             appts = AppointmentsDAO.getAllAppointments();

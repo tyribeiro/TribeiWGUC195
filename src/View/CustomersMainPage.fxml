@@ -23,17 +23,22 @@
       </TableView>
 
 
-      <Button fx:id="goToApptsButton" layoutX="27.0" layoutY="21.0" mnemonicParsing="false" onAction="#goToAppointmentsPage" prefHeight="1.0" prefWidth="99.0" text="Appointments">
+       <Button fx:id="goToApptsButton" layoutX="27.0" layoutY="21.0" mnemonicParsing="false"
+               onAction="#goToAppointmentsPage" prefHeight="1.0" prefWidth="99.0"
+               style="-fx-background-color: #40E1F6;">
          <font>
             <Font size="10.0" />
          </font></Button>
-      <Button fx:id="goToReportsButton" layoutX="142.0" layoutY="21.0" mnemonicParsing="false" onAction="#goToReportsPage" prefHeight="22.0" prefWidth="99.0" text="Reports">
+       <Button fx:id="goToReportsButton" layoutX="142.0" layoutY="21.0" mnemonicParsing="false"
+               onAction="#goToReportsPage" prefHeight="22.0" prefWidth="99.0" style="-fx-background-color: #40E1F6;">
          <font>
             <Font size="10.0" />
          </font></Button>
-      <Button fx:id="goToCreateCustomerButton" layoutX="134.0" layoutY="350.0" mnemonicParsing="false" onAction="#goToCreateCustomerPage" />
-      <Button fx:id="goToUpdateCustomerButton" layoutX="287.0" layoutY="350.0" mnemonicParsing="false" onAction="#goToUpdateCustomerPage" />
+       <Button fx:id="goToCreateCustomerButton" layoutX="134.0" layoutY="350.0" mnemonicParsing="false"
+               onAction="#goToCreateCustomerPage" style="-fx-background-color: #40E1F6;"/>
+       <Button fx:id="goToUpdateCustomerButton" layoutX="287.0" layoutY="350.0" mnemonicParsing="false"
+               onAction="#goToUpdateCustomerPage" style="-fx-background-color: #40E1F6;"/>
       <Button fx:id="goToDeleteCustomerButton" layoutX="441.0" layoutY="350.0" mnemonicParsing="false"
-              onAction="#deleteCustomer"/>
+              onAction="#deleteCustomer" style="-fx-background-color: #40E1F6;"/>
    </children>
 </AnchorPane>

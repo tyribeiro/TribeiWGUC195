@@ -7,14 +7,17 @@
             style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17.0.2-ea"
             fx:controller="Controller.ReportsPageController">
    <children>
-       <Label fx:id="reportsTitle" layoutX="246.0" layoutY="51.0" text="CHOOSE A REPORT" textFill="WHITE"/>
-       <Button fx:id="totalApptReport" layoutX="168.0" layoutY="110.0" mnemonicParsing="false"
-               onAction="#goToTotalApptReport" text="TOTAL APPOINTMENTS BY TYPE AND MONTH"/>
-       <Button fx:id="contactScheduleReport" layoutX="233.0" layoutY="174.0" mnemonicParsing="false"
-               onAction="#goToContactScheduleReport" text="CONTACT SCHEDULE"/>
+       <Label fx:id="reportsTitle" layoutX="246.0" layoutY="51.0" textFill="WHITE"/>
+       <Button fx:id="totalApptReport" layoutX="186.0" layoutY="112.0" mnemonicParsing="false"
+               onAction="#goToTotalApptReport" prefHeight="25.0" prefWidth="218.0"
+               style="-fx-background-color: #40E1F6;"/>
+       <Button fx:id="contactScheduleReport" layoutX="187.0" layoutY="175.0" mnemonicParsing="false"
+               onAction="#goToContactScheduleReport" prefHeight="25.0" prefWidth="218.0"
+               style="-fx-background-color: #40E1F6;"/>
        <Button fx:id="backButton" layoutX="29.0" layoutY="26.0" mnemonicParsing="false" onAction="#goToAppointmentsPage"
-               text="BACK"/>
-       <Button fx:id="customerAppointmentsButton" layoutX="158.0" layoutY="282.0" mnemonicParsing="false"
-               onAction="#customerAppointmentReport" text="TOTAL APPOINTMENTS FOR EACH CUSTOMER ID"/>
+               prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #40E1F6;"/>
+       <Button fx:id="customerAppointmentsButton" layoutX="152.0" layoutY="236.0" mnemonicParsing="false"
+               onAction="#customerAppointmentReport" prefHeight="25.0" prefWidth="295.0"
+               style="-fx-background-color: #40E1F6;"/>
    </children>
 </AnchorPane>

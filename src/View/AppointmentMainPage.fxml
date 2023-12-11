@@ -23,9 +23,12 @@
                 <TableColumn fx:id="userID_Column" prefWidth="75.333251953125" />
             </columns>
         </TableView>
-        <Button fx:id="CreateAppointmentButton" layoutX="1114.0" layoutY="341.0" mnemonicParsing="false" onAction="#createAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" />
-        <Button fx:id="UpdateAppointmentButton" layoutX="1114.0" layoutY="386.0" mnemonicParsing="false" onAction="#updateAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" />
-        <Button fx:id="DeleteAppointmentButton" layoutX="1114.0" layoutY="431.0" mnemonicParsing="false" onAction="#deleteAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: white;" />
+        <Button fx:id="CreateAppointmentButton" layoutX="1114.0" layoutY="341.0" mnemonicParsing="false"
+                onAction="#createAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #40E1F6;"/>
+        <Button fx:id="UpdateAppointmentButton" layoutX="1114.0" layoutY="386.0" mnemonicParsing="false"
+                onAction="#updateAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #40E1F6;"/>
+        <Button fx:id="DeleteAppointmentButton" layoutX="1114.0" layoutY="431.0" mnemonicParsing="false"
+                onAction="#deleteAppt" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #40E1F6;"/>
         <Label fx:id="Header" layoutX="504.0" layoutY="13.0" prefHeight="74.0" prefWidth="332.0" style="-fx-font-weight: bold;" textAlignment="CENTER" textFill="#40e1f6">
             <font>
                 <Font name="Tw Cen MT Condensed" size="54.0" />
@@ -36,18 +39,22 @@
             <Font name="System Bold" size="12.0" />
          </font>
         </Button>
-        <RadioButton fx:id="allAppointmentsButton" layoutX="1111.0" layoutY="176.0" mnemonicParsing="false" onAction="#viewToggle" selected="true" text="All Appointments" textFill="WHITE">
+        <RadioButton fx:id="allAppointmentsButton" layoutX="1111.0" layoutY="176.0" mnemonicParsing="false"
+                     onAction="#viewToggle" selected="true" textFill="WHITE">
             <toggleGroup>
                 <ToggleGroup fx:id="ToggleView" />
             </toggleGroup></RadioButton>
-        <RadioButton fx:id="byMonthButton" layoutX="1111.0" layoutY="248.0" mnemonicParsing="false" onAction="#viewToggle" text="This Month" textFill="WHITE" toggleGroup="$ToggleView" />
-        <RadioButton fx:id="byWeekButton" layoutX="1111.0" layoutY="212.0" mnemonicParsing="false" onAction="#viewToggle" text="This Week" textFill="WHITE" toggleGroup="$ToggleView" />
+        <RadioButton fx:id="byMonthButton" layoutX="1111.0" layoutY="248.0" mnemonicParsing="false"
+                     onAction="#viewToggle" textFill="WHITE" toggleGroup="$ToggleView"/>
+        <RadioButton fx:id="byWeekButton" layoutX="1111.0" layoutY="212.0" mnemonicParsing="false"
+                     onAction="#viewToggle" textFill="WHITE" toggleGroup="$ToggleView"/>
       <Button fx:id="ReportsButton" layoutX="227.0" layoutY="33.0" mnemonicParsing="false" onAction="#goToReportsPage" prefHeight="33.0" prefWidth="151.0" style="-fx-background-color: #40E1F6;">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Label fx:id="filterLabel" layoutX="1117.0" layoutY="145.0" prefHeight="21.0" prefWidth="123.0" style="-fx-background-color: white;" underline="true">
+        <Label fx:id="filterLabel" layoutX="1117.0" layoutY="145.0" prefHeight="21.0" prefWidth="123.0"
+               style="-fx-background-color: #40E1F6;" underline="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -55,7 +62,8 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </padding>
       </Label>
-      <Label fx:id="actionsLabel" alignment="CENTER" layoutX="1122.0" layoutY="301.0" prefHeight="21.0" prefWidth="114.0" style="-fx-background-color: white;" textAlignment="CENTER" underline="true">
+        <Label fx:id="actionsLabel" alignment="CENTER" layoutX="1122.0" layoutY="301.0" prefHeight="21.0"
+               prefWidth="114.0" style="-fx-background-color: #40E1F6;" textAlignment="CENTER" underline="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
