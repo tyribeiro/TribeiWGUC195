@@ -1,5 +1,10 @@
 package Model;
 
+/**
+ * This class is for the Customer Object and stores all key information for a customer.
+ * Includes constructors, getters , setters and to string method.
+ */
+
 public class CustomersModel {
     private int customerID;
     private String customerName;
@@ -11,6 +16,18 @@ public class CustomersModel {
 
     private String postalCode;
 
+    /**
+     * constructor
+     *
+     * @param customerID         ID of the customer
+     * @param customerName       name of the customer
+     * @param customerAddress    address of the customer
+     * @param customerPhone      phone number of the customer
+     * @param customerDivision   division of the customer
+     * @param customerDivisionID division ID of the customer
+     * @param postal             postal  of the customers address
+     * @param customerCountry    country of the customer
+     */
     public CustomersModel(int customerID, String customerName, String customerAddress, String customerPhone, String customerDivision, int customerDivisionID, String postal, String customerCountry) {
         this.customerID = customerID;
         this.customerName = customerName;
@@ -23,7 +40,10 @@ public class CustomersModel {
         this.customerCountry = customerCountry;
     }
 
-    //getters
+    /**
+     * Setters and getters
+
+     */
     public int getCustomerID() {
         return customerID;
     }
@@ -88,6 +108,10 @@ public class CustomersModel {
         this.postalCode = postalCode;
     }
 
+    /**
+     * Method that builds a string representation of the customer
+     * @return a string with the customers information
+     */
     @Override
     public  String toString() {
         return "CustomersDAO {" + "CustomerID: " + customerID + "     CustomerName: " + customerName + '\'';

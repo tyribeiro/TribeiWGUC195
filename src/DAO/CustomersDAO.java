@@ -174,4 +174,26 @@ public class CustomersDAO {
         }
     }
 
+    /**
+     * This method gets the names of all the customers in the database.
+     *
+     * @return a list of all the names of all the customers in the database.
+     * @throws RuntimeException if there is an error getting the information.
+     */
+    public static ObservableList<String> getAllCustomerIDs() {
+        ObservableList<String> ids = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT Customer_ID FROM customers");
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            while (rs.next()) {
+                ids.add(rs.getString("Customer_ID"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ids;
+    }
+
 }

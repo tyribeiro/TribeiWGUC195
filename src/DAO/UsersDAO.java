@@ -102,4 +102,26 @@ public class UsersDAO {
         }
         return false;
     }
+
+    /**
+     * This method gets the IDs of all the users in the database.
+     *
+     * @return a list of all the IDs of all the users in the database.
+     * @throws RuntimeException if there is an error getting the information.
+     */
+    public static ObservableList<String> getAllUserIDs() {
+        ObservableList<String> ids = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT User_ID FROM users");
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            while (rs.next()) {
+                ids.add(rs.getString("User_ID"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ids;
+    }
 }

@@ -1,13 +1,7 @@
 package Controller;
 
-import DAO.AppointmentsDAO;
-import DAO.ContactsDAO;
-import DAO.CustomersDAO;
-import DAO.UsersDAO;
-import Model.AppointmentsModel;
-import Model.ContactsModel;
-import Model.CustomersModel;
-import Model.UsersModel;
+import DAO.*;
+import Model.*;
 import Utils.Timezones;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -299,83 +293,30 @@ public class CreateAppointmentPageController implements Initializable {
         cancelButton.setText(resourceBundle.getString("cancel"));
         backToAppointments.setText(resourceBundle.getString("back"));
 
+        // populating the contacts drop down menu with the contact names
+        ObservableList<String> contactsList = ContactsDAO.getAllContactNames();
         try {
-            ObservableList<ContactsModel> contacts = ContactsDAO.readAllContacts();
-            contactSelector.setItems(contacts);
-            contactSelector.setCellFactory(a -> new ListCell<ContactsModel>() {
-                @Override
-                protected void updateItem(ContactsModel contact, boolean empty) {
-                    super.updateItem(contact, empty);
-                    setText(empty ? "" : contact.getContactName());
+            ObservableList<ContactsModel> contacts = FXCollections.observableArrayList();
+            if (contacts != null) {
+                for (ContactsModel contact : contacts) {
+                    contactsList.add(contact.getContactName());
                 }
-            });
-
-            contactSelector.setConverter(new StringConverter<ContactsModel>() {
-                @Override
-                public String toString(ContactsModel contact) {
-                    return contact == null ? null : contact.getContactName();
-                }
-
-                @Override
-                public ContactsModel fromString(String s) {
-                    return null;
-                }
-            });
-
-
-            ObservableList<CustomersModel> customer = CustomersDAO.readCustomers();
-            customerIDSelector.setItems(customer);
-            customerIDSelector.setCellFactory(a -> new ListCell<CustomersModel>() {
-                @Override
-                protected void updateItem(CustomersModel customer, boolean empty) {
-                    super.updateItem(customer, empty);
-                    setText(empty ? "" : String.valueOf(customer.getCustomerID()));
-                }
-            });
-
-            customerIDSelector.setConverter(new StringConverter<CustomersModel>() {
-                @Override
-                public String toString(CustomersModel customer) {
-                    return customer == null ? null : String.valueOf(customer.getCustomerID());
-                }
-
-                @Override
-                public CustomersModel fromString(String s) {
-                    return null;
-                }
-            });
-
-            ObservableList<UsersModel> users = UsersDAO.readAllUsers();
-            userIDSelector.setItems(users);
-            userIDSelector.setCellFactory(a -> new ListCell<UsersModel>(){
-                @Override
-                protected void updateItem(UsersModel user, boolean empty){
-                    super.updateItem(user,empty);
-                    setText(empty ? "" : String.valueOf(user.getUserID()));
-                }
-            });
-
-            userIDSelector.setConverter(new StringConverter<UsersModel>() {
-                @Override
-                public String toString(UsersModel user){
-                    return user == null ? null : String.valueOf(user.getUserID());
-                }
-
-                @Override
-                public UsersModel fromString(String s) {
-                    return null;
-                }
-            });
-
-
-            // populate time drop down menus
-            startTimeSelector.setItems(Timezones.getBusinessHours());
-            endTimeSelector.setItems(Timezones.getBusinessHours());
-        } catch (SQLException e) {
-            e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        contactSelector.setItems(contactsList);
+
+        // populating the drop down menus with the customer IDs and User IDs
+        ObservableList<String> customerList = CustomersDAO.getAllCustomerIDs();
+        customerIDSelector.setItems(customerList);
+
+        ObservableList<String> userList = UsersDAO.getAllUserIDs();
+        userIDSelector.setItems(userList);
+
+        // populate time drop down menus for times
+        startTimeSelector.setItems(Timezones.getBusinessHours());
+        endTimeSelector.setItems(Timezones.getBusinessHours());
     }
 
     /**

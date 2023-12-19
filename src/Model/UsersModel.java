@@ -1,18 +1,30 @@
 package Model;
 
+/**
+ * This class is for the User Object and stores all key information for a user.
+ * Includes constructors, getters , setters and to string method.
+ */
 public class UsersModel {
     private int userID;
     private String userName;
     private String userPassword;
 
-    //constructor
+    /**
+     * Constructor
+     *
+     * @param userID       id of the user
+     * @param userName     name of the user
+     * @param userPassword password of the user
+     */
     public UsersModel(int userID, String userName, String userPassword) {
         this.userID = userID;
         this.userName = userName;
         this.userPassword = userPassword;
     }
 
-    //getters
+    /**
+     * setters and getters
+     */
     public int getUserID() {
         return userID;
     }
@@ -25,7 +37,6 @@ public class UsersModel {
         return userPassword;
     }
 
-    //setters
     public void setUserID(int userID) {
         this.userID = userID;
     }
