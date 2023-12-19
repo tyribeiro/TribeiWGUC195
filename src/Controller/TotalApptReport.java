@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * This class generates the report for the total appointments in the database by month and type.
+ */
 public class TotalApptReport implements Initializable {
     public Label reportTypeMonth;
     public RadioButton typeRadio;
@@ -41,6 +44,12 @@ public class TotalApptReport implements Initializable {
     @FXML
     private ToggleGroup reportToggleGroup;
 
+    /**
+     * This method initializes the UI elements of the total appointments report.
+     *
+     * @param url       URL
+     * @param resources Resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
@@ -51,6 +60,12 @@ public class TotalApptReport implements Initializable {
         generateButton.setText(resourceBundle.getString("generateReport"));
     }
 
+    /**
+     * This method generates the report based on the radio button selected for type or month.
+     *
+     * @param actionEvent action event that has occured (clicking the generate report button)
+     * @throws SQLException if there is an error communicating with the database
+     */
     public void generateReport(ActionEvent actionEvent) throws SQLException {
         if (typeRadio.isSelected()) {
             List<AppointmentsModel> appts = AppointmentsDAO.getAllAppointments();
@@ -78,6 +93,10 @@ public class TotalApptReport implements Initializable {
         }
     }
 
+    /**
+     * This method navigates back to the reports main page.
+     * @param actionEvent action event that has occured (clicking the back button)
+     */
     public void goToReportsPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();

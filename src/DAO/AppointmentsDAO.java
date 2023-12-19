@@ -1,6 +1,5 @@
 package DAO;
 
-import Controller.appointmentSum;
 import Helper.DBConnecter;
 import Model.CustomersModel;
 import Utils.Timezones;

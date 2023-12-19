@@ -12,6 +12,7 @@ import Utils.Timezones;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -30,40 +31,103 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * This class creates a new appointment in the database.
+ * Controls the create appointment page. Updates the tableview and combobox
+ */
 public class CreateAppointmentPageController implements Initializable {
 
 
+    @FXML
     public Label Header;
+    @FXML
     public Label contactLabel;
+    @FXML
+
     public Label titleLabel;
+    @FXML
+
     public Label descriptionLabel;
+    @FXML
+
     public Label locationLabel;
+    @FXML
+
     public Label typeLabel;
+    @FXML
+
     public TextField titleTextField;
+    @FXML
+
     public TextField descriptionTextField;
+    @FXML
+
     public TextField locationTextField;
+    @FXML
+
     public Button saveButton;
+    @FXML
+
     public Button cancelButton;
+    @FXML
+
     public Button backToAppointments;
+    @FXML
+
     public Label apptIDLabel;
+    @FXML
+
     public Label startDateLabel;
+    @FXML
+
     public Label startTimeLabel;
+    @FXML
+
     public Label endDateLabel;
+    @FXML
+
     public Label endTimeLabel;
+    @FXML
+
     public Label customerIDLabel;
+    @FXML
+
     public TextField apptIDTextfield;
+    @FXML
+
     public ComboBox endTimeSelector;
+    @FXML
+
     public ComboBox startTimeSelector;
+    @FXML
+
     public ComboBox contactSelector;
+    @FXML
+
     public ComboBox customerIDSelector;
+    @FXML
+
     public DatePicker pickStartDate;
+    @FXML
+
     public DatePicker pickEndDate;
+    @FXML
+
     public ComboBox userIDSelector;
+    @FXML
+
     public Label userIDLabel;
+    @FXML
+
     public TextField typeTextfield;
 
     private  ResourceBundle resourceBundle;
 
+    /**
+     * This method navigates to the appointment main page controller
+     *
+     * @param actionEvent action event that has occured (clicking the back button)
+     */
     public void goToAppointmentsPage(ActionEvent actionEvent){
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -78,7 +142,14 @@ public class CreateAppointmentPageController implements Initializable {
 
     }
 
-    public void saveButtonAction(ActionEvent actionEvent) throws SQLException, IOException {
+    /**
+     * This method handles the saving of appointments. It validates the field in the create appointment page.
+     * It also validates and checks for overlapping appointment times.
+     *
+     * @param actionEvent action event that has occured (clicking the save button)
+     * @throws SQLException if there is an error communicating with the database
+     */
+    public void saveButtonAction(ActionEvent actionEvent) throws SQLException {
         if(!checkFieldsAreFilled()){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle(resourceBundle.getString("fillInAllFieldsErrorTitle"));
@@ -182,7 +253,11 @@ public class CreateAppointmentPageController implements Initializable {
         }
     }
 
-
+    /**
+     * This method cancels operations and returns to the main appointment page.
+     *
+     * @param actionEvent action event that has occured (clicking the cancel button)
+     */
     public void cancelButtonAction(ActionEvent actionEvent){
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -197,6 +272,11 @@ public class CreateAppointmentPageController implements Initializable {
 
     }
 
+    /**
+     * This method Initializes the controller and sets up colummns in the table and drop down selection options.
+     * @param url URL
+     * @param resources ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
@@ -298,7 +378,10 @@ public class CreateAppointmentPageController implements Initializable {
         }
     }
 
-
+    /**
+     * This method checks if all the fields are filles in on the Create appointment page
+     * @return True if all fields have input, false otherwise.
+     */
     private boolean checkFieldsAreFilled(){
         if(
                 titleTextField.getText().isEmpty() ||

@@ -23,11 +23,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * Controls the UI logic of the appointment page. Handles navigation to other pages,
+ * filtering of the table view, and displays, creates, updates and deletes appointments.
+ */
+
 public class AppointmentsPageController implements Initializable {
 
     @FXML
     public  TableView<AppointmentsModel> appointments_Table;
-
     public TableColumn<AppointmentsModel,Integer> appointmentID_Column;
     @FXML
     public TableColumn<AppointmentsModel,String>  title_Column;
@@ -64,23 +68,25 @@ public class AppointmentsPageController implements Initializable {
     @FXML
     public RadioButton allAppointmentsButton;
     @FXML
-
     public RadioButton byMonthButton;
     @FXML
     public RadioButton byWeekButton;
     @FXML
     public Button ReportsButton;
     @FXML
-
     static ObservableList<AppointmentsModel> appts;
+    @FXML
     public Label filterLabel;
+    @FXML
     public Label actionsLabel;
-
     @FXML
     private ToggleGroup ToggleView;
 
     private ResourceBundle resourceBundle;
 
+    /**
+     * This method updates the appointments_Table with information updated the updated appointments.
+     */
     public static void updateTableView(TableView<AppointmentsModel> table) {
         //refresh table
         try {
@@ -92,6 +98,11 @@ public class AppointmentsPageController implements Initializable {
         }
     }
 
+    /**
+     * This method navigates to the main Customers Page.
+     *
+     * @param actionEvent action event that has occured (clicking the customers button)
+     */
     public void goToCustomersPage(ActionEvent actionEvent){
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -104,6 +115,11 @@ public class AppointmentsPageController implements Initializable {
         }
     }
 
+    /**
+     * This method navigates to the Reports page.
+     *
+     * @param actionEvent action event that has occured (clicking the reports button)
+     */
     public void goToReportsPage(ActionEvent actionEvent){
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -117,6 +133,11 @@ public class AppointmentsPageController implements Initializable {
 
     }
 
+    /**
+     * This method toggles the view of appointments based on the selected radio button for all, week or month.
+     * It will update the tableview based on the selection.
+     * @param actionEvent action event that has occured (clicking the radiobuttons)
+     */
     public void viewToggle(ActionEvent actionEvent){
         try {
 
@@ -136,7 +157,10 @@ public class AppointmentsPageController implements Initializable {
 
     }
 
-    //when createAppt button is clicked, goes to createApptPage FXML
+    /**
+     * This method navigates  to the create appointment page.
+     * @param actionEvent action event that has occured (clicking the customers button)
+     */
     public void createAppt(ActionEvent actionEvent){
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -150,6 +174,10 @@ public class AppointmentsPageController implements Initializable {
     }
 
 
+    /**
+     * This method navigates to the update appointment page and handles any errors in terms of an appointment  not being selected to update or any null appointments.`
+     * @param actionEvent action event that has occured (clicking the update appointment button)
+     */
     public void updateAppt(ActionEvent actionEvent){
         try {
             AppointmentsModel apptSelected = appointments_Table.getSelectionModel().getSelectedItem();
@@ -186,9 +214,18 @@ public class AppointmentsPageController implements Initializable {
 //            alert.setTitle(resourceBundle.getString("updateAppt"));
 //            alert.setContentText(resourceBundle.getString("apptUpdated"));
 //            alert.showAndWait();
-        }
+    }
 
 
+    /**
+     * This method deletes an appointment from the database.
+     * It first confirms with user if they want to delete the selected appointment,
+     * then it does the delete operation from the DAO,
+     * then it refreshes the table view to display the updated appointments which no longer has the appointment that was deleted.
+     * it alsp send the user an alert with information about the appointment that was deleted.
+     * @param actionEvent action event that has occured (clicking the delete appointment button)
+     * @throws SQLException if there is an error communicating with the database
+     */
     public void deleteAppt(ActionEvent actionEvent) throws SQLException {
         AppointmentsModel apptToDelete = (AppointmentsModel) appointments_Table.getSelectionModel().getSelectedItem();
         if(apptToDelete != null){
@@ -211,7 +248,11 @@ public class AppointmentsPageController implements Initializable {
         }
     }
 
-
+    /**
+     * This method Initializes the controller and sets up colummns in the table.
+     * @param url URL
+     * @param resources ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources){
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());

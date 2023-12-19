@@ -13,6 +13,13 @@ import java.sql.SQLException;
 
 public class ContactsDAO {
     static Connection connection = DBConnecter.getConnection();
+
+    /**
+     * This method gets all the contacts from the database.
+     *
+     * @return a list of contacts with all the information stored with it.
+     * @throws SQLException when there is an error fetching the data.
+     */
     public static ObservableList<ContactsModel> readAllContacts() throws SQLException {
         ObservableList allContacts = FXCollections.observableArrayList();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM contacts");
@@ -37,6 +44,14 @@ public class ContactsDAO {
         }
     }
 
+    /**
+     * This method gets the Contact ID for the contact passed as a parameter.
+     *
+     * @param contact_name name of the contact
+     * @return a integer of the contact ID.
+     * @throws SQLException if there is an error when fetching data from the database
+     */
+
     public static int readContactID(String contact_name) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM contacts WHERE Contact_Name = ?");
         ps.setString(1, contact_name);
@@ -59,6 +74,12 @@ public class ContactsDAO {
         return -1;
     }
 
+    /**
+     * this method gets the whole contact object of the contact with the name passed.
+     * @param name name of the contact that user wants to read
+     * @return a ContactModel object that has all of the details for the contact
+     * @throws SQLException if there is an error getting the data from the database
+     */
     public static ContactsModel getContactByName(String name) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM contacts WHERE Contact_Name = ?");
         ps.setString(1, name);
@@ -84,6 +105,12 @@ public class ContactsDAO {
         return contact;
     }
 
+    /**
+     * This method gets a contact based on the ID passed as a parameter.
+     * @param id the id of the contact that needs to be fetched from database.
+     * @return a contact object that has the contacts details/
+     * @throws SQLException if there is an error fetching the data from the database.
+     */
     public static ContactsModel getContactById(int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM contacts WHERE Contact_ID = ?");
         ps.setInt(1, id);
@@ -109,6 +136,11 @@ public class ContactsDAO {
         return contact;
     }
 
+    /**
+     * This method gets the names of all the contacts in the database.
+     * @return a list of all the names of all the contacts in the database.
+     * @throws RuntimeException if there is an error getting the information.
+     */
     public static ObservableList<String> getAllContactNames() {
         ObservableList<String> names = FXCollections.observableArrayList();
         try {

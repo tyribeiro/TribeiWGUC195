@@ -5,6 +5,7 @@ import DAO.UsersDAO;
 import Model.AppointmentsModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -31,26 +32,53 @@ import java.util.List;
 interface ActivityLog {
     public String getFileName();
 }
+
+/**
+ * Controls the UI logic of the login page.
+ * Validates and authenticates user based on the username and password entered by user.
+ * Handles any mismatch with login credentials of user and database.
+ * Displays timezone and language based on the users local timezone and computer language.
+ */
 public class LoginPageController implements Initializable {
-    //lambda expression
+    @FXML
+    public Label Description;
+    @FXML
+    public Label Title;
+    @FXML
+    public Label Username_Label;
+    @FXML
+    public Label Password_Label;
+    @FXML
+    public TextField Username_TextField;
+    @FXML
+    public TextField Password_TextField;
+    @FXML
+    public Label Location_Label;
+    @FXML
+    public Label Timezone_Label;
+    @FXML
+    public Label Location_Text;
+    @FXML
+    public Button Login_Button;
+    @FXML
+    public Label Timezone_Text;
+    @FXML
+    public Button Cancel_Button;
+    /**
+     * This lambda expression implements the activity log interface. It returns the name of the file to log to and read from.
+     */
     ActivityLog activitylog = () -> {
         return "activity.txt";
     };
-    public Label Description;
-    public Label Title;
-    public Label Username_Label;
-    public Label Password_Label;
-    public TextField Username_TextField;
-    public TextField Password_TextField;
-    public Label Location_Label;
-    public Label Timezone_Label;
-    public Label Location_Text;
-    public Button Login_Button;
-    public Label Timezone_Text;
-    public Button Cancel_Button;
 
     private ResourceBundle resourceBundle;
 
+    /**
+     * This method Initializes the login page controller and initializes the buttons and labels based on the users language settings.
+     *
+     * @param url       URL
+     * @param resources ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
@@ -71,7 +99,12 @@ public class LoginPageController implements Initializable {
         }
     }
 
-
+    /**
+     * This method validates login credentials and compares it to the database. makes sure username and password fields are not empty.
+     * It logs login activity into the activity.txt.
+     *
+     * @param actionEvent action event that has occured (clicking the login button)
+     */
     public void validateLogin(javafx.event.ActionEvent actionEvent) {
         boolean empty = false;
 
@@ -154,7 +187,10 @@ public class LoginPageController implements Initializable {
 
     }
 
-
+    /**
+     * This method alerts the user of any upcoming appointments in the next 15 minutes after the login is validated.
+     * @throws SQLException if there is an error communicating with the database
+     */
     private void upcomingAppointments() throws SQLException {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -188,6 +224,10 @@ public class LoginPageController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * This method exits the application, confirms with the user before hand if they really want to exit.
+     * @param actionEvent action event that has occured (clicking the cancel button)
+     */
     public void closeApp(javafx.event.ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, resourceBundle.getString("cancelConfirmation"));
         alert.showAndWait();

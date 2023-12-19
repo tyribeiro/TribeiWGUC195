@@ -6,6 +6,7 @@ import Utils.Timezones;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -24,40 +25,73 @@ import java.util.ResourceBundle;
 import Model.AppointmentsModel;
 import javafx.stage.Stage;
 
-
 public class UpdateAppointmentPageController implements Initializable {
+    @FXML
     public Label header;
+    @FXML
     public TableView appointments_Table;
+    @FXML
     public Label apptTitleLabel;
+    @FXML
     public Label apptStartDateLabel;
+    @FXML
     public Label apptDescriptionLabel;
+    @FXML
     public Label apptLocationLabel;
+    @FXML
     public Label apptendDateLabel;
+    @FXML
     public Label apptIDLabel;
+    @FXML
     public Label apptStartTimeLabel;
+    @FXML
     public Label apptCustomerIDLabel;
+    @FXML
     public Label apptEndTimeLabel;
+    @FXML
     public Label apptUserIdLabel;
+    @FXML
     public Label apptContactLabel;
+    @FXML
     public Label apptTypeLabel;
+    @FXML
     public TextField titleTextfield;
+    @FXML
     public TextField descriptionTextfield;
+    @FXML
     public TextField locationTextfield;
+    @FXML
     public TextField apptIDTextfield;
+    @FXML
     public DatePicker startDatePicker;
+    @FXML
     public DatePicker endDatePicker;
+    @FXML
     public ComboBox startTimeComboBox;
+    @FXML
     public ComboBox endTimeComboBox;
+    @FXML
     public ComboBox<String> contactComboBox;
+    @FXML
     public ComboBox<Integer> customerIDComboBox;
+    @FXML
     public ComboBox<Integer> userIDComboBox;
+    @FXML
     public TextField typeTextfield;
+    @FXML
     public Button saveButton;
+    @FXML
     public Button backButton;
+    @FXML
     public Button cancelButton;
     private ResourceBundle resourceBundle;
 
-
+    /**
+     * This method initializes the UI elements of the update appointment page and populates the combo boxes with the appropriate selection options.
+     *
+     * @param url       URL
+     * @param resources Resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
@@ -132,6 +166,12 @@ public class UpdateAppointmentPageController implements Initializable {
         endTimeComboBox.setItems(Timezones.getBusinessHours());
     }
 
+    /**
+     * This method auto-populates the fields on the page with what is in the database.
+     *
+     * @param appointment the appointment selected to update and whos information will be auto populated in the fields.
+     * @throws SQLException if there is an error communicating with the database.
+     */
     public void autopopulate(AppointmentsModel appointment) throws SQLException {
 
         AppointmentsModel appt = AppointmentsDAO.getApptsByID(appointment.getApptID());
@@ -151,7 +191,11 @@ public class UpdateAppointmentPageController implements Initializable {
 
     }
 
-
+    /**
+     * This method handles the save button on this page.It gets the information entered by the user and updates it in the database, then it updates the table.
+     * @param actionEvent action event that has occured (clicking the save button)
+     * @throws SQLException if there is an error communicating with the database.
+     */
     public void saveUpdateAppointment(ActionEvent actionEvent) throws SQLException {
 
         try {
@@ -213,6 +257,12 @@ public class UpdateAppointmentPageController implements Initializable {
 
     }
 
+    /**
+     * This method checks if all fields are filled in and also formats the time. It lso validates the times selected to see if they are valid times and checks for overlapping appointments.
+     * @param newAppt the appointment that has been created with the new updated information updated by the user.
+     * @return True if the appointment is valid time and all fields are filled.
+     * @throws SQLException if there is an error communicating with the database.
+     */
     private boolean checkFields(AppointmentsModel newAppt) throws SQLException {
         DateTimeFormatter stringToLocalTime = DateTimeFormatter.ofPattern("HH:mm");
         boolean valid = true;
@@ -244,6 +294,10 @@ public class UpdateAppointmentPageController implements Initializable {
         return valid;
     }
 
+    /**
+     * This method navigates to the main appointments page.
+     * @param actionEvent action event that has occured (clicking the back button)
+     */
     public void goToAppointmentsMainPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -257,6 +311,10 @@ public class UpdateAppointmentPageController implements Initializable {
         }
     }
 
+    /**
+     * Checks if all the fields on the page are filled in.
+     * @return True if all fields are filled in and false if there is missing information.
+     */
     private boolean checkFieldsAreFilled() {
         if (
                 titleTextfield.getText().isEmpty() ||

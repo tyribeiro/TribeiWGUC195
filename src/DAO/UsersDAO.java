@@ -18,6 +18,12 @@ import java.util.ResourceBundle;
 public class UsersDAO {
     static Connection connection = DBConnecter.getConnection();
 
+    /**
+     * This method gets all the users in the database with all the information from them.
+     *
+     * @return a list of user model objects.
+     * @throws SQLException if there is an error communicating with the database.
+     */
     public static ObservableList<UsersModel> readAllUsers() throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM users");
 
@@ -41,6 +47,12 @@ public class UsersDAO {
         }
     }
 
+    /**
+     * This method gets a user object based on the user ID passed in.
+     *
+     * @param id of the user to get information for.
+     * @return a User model object that has the ID passed in as a parameter.
+     */
     public static UsersModel getUserByID(int id) {
         UsersModel user = null;
         try {
@@ -66,6 +78,14 @@ public class UsersDAO {
         return user;
     }
 
+    /**
+     * This method validates the username and password entered by the application user. It checks with the database
+     * to see if the user credentials exists and matches the one entered by the user.
+     * @param username username entered by user in the login page.
+     * @param password password entered by user in the login page.
+     * @return True if the username and password was found in the database and is valid, false otherwise.
+     * @throws SQLException if there is an error communicating with the database.
+     */
     public static boolean validateUsernamePassword(String username, String password) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE User_Name=? AND Password =?");
         ps.setString(1,username);

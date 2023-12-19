@@ -3,6 +3,9 @@ package Helper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * This class is for the database connection. It opens and closes the connection with the SQL Database
+ */
 public class DBConnecter {
         // code from wgu resource video
         //defining database variables using the code provided by WGU
@@ -16,6 +19,11 @@ public class DBConnecter {
         private static String password = "Passw0rd!"; // Password
         public static Connection connection;  // Connection Interface
 
+    /**
+     * This method establishes and open the connection to the SQL database.
+     *
+     * @return Connection object to the database.
+     */
         public static Connection getConnection()
         {
             try {
@@ -31,7 +39,10 @@ public class DBConnecter {
             return connection;
         }
 
-        public static void closeConnection() {
+    /**
+     * This method closes the connection to the SQL database.
+     */
+    public static void closeConnection() {
             try {
                 connection.close();
                 System.out.println("Connection closed!");

@@ -12,9 +12,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class controls all the communication with the SQL database to perform CRUD functions for anything related to the countries in the database.
+ */
+
 public class CountriesDAO {
     static Connection connection = DBConnecter.getConnection();
 
+    /**
+     * This method gets all the countries, their name and ID, from the database .
+     *
+     * @return a list containing all the countries.
+     */
     public static ObservableList<CountriesModel> readAllCountries(){
         ObservableList<CountriesModel> countries = FXCollections.observableArrayList();
 
@@ -35,6 +44,13 @@ public class CountriesDAO {
         }
     }
 
+    /**
+     * This method gets the country id for the country passed in as a parameter.
+     *
+     * @param countryName Name of the country that the program needs the ID for.
+     * @return a integer value of the country ID
+     * @throws SQLException if there is an error communicating with the database.
+     */
     public static int readCountryID(String countryName) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT Country_ID FROM countries WHERE Country=?");
         ps.setString(1,countryName);
@@ -52,6 +68,10 @@ public class CountriesDAO {
         return -1;
     }
 
+    /**
+     * This method gets all the Country Names from the database to populate into the combo box selection drop down.
+     * @return a list of strings of the country names from the database.
+     */
     public static ObservableList<String> readCountires(){
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
 

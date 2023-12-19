@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * This class is for the Appointment Object and stores all key information for a appointment.
+ * Includes constructors, getters , setters and to string method.
+ */
 public class AppointmentsModel {
     private int apptID;
     private String apptTitle;
@@ -27,6 +31,9 @@ public class AppointmentsModel {
     private String contactName;
 
 
+    /**
+     * Constructors
+     */
     public AppointmentsModel(String apptTitle, String apptDescription, String apptLocation, String apptType, LocalDateTime start, LocalDateTime end, int customerID, int userID, int contactID, String contactName) {
         this.apptTitle = apptTitle;
         this.apptDescription = apptDescription;
@@ -54,7 +61,9 @@ public class AppointmentsModel {
         this.contactName = contactName;
     }
 
-    //getters
+    /**
+     * Getters and Setters
+     */
     public int getApptID() {
         return apptID;
     }
@@ -91,9 +100,6 @@ public class AppointmentsModel {
         this.end = end;
     }
 
-
-
-
     public int getCustomerID() {
         return customerID;
     }
@@ -110,8 +116,6 @@ public class AppointmentsModel {
         return contactName;
     }
 
-
-    //setters
     public void setApptID(int apptID) {
         this.apptID = apptID;
     }
@@ -189,6 +193,11 @@ public class AppointmentsModel {
     }
 
 
+    /**
+     * This method is so that we can print out information of the appointment object.
+     *
+     * @return a string with information of the appointment object
+     */
     @Override
     public String toString(){
         return "Appointments: " + apptID + "--- APPT TYPE: " + apptType + "   --- Appt Title: " + apptTitle + "   ---Location: " + apptLocation + "---- Start Date " + start.toLocalDate() + "---Start Time  " + start.toLocalTime() + "----  Appt End date = " + end.toLocalDate() + "---Appt End Time  " + end.toLocalTime();

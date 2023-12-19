@@ -14,6 +14,12 @@ public class DivisionsDAO {
     static Connection connection = DBConnecter.getConnection();
 
     //CRUD FUNCTIONS
+
+    /**
+     * Gets all the divisions from the database.
+     *
+     * @return a list of all the division objects.
+     */
     public static ObservableList<DivisionsModel> readAllDivisions(){
         ObservableList<DivisionsModel> divisions = FXCollections.observableArrayList();
 
@@ -37,6 +43,13 @@ public class DivisionsDAO {
         }
     }
 
+    /**
+     * Gets a division ID from the database based on the division name passed.
+     *
+     * @param divisionName name of the division
+     * @return a division model object that has the division name passed.
+     * @throws SQLException if there is an error communicating with the databse.
+     */
     public static DivisionsModel readDivID (String divisionName) throws SQLException {
        PreparedStatement ps = connection.prepareStatement("SELECT * FROM first_level_divisions WHERE Division=?");
 
@@ -59,6 +72,12 @@ public class DivisionsDAO {
         return null;
     }
 
+    /**
+     * Gets the division that has the ID specified in the parameter.
+     * @param divisionID id of the division.
+     * @return a Division model object that has the division id passed.
+     * @throws SQLException if there is an error communicating with the database
+     */
     public static DivisionsModel readDivByDivID(int divisionID) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM first_level_divisions WHERE Division_ID = ?");
         ps.setInt(1,divisionID);
@@ -78,7 +97,12 @@ public class DivisionsDAO {
         return null;
     }
 
-
+    /**
+     * This method gets the division based on the country name passed as a parameter.
+     * @param countryName name of the country
+     * @return a DivisionModel that corresponds with the coutnry name.
+     * @throws SQLException if there is error with database communication
+     */
     public static DivisionsModel readDivByCountry(String countryName) throws SQLException {
         CountriesModel country = new CountriesModel(CountriesDAO.readCountryID(countryName),countryName);
 
@@ -99,6 +123,11 @@ public class DivisionsDAO {
         return null;
     }
 
+    /**
+     * This method gets all the divisions with the country name passed in as a parameters. This will be used with comboboxes to select information.
+     * @param country country for the divisions to be identified for.
+     * @return a list of divisions so they can be listed in the selector combo box.
+     */
     public static ObservableList<String> readDivisionsByCountry(String country){
         ObservableList<String> divisionsOptions = FXCollections.observableArrayList();
 

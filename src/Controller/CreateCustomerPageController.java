@@ -20,6 +20,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This class creates a new customer in the database, controls the create customer page UI and filters the combobox selections based on the country selected.
+ */
 public class CreateCustomerPageController implements Initializable {
 
     @FXML
@@ -54,6 +57,11 @@ public class CreateCustomerPageController implements Initializable {
     private Button addCustomerButton;
     private  ResourceBundle resourceBundle;
 
+    /**
+     * This method navigates back the main customer page.
+     *
+     * @param actionEvent action event that has occured (clicking the back button)
+     */
     public void goToCustomersMainPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -66,6 +74,11 @@ public class CreateCustomerPageController implements Initializable {
         }
     }
 
+    /**
+     * This method adds a new customer to the database, checks to see if all inputs are filled and non are empty, and hadles errrors that come up
+     *
+     * @param actionEvent action event that has occured (clicking the save button)
+     */
     public void addCustomer(ActionEvent actionEvent) {
        boolean allFieldsFilled = fieldsRequired(nameTextfield.getText(),addressTextfield.getText(),postalTextfield.getText(),phoneTextfield.getText());
 
@@ -83,6 +96,14 @@ public class CreateCustomerPageController implements Initializable {
        }
     }
 
+    /**
+     * This method makes sure that the user enters all information in the input fields. If they dont, an error message is displayed asking the user to fill in the missing fields.
+     * @param name name of the new customer
+     * @param address address of the new customer
+     * @param postal postal code of the new customer
+     * @param phone phone number of the new customer
+     * @return True if all fields are filled, false if any are missing or empty.
+     */
     public boolean fieldsRequired(String name, String address, String postal, String phone){
         if(name.isEmpty() || address.isEmpty() || postal.isEmpty() || phone.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -99,6 +120,10 @@ public class CreateCustomerPageController implements Initializable {
         }else return true;
     }
 
+    /**
+     * This method filters division combo boxes options based on the chosen countries.
+     * @param chosenCountry the country selected in the combobox to determine the filter for the division selections
+     */
     private void filterDivisionComboBox(String chosenCountry){
         //add divisions to the drop down and filter it based on the country selected by user
         ObservableList<String> divisionList = DivisionsDAO.readDivisionsByCountry(chosenCountry);
@@ -117,6 +142,10 @@ public class CreateCustomerPageController implements Initializable {
         divisionComboBox.setItems(divisionList);
     }
 
+    /**
+     * This method calls the method to filter the division selection options based on the value of the country box selection
+     * @param actionEvent  action event that has occured (after something is selected in the country combo box)
+     */
     public void countrySelection(ActionEvent actionEvent) {
         String countrySelected = countryComboBox.getValue();
         if(countrySelected != null){
@@ -124,6 +153,11 @@ public class CreateCustomerPageController implements Initializable {
         }
     }
 
+    /**
+     * This method Initializes the controller and sets up colummns in the table and drop down selection options.
+     * @param url URL
+     * @param resources ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
@@ -141,7 +175,6 @@ public class CreateCustomerPageController implements Initializable {
 
         //add countries to the dropdown
         ObservableList<String> countryList = FXCollections.observableArrayList();
-
         try {
             ObservableList<CountriesModel> countries = CountriesDAO.readAllCountries();;
             if (countries != null) {
@@ -154,9 +187,5 @@ public class CreateCustomerPageController implements Initializable {
         }
 
         countryComboBox.setItems(countryList);
-
-
     }
-
-
 }

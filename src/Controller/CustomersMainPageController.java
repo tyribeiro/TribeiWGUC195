@@ -26,27 +26,50 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class CustomersMainPageController implements Initializable {
-    public Button goToApptsButton;
-    public Label customersPageHeader;
-    public Button goToReportsButton;
-    public TableColumn<CustomersModel,String> nameColumn;
-    public TableColumn<CustomersModel,String> addressColumn;
-    public TableColumn<CustomersModel,Integer> customerIDColumn;
-    public TableColumn<CustomersModel,String> postalColumn;
-    public TableColumn<CustomersModel,Integer> divisionColumn;
-    public TableColumn<CustomersModel,String> countryColumn;
-    public TableColumn<CustomersModel,String> phoneColumn;
-    public Button goToCreateCustomerButton;
-    public Button goToUpdateCustomerButton;
-    public Button goToDeleteCustomerButton;
+/**
+ * Controls the UI logic of the Customers main page. Handles navigation to other pages,
+ * filtering of the table view, and displays, creates, updates and deletes customers.
+ */
 
+public class CustomersMainPageController implements Initializable {
+    @FXML
+    public Button goToApptsButton;
+    @FXML
+    public Label customersPageHeader;
+    @FXML
+    public Button goToReportsButton;
+    @FXML
+    public TableColumn<CustomersModel,String> nameColumn;
+    @FXML
+    public TableColumn<CustomersModel,String> addressColumn;
+    @FXML
+    public TableColumn<CustomersModel,Integer> customerIDColumn;
+    @FXML
+    public TableColumn<CustomersModel,String> postalColumn;
+    @FXML
+    public TableColumn<CustomersModel,Integer> divisionColumn;
+    @FXML
+    public TableColumn<CustomersModel,String> countryColumn;
+    @FXML
+    public TableColumn<CustomersModel,String> phoneColumn;
+    @FXML
+    public Button goToCreateCustomerButton;
+    @FXML
+    public Button goToUpdateCustomerButton;
+    @FXML
+    public Button goToDeleteCustomerButton;
     @FXML
     public TableView<CustomersModel> customersTable;
 
     private ResourceBundle resourceBundle;
 
     private static TableView<CustomersModel> staticCustomersTable;
+
+    /**
+     * This method updates the appointments_Table with information updated the updated appointments.
+     *
+     * @param table the table to be updated
+     */
     public static void updateTableView(TableView<CustomersModel> table){
         //fill iin customer table
         try {
@@ -57,6 +80,12 @@ public class CustomersMainPageController implements Initializable {
             e.getMessage();
         }
     }
+
+    /**
+     * This method navigates to the appointments page
+     *
+     * @param actionEvent action event that has occured (clicking the back/appointments button)
+     */
     public void goToAppointmentsPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -69,6 +98,10 @@ public class CustomersMainPageController implements Initializable {
         }
     }
 
+    /**
+     * This method navigates to the reports page
+     * @param actionEvent action event that has occured (clicking the reports button)
+     */
     public void goToReportsPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -81,6 +114,10 @@ public class CustomersMainPageController implements Initializable {
         }
     }
 
+    /**
+     * This method navigates to the create customer page
+     * @param actionEvent action event that has occured (clicking the create customer button)
+     */
     public void goToCreateCustomerPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -93,6 +130,10 @@ public class CustomersMainPageController implements Initializable {
         }
     }
 
+    /**
+     * This method navigates to the update customer page
+     * @param actionEvent action event that has occured (clicking the update customer button)
+     */
     public void goToUpdateCustomerPage(ActionEvent actionEvent) {
         try {
 
@@ -121,6 +162,10 @@ public class CustomersMainPageController implements Initializable {
         }
     }
 
+    /**
+     * This method navigates to the delete customer page
+     * @param actionEvent action event that has occured (clicking the delete customer button)
+     */
     public void deleteCustomer(ActionEvent actionEvent) throws SQLException {
         CustomersModel customer = (CustomersModel) customersTable.getSelectionModel().getSelectedItem();
         if (customer != null) {
@@ -143,6 +188,11 @@ public class CustomersMainPageController implements Initializable {
     }
 
 
+    /**
+     * This method Initializes the controller and sets up colummns and buttons in the table and page.
+     * @param url URL
+     * @param resources ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());

@@ -15,6 +15,19 @@ public class CustomersDAO {
     static Connection connection = DBConnecter.getConnection();
 
     //CRUD FUNCTIONS
+
+    /**
+     * Adds a new customer in the database
+     *
+     * @param customerName       Name of the customer
+     * @param customerAddress    Address of the customer
+     * @param customerPhone      Phone number of the customer
+     * @param customerDivisionID Dvisiom ID of the customer
+     * @param postal             Postal code of the customer
+     * @param customerCountry    Country of the customer
+     * @return true if no error occured and customer was added, false if error occurs.
+     * @throws SQLException If there is an error when communicating with the database
+     */
     public static boolean createCustomer(String customerName, String customerAddress, String customerPhone, int customerDivisionID, String postal, String customerCountry) throws SQLException {
         DivisionsModel division = DivisionsDAO.readDivByDivID(customerDivisionID);
 
@@ -40,6 +53,13 @@ public class CustomersDAO {
             return false;
         }
     }
+
+    /**
+     * This method gets all the customers from the database
+     *
+     * @return a list of the customers from the database
+     * @throws Exception if there is an error communciating with database
+     */
     public static ObservableList<CustomersModel> readCustomers() throws Exception {
         ObservableList customers = FXCollections.observableArrayList();
 
@@ -69,6 +89,11 @@ public class CustomersDAO {
         }
     }
 
+    /**
+     * This method gets the customer who has the ID passed into as a parameter.
+     * @param id id of the customer
+     * @return a Customer object with all the customer information.
+     */
     public static CustomersModel readCustomerByID(int id) {
         CustomersModel customer = null;
         try {
@@ -97,20 +122,17 @@ public class CustomersDAO {
         return customer;
     }
 
-    public static ObservableList<Integer> getAllCustomerIDs() {
-        ObservableList<Integer> IDs = FXCollections.observableArrayList();
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM customers");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                IDs.add(rs.getInt("Customer_ID"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return IDs;
-    }
+    /**
+     * This method updates the information of an existing customer.
+     * @param customerID id of the customer to update information
+     * @param customerName updated name of the customer
+     * @param customerPhone updated phone number of the customer
+     * @param customerAddress updated address of the customer
+     * @param postal updated postal code of the customer
+     * @param divisionName updated division name of the customer
+     * @return true if the customer was successfuly updated in the database, false it wasn't successful.
+     * @throws SQLException if there is an error communicating with the database.
+     */
     public static boolean updateCustomer(int customerID, String customerName, String customerPhone, String customerAddress, String postal, String divisionName) throws SQLException {
         DivisionsModel division = DivisionsDAO.readDivID(divisionName);
 
@@ -131,6 +153,12 @@ public class CustomersDAO {
         }
     }
 
+    /**
+     * This method deletes the customer from the database who has the passed in customer ID.
+     * @param customerID id of the customer to delete.
+     * @return true if customer was successfuly deleted from the database, false if it wasn't.
+     * @throws SQLException if there is an error communicating with the database.
+     */
     public static boolean deleteCustomer(int customerID) throws SQLException {
         AppointmentsDAO.deleteApptByCustomerId(customerID);
 

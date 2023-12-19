@@ -24,24 +24,45 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-
+/**
+ * Controls the contact schedule reports page. Initializes the tableview and combobox
+ * drop down selector and displays reports based on the contact selected.
+ */
 public class ContactScheduleReport implements Initializable {
+    @FXML
     public TextArea reportTextArea;
+    @FXML
     public Button back;
+    @FXML
     public TableColumn apptIDCol;
+    @FXML
     public TableColumn titleCol;
+    @FXML
     public TableColumn typeCol;
+    @FXML
     public TableColumn descriptionCol;
+    @FXML
     public TableColumn startDateCol;
+    @FXML
     public TableColumn endTimeCol;
+    @FXML
     public TableColumn customerIDCol;
+    @FXML
     public ComboBox contacts;
+    @FXML
     public TableView appts;
+    @FXML
     public Label contactScheduleTitle;
     @FXML
     private TableColumn startTimeCol;
     private ResourceBundle resourceBundle;
 
+    /**
+     * This method Initializes the controller and sets up colummns in the table and drop down selection options.
+     *
+     * @param url       URL
+     * @param resources ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         resourceBundle = ResourceBundle.getBundle("Resource/Language/language", Locale.getDefault());
@@ -70,6 +91,9 @@ public class ContactScheduleReport implements Initializable {
         endTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
     }
 
+    /**
+     * This method displays the appointments in the tableview based on the option selected in the drop down menu.
+     */
     private void showAppts() {
         String contactNameSelected = contacts.getSelectionModel().getSelectedItem().toString();
         if (contactNameSelected != null) {
@@ -82,24 +106,11 @@ public class ContactScheduleReport implements Initializable {
 
     }
 
-    private void showReport() {
-        Map<String, String> report = generateReport();
-        StringBuilder reportContext = new StringBuilder();
-        report.forEach((contact, data) -> {
-            reportContext.append(contact).append(":/n").append(data).append("/n");
-        });
-        reportTextArea.setText(reportContext.toString());
-    }
-
-    private Map<String, String> generateReport() {
-        try {
-            return AppointmentsDAO.getApptsByContact();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new HashMap<>();
-        }
-    }
-
+    /**
+     * This method navigates back to main reports page.
+     *
+     * @param actionEvent action event that has occured (clicking the back button)
+     */
     public void goToReportsPage(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
